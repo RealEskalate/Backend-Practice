@@ -13,6 +13,7 @@ mongoose.connect(DB_URI, {
     useFindAndModify: false,
 })
 .then(() => {
+    console.log("Connected to mongodb...")
     app.listen(PORT, () => console.log('Server running...'));
 })
 .catch((err: any) => console.log('Error occurred while connecting', err));
