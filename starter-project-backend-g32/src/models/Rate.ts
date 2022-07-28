@@ -1,5 +1,15 @@
 import { Schema, model } from "mongoose";
 const rateFields = {
+  // user: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "User",
+  //   required: true,
+  // },
+  // post: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Post",
+  //   required: true,
+  // }
   rate: {
     type: Number,
     required: true,
