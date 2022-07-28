@@ -4,13 +4,13 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app: Application = express();
-
+const article = require('./routes/ArticleRoute');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use('/api/articles', article);
 
-app.use("/", (req, res) => {
-    console.log('connected');
-    res.send('haha');
-})
+app.get("/", (req, res) => {
+    res.send('Welcome to our Blog App...');
+});
 
 export default app
