@@ -8,6 +8,9 @@ const app: Application = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use("/", json({}))
+app.use("/", (req, res) => {
+    console.log('connected');
+    res.send('haha');
+})
 
 export default app
