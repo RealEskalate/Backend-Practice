@@ -1,7 +1,7 @@
 {
-  "name": "starter-project-backend",
+  "name": "starter-project-backend-33",
   "version": "1.0.0",
-  "description": "",
+  "description": "a2sv blog and shout out backend",
   "main": "index.js",
   "scripts": {
     "test": "jest --runInBand --detectOpenHandles",
@@ -10,13 +10,20 @@
     "build": "tsc -p ."
   },
   "keywords": [],
-  "author": "",
+  "author": "Group-33",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mongodb-memory-server": "^7.6.3",
-    "mongoose": "^5.13.4"
+    "mongoose": "^5.13.4",
+    "multer": "^1.4.5-lts.1",
+    "node-cron": "^3.0.1",
+    "pino": "^8.3.1"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
