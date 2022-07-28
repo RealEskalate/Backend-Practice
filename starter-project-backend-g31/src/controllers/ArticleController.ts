@@ -7,7 +7,7 @@ async function getMany(req: Request, res: Response) {
     res.send(article);
 }
 
-async function getById(req: Request, res: Response) {
+async function getOne(req: Request, res: Response) {
     const article = await Article.findById(req.params.id);
     if (!article) return res.status(404).send('Article not found');
 
@@ -46,9 +46,16 @@ async function updateOne(req: Request, res: Response) {
 
 }
 
+async function deleteOne(req: Request, res: Response) {
+    const article = await Article.findByIdAndRemove(req.params.id);
+    if (!article) return res.status(404).send('Article not found');
 
+    res.send(article);
+}
 
 
 module.exports.getMany = getMany;
+module.exports.getOne = getOne;
 module.exports.createArticle = createArticle;
 module.exports.updateOne = updateOne;
+module.exports.deleteOne = deleteOne;
