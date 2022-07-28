@@ -1,10 +1,8 @@
-import app from "./app"
+import app from './app';
 import mongoose from 'mongoose';
-
-
 const PORT = process.env.PORT || 8000
 const DB_URI = process.env.MONGO_URI || "";
-
+console.log("check: "+DB_URI);
 
 mongoose.connect(DB_URI, {
     useNewUrlParser: true,
@@ -13,7 +11,7 @@ mongoose.connect(DB_URI, {
     useFindAndModify: false,
 })
 .then(() => {
-    app.listen(PORT, () => console.log('Server running...'));
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 })
 .catch((err: any) => console.log('Error occurred while connecting', err));
 
