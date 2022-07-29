@@ -1,12 +1,13 @@
 import mongoose, { Schema, Document } from 'mongoose';
+import IArticleInterface from '../articles/interface';
 
-interface commentInterface extends Document {
+interface ICommentInterface extends Document {
 
-    articleId: String;
+    articleId: IArticleInterface['_id'];
     content: String;
     commentOwner: String;
     replies: String[];
 
 }
 
-export default commentInterface
+export default ICommentInterface

@@ -1,15 +1,15 @@
 import mongoose, { Schema, Document } from 'mongoose';
-import chapterInterface from '../chapters/interface';
+import IChapterInterface from '../chapters/interface';
 
-interface userInterface extends Document {
+interface IUserInterface extends Document {
     
     name: String;
     email: String;
     bio: String;
     profileImage: String;
     isActive: Boolean;
-    chapter: chapterInterface['_id'];
+    chapter: IChapterInterface['_id'];
 
 }
 
-export default userInterface
+export default IUserInterface

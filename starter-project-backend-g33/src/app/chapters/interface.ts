@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-interface chapterInterface extends Document {
+interface IChapterInterface extends Document {
 
     name: String;
     HoE: String;
@@ -8,4 +8,4 @@ interface chapterInterface extends Document {
     location: String;
 }
 
-export default chapterInterface
+export default IChapterInterface
