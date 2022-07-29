@@ -34,5 +34,11 @@ router.put("/rating/:ratingId",async(req,res)=>{
     return res.send(response);
 });
 // // Delete a rating with rating id
-// router.delete("/rating/:ratingId",controller.deleteRating);
+router.delete("/rating/:ratingId",async(req,res)=>{
+    if(!req.params.ratingId){
+        return res.send({message:"Rating id is required"})
+    }
+    const response=await controller.deleteRating(req.params.ratingId);
+    return res.send(response);
+});
 export default router
