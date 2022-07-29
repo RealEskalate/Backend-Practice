@@ -61,13 +61,7 @@ describe("fetchOne request",()=>{
         const response = await request(app)
         .get(`/rating/${mockRatingResponse.message._id}`);
         expect(response.statusCode).toEqual(200);
-    it("Should return a status cod of 404 if not fetched",async ()=>{
-        const ratingId=8969759875799897777
-        const response = await request(app)
-        .get(`/rating/${ratingId}`);
-        expect(response.statusCode).toEqual(404);
-    });
-
+    
         })
     })
 })
