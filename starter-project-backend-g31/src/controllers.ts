@@ -35,3 +35,26 @@ export  const findAll = (req: any, res: any) => {
         });
 };
 // Retrieve a rating
+export const findOne = (req: any, res: any) => {
+    RatingSchema.findById(req.params.ratingId)
+        .then((data: any) => {
+            if (!data) {
+                return res.status(504).send({
+                    message: `Rating not found on user Id ${req.params.ratingId}`,
+                });
+            }
+            
+            res.send(data);
+        })
+        .catch((err: { kind: string }) => {
+            if (err.kind == "ObjectId") {
+                return res.status(404).send({
+                    message: "Rating not found with id " + req.params.ratingId,
+                });
+            }
+            return res.status(500).send({
+                message: "Error retrieving Rating with id " + req.params.ratingId,
+            });
+        });
+};
+// Update rating
