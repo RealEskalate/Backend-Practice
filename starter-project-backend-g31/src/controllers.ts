@@ -21,16 +21,11 @@ export const create = (json: { [x: string]: any; }) => {
         });
 };
 //Retrieve all ratings
-export  const findAll = (req: any, res: any) => {
-    RatingSchema.find()
+export  const findAll = () => {
+    return RatingSchema.find()
         .then((data: any) => {
-            res.send(data);
+            return data;    
         })
-        .catch((err: { message: any }) => {
-            res.status(500).send({
-                message: err.message || "Some error occurred while retrieving data",
-            });
-        });
 };
 // Retrieve a rating
 export const findOne = (req: any, res: any) => {

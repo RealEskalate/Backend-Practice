@@ -13,7 +13,10 @@ router.post("/rating",async (req,res)=>{
 });
 
 // // Retrieval all notes
-// router.get("/rating",controller.findAll);
+router.get("/rating",async(req,res)=>{
+    const response=await controller.findAll();
+    return res.send(response);
+});
 // // Retrieval a single rating with id
 // router.get("/rating/:ratingId",    controller.findOne);
 // // update a rating with a rating id
