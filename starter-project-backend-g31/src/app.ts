@@ -9,8 +9,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use('/api/articles', article);
 
-app.get("/", (req, res) => {
+app.get('/', (req, res) => {
     res.send('Welcome to our Blog App...');
 });
 
 export default app
+ 
