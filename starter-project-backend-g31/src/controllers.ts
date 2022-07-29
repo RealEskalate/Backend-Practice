@@ -23,3 +23,15 @@ export const create = (req: any, res: any) => {
         });
 };
 //Retrieve all ratings
+export  const findAll = (req: any, res: any) => {
+    RatingSchema.find()
+        .then((data: any) => {
+            res.send(data);
+        })
+        .catch((err: { message: any }) => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while retrieving data",
+            });
+        });
+};
+// Retrieve a rating
