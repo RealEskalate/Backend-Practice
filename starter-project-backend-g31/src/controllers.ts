@@ -67,7 +67,7 @@ export const deleteRating = (ratingId:any) => {
     return RatingSchema.findByIdAndRemove(ratingId)
         .then((data: any) => {
             if (!data) {
-                return { statusCode:404, message: "Rating not found with id " + ratingId };
+                return { statusCode:404, message: "Not found"};
             }
             return {statusCode:201, message: "Rating deleted successfully"};
         });
