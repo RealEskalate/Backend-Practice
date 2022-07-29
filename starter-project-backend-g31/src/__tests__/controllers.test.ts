@@ -90,4 +90,31 @@ describe("Update request",()=>{
     
         })
     })
+});
+
+
+
+describe("Delete request",()=>{
+    describe("Checking  Delet  Rating data",()=>{
+        beforeAll(async()=>{        
+        await connect()
+        
+        })      
+        afterAll(async()=>{  
+            await disconnect()
+        })
+        it("Should return a status cod of 201 if deleted",async ()=>{
+            
+            const mockRatingResponse =  await controller.create({
+                "articleId":"7hgshihd",
+                "userId":"895ncdiH",
+                "rating":5
+            });
+        const response = await request(app)
+        .delete(`/rating/${mockRatingResponse.message._id}`);
+        expect(response.statusCode).toEqual(201);
+    
+        })
+    })
 })
+

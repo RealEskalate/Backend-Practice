@@ -69,6 +69,6 @@ export const deleteRating = (ratingId:any) => {
             if (!data) {
                 return { statusCode:404, message: "Rating not found with id " + ratingId };
             }
-            return {statusCode:200, message: "Rating deleted successfully"};
+            return {statusCode:201, message: "Rating deleted successfully"};
         });
 };
