@@ -3,10 +3,12 @@ const router = express.Router()
 const controller=require("./controllers");
 // create new rating
 router.post("/rating",async (req,res)=>{
+    if(!(req.body.articleId && req.body.userId)){
+        return res.status(400).send({
+            message: "Bad request"
+        })
+    }
     const response = await controller.create(req.body);
-    // const data = await response.json();
-    // console.log("response\n" + data)
-
     return res.send(response)
 });
 
