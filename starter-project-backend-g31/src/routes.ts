@@ -30,7 +30,10 @@ router.put("/rating/:ratingId",async(req,res)=>{
         })
     }
     const response=await controller.update(req.params.ratingId,req.body);
-    return res.send(response);
+    if (response.statusCode==200){
+        return res.status(200).send(response.message)
+    }
+    return res.status(400).send(response);
 });
 // // Delete a rating with rating id
 router.delete("/rating/:ratingId",async(req,res)=>{

@@ -65,3 +65,29 @@ describe("fetchOne request",()=>{
         })
     })
 })
+
+describe("Update request",()=>{
+    describe("Checking  update  Rating data",()=>{
+        beforeAll(async()=>{        
+        await connect()
+        
+        })      
+        afterAll(async()=>{  
+            await disconnect()
+        })
+        it("Should return a status cod of 201 if updated",async ()=>{
+            
+            const mockRatingResponse =  await controller.create({
+                "articleId":"7hgshihd",
+                "userId":"895ncdiH",
+                "rating":5
+            });
+        const response = await request(app)
+        .put(`/rating/${mockRatingResponse.message._id}`).send({
+            rating:10
+        });
+        expect(response.statusCode).toEqual(200);
+    
+        })
+    })
+})

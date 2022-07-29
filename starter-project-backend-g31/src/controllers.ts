@@ -56,9 +56,9 @@ export const update = (ratingId: string,json: { [x: string]: any; }) => {
     )
         .then((data: any) => {
             if (!data) {
-                return { message: "Rating not found with id "+ratingId};
+                return {statusCode:400, message: "Bad request"};
             }
-        return data
+        return {statusCode:200,message:data}
 
         })
     };
