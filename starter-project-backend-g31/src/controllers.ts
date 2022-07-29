@@ -1,4 +1,4 @@
-import RatingSchema from "./ratings";
+import RatingSchema from "./models/ratings";
 // Create a rating instance
 export const create = (json: { [x: string]: any; }) => {
    
@@ -9,13 +9,14 @@ export const create = (json: { [x: string]: any; }) => {
     });
    return rating
         .save()
-        .then((data) => {
+        .then((data: any) => {
+            
         console.log("Rating is created")
         console.log(data)
-            return data;
+            return {statusCode:201, message: data };
         })
-        .catch((err) => {
-            return {statusCode:500,message:"Some error occurred"}
+        .catch((err: { messge: string; }) => {
+            return {statusCode:400,message:err.messge + "Bad request"}
         });
 };
 //Retrieve all ratings
@@ -66,8 +67,8 @@ export const deleteRating = (ratingId:any) => {
     return RatingSchema.findByIdAndRemove(ratingId)
         .then((data: any) => {
             if (!data) {
-                return { message: "Rating not found with id " + ratingId };
+                return { statusCode:404, message: "Rating not found with id " + ratingId };
             }
-            return {message: "Rating deleted successfully"};
+            return {statusCode:200, message: "Rating deleted successfully"};
         });
 };

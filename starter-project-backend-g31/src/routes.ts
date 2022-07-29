@@ -9,19 +9,18 @@ router.post("/rating",async (req,res)=>{
         })
     }
     const response = await controller.create(req.body);
-    return res.send(response)
+    return res.status(response.statusCode).send(response.message)
 });
 
 // // Retrieval all notes
 router.get("/rating",async(req,res)=>{
     const response=await controller.findAll();
-    return res.send(response);
+    return res.status(200).send(response);
 });
 // // Retrieval a single rating with id
 router.get("/rating/:ratingId",   async(req,res)=>{
     const response=await controller.findOne(req.params.ratingId);
-    return res.send(response);
-
+    return res.status(200).send(response);
 });
 // // update a rating with a rating id
 router.put("/rating/:ratingId",async(req,res)=>{
@@ -41,6 +40,9 @@ router.delete("/rating/:ratingId",async(req,res)=>{
         })
     }
     const response=await controller.deleteRating(req.params.ratingId);
-    return res.send(response);
+    if (response.statusCode==404){
+        return res.status(404).send(response)
+    }
+    return res.status(200).send(response);
 });
 export default router
