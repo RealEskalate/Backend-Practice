@@ -97,3 +97,24 @@ export const update = (req: any, res: any) => {
         });
 };
 // Delete a rating 
+export const deleteRating = (req: any, res: any) => {
+    RatingSchema.findByIdAndRemove(req.params.ratingId)
+        .then((data: any) => {
+            if (!data) {
+                return res
+                    .status(404)
+                    .send({ message: "Rating not found with id " + req.params.ratingId });
+            }
+            res.send("Rating deleted successfully");
+        })
+        .catch((err: { kind: string }) => {
+            if (err.kind == "ObjectId") {
+                return res.status(404).send({
+                    message: "Rating not found with id " + req.params.ratingId,
+                });
+            }
+            return res.status(500).send({
+                message: "Could not delete Rating with id " + req.params.ratingId,
+            });
+        });
+};
