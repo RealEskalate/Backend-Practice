@@ -25,7 +25,7 @@ router.get("/rating/:ratingId",   async(req,res)=>{
 });
 // // update a rating with a rating id
 router.put("/rating/:ratingId",async(req,res)=>{
-    if (!(req.body.articleId && req.body.userId)){
+    if (!(req.params.ratingId)){
         return res.status(400).send({
             message:"Bad request"
         })
@@ -36,7 +36,9 @@ router.put("/rating/:ratingId",async(req,res)=>{
 // // Delete a rating with rating id
 router.delete("/rating/:ratingId",async(req,res)=>{
     if(!req.params.ratingId){
-        return res.send({message:"Rating id is required"})
+        return res.status(400).send({
+            message:"Bad request"
+        })
     }
     const response=await controller.deleteRating(req.params.ratingId);
     return res.send(response);

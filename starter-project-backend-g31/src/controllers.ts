@@ -1,9 +1,7 @@
 import RatingSchema from "./ratings";
 // Create a rating instance
 export const create = (json: { [x: string]: any; }) => {
-    if (!json) {
-        return {statusCode:400,message:"Bad request"}
-    }
+   
     const rating = new RatingSchema({
         articleId: json["articleId"],
         userId: json["userId"],
@@ -42,13 +40,13 @@ export const findOne = (ratingId: any) => {
 // Update rating
 export const update = (ratingId: string,json: { [x: string]: any; }) => {
     //Validate Request
-    
+    if (!json["rating"]){
+        return {message:"Not updated"}
+    }
 // Find rating and update it with ther request body
     return RatingSchema.findByIdAndUpdate(
             ratingId,
             {
-            articleId: json["articleId"],
-            userId: json["userId"],
             rating: json["rating"],
         },
         {
