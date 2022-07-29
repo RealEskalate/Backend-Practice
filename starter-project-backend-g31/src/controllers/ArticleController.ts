@@ -8,6 +8,9 @@ async function getMany(req: Request, res: Response) {
 }
 
 async function getOne(req: Request, res: Response) {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+        return res.status(404).send('Invalid ID');
+
     const article = await Article.findById(req.params.id);
     if (!article) return res.status(404).send('Article not found');
 
@@ -24,11 +27,14 @@ async function createArticle(req: Request, res: Response) {
     });
 
     article = await article.save()
-        .catch((error: Error) => res.status(400).send(error.message));
-    res.send(article);
+        .then(() => res.status(200).send(article))
+        .catch((error: Error) =>  res.status(400).send(error.message));
 }
 
 async function updateOne(req: Request, res: Response) {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+        return res.status(404).send('Invalid ID');
+
     let article = await Article.findById(req.params.id);
     if (!article) return res.status(404).send('Article not found');
 
@@ -41,12 +47,15 @@ async function updateOne(req: Request, res: Response) {
     });
 
     article = await article.save()
+        .then(() => res.status(200).send(article))
         .catch((err: Error) => res.status(400).send(err.message));
-    res.send(article);
 
 }
 
 async function deleteOne(req: Request, res: Response) {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+        return res.status(404).send('Invalid ID');
+
     const article = await Article.findByIdAndRemove(req.params.id);
     if (!article) return res.status(404).send('Article not found');
 
