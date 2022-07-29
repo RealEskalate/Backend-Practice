@@ -12,7 +12,11 @@ const ArticleSchema : Schema = new Schema({
     featuredImage: {type : String },
     tags: {type: Array<string> },
     clappers: {type: Schema.Types.ObjectId }, 
-    commentCount: {type : Number}
+    commentCount: {type : Number},
+    },
+    { timestamps: {createdAt: 'created_at', updatedAt: 'modified_at'}
 });
+
+ArticleSchema.set('toJSON',{virtuals: true})
 
 export default mongoose.model<IArticleInterface>('Article', ArticleSchema);
