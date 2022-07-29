@@ -1,13 +1,13 @@
-import express, {Application, Request, Response, NextFunction, json} from 'express';
+import express, {json} from 'express';
 import dotenv from 'dotenv';
-
+import router from "./routes"
 dotenv.config();
-
-const app: Application = express();
+const app = express()
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/", json({}))
+app.use("/",router)
 
-export default app
+export default app 
