@@ -1,28 +1,20 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, Mongoose } from 'mongoose'
 import IuserInterface from './interface'
-import IChapterInterface from '../chapters/interface';
+import IChapterInterface from '../chapters/interface'
 
-const UserSchema:Schema =  new Schema({
-    name: {
-        type:String, 
-        required: 'Name is required'
-    }, 
-    email: {
-        type:String, 
-        required:true, 
-        unique:true
-    }, 
-    bio: {
-        type:String
-    },
-    profileImage: {
-        type:String
-    }, 
-    isActive: {
-        type: Boolean
-    }, 
-    chapter: {
-        type: String
-    }
-})
-export default mongoose.model<IuserInterface>('User', UserSchema);
+const UserSchema: Schema = new Schema(
+  {
+    name: { type: String, required: 'Name is required'},
+    email:{ type: String, required: true, unique: true},
+    bio:  { type: String },
+    profileImage: { type: String },
+    isActive: { type: Boolean, default: true },
+    chapter: {  type: Schema.Types.ObjectId, required: true }
+  },
+  
+  { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
+)
+
+UserSchema.set('toJSON', { virtuals: true })
+
+export default mongoose.model<IuserInterface>('User', UserSchema)
