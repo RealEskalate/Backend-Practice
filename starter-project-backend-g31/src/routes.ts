@@ -18,7 +18,11 @@ router.get("/rating",async(req,res)=>{
     return res.send(response);
 });
 // // Retrieval a single rating with id
-// router.get("/rating/:ratingId",    controller.findOne);
+router.get("/rating/:ratingId",   async(req,res)=>{
+    const response=await controller.findOne(req.params.ratingId);
+    return res.send(response);
+    
+});
 // // update a rating with a rating id
 // router.put("/rating/:ratingId",controller.update);
 // // Delete a rating with rating id
