@@ -25,6 +25,7 @@ People should register as well as complete an authentication process if they wan
 - No Authorization implementation
 - No Authentication implementation
 - No interlinking between models. Set their values statically for now
+
 1. Implement CRUD for Users
 2. Implement CRUD for Articles
 3. Implement CRUD for Comments
