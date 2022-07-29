@@ -58,3 +58,42 @@ export const findOne = (req: any, res: any) => {
         });
 };
 // Update rating
+export const update = (req: any, res: any) => {
+    //Validate Request
+    if (!req.body.articleId) {
+        return res.status(400).send({
+            message: "Rating content can not be empty",
+        });
+    }
+// Find rating and update it with ther request body
+    RatingSchema.findByIdAndUpdate(
+        req.params.ratingId,
+        {
+            articleId: req.body.articleId,
+            userId: req.body.userId,
+            rating: req.body.rating,
+        },
+        {
+            new: true,
+        }
+    )
+        .then((data: any) => {
+            if (!data) {
+                return res
+                    .status(404)
+                    .send({ message: "Rating not found with id " + req.params.ratingId });
+            }
+            res.send(data);
+        })
+        .catch((err: { kind: string }) => {
+            if (err.kind == "ObjectId") {
+                return res.status(404).send({
+                    message: "Rating not found with id " + req.params.ratingId,
+                });
+            }
+            return res.status(500).send({
+                message: "Error updating with id " + req.params.ratingId,
+            });
+        });
+};
+// Delete a rating 
