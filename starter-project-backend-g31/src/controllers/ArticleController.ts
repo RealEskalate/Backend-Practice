@@ -24,7 +24,7 @@ async function createArticle(req: Request, res: Response) {
     });
 
     article = await article.save()
-        .catch((error: any) => res.status(400).send(error.message));
+        .catch((error: Error) => res.status(400).send(error.message));
     res.send(article);
 }
 
@@ -41,7 +41,7 @@ async function updateOne(req: Request, res: Response) {
     });
 
     article = await article.save()
-        .catch((err: any) => res.status(400).send(err.message));
+        .catch((err: Error) => res.status(400).send(err.message));
     res.send(article);
 
 }
