@@ -19,7 +19,7 @@ const profileSchema = new Schema<ProfileSchema>({
         type: String,
         required: false
     },
-    Bio: {
+    bio: {
         type: String,
         required: false
     },

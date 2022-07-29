@@ -30,8 +30,7 @@ export const findMany = async(): Promise<any> => {
 
 export const create = async(body: any): Promise<any> => {
     try {
-
-        const profile = new Profile(body);
+        const profile = await Profile.create(body);
         profile.save();
         return profile;
     } catch (err) {
