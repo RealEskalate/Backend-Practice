@@ -21,10 +21,18 @@ router.get("/rating",async(req,res)=>{
 router.get("/rating/:ratingId",   async(req,res)=>{
     const response=await controller.findOne(req.params.ratingId);
     return res.send(response);
-    
+
 });
 // // update a rating with a rating id
-// router.put("/rating/:ratingId",controller.update);
+router.put("/rating/:ratingId",async(req,res)=>{
+    if (!(req.body.articleId && req.body.userId)){
+        return res.status(400).send({
+            message:"Bad request"
+        })
+    }
+    const response=await controller.update(req.params.ratingId,req.body);
+    return res.send(response);
+});
 // // Delete a rating with rating id
 // router.delete("/rating/:ratingId",controller.deleteRating);
 export default router

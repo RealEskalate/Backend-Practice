@@ -40,20 +40,16 @@ export const findOne = (ratingId: any) => {
             
 };
 // Update rating
-export const update = (req: any, res: any) => {
+export const update = (ratingId: string,json: { [x: string]: any; }) => {
     //Validate Request
-    if (!req.body.articleId) {
-        return res.status(400).send({
-            message: "Rating content can not be empty",
-        });
-    }
+    
 // Find rating and update it with ther request body
-    RatingSchema.findByIdAndUpdate(
-        req.params.ratingId,
-        {
-            articleId: req.body.articleId,
-            userId: req.body.userId,
-            rating: req.body.rating,
+    return RatingSchema.findByIdAndUpdate(
+            ratingId,
+            {
+            articleId: json["articleId"],
+            userId: json["userId"],
+            rating: json["rating"],
         },
         {
             new: true,
@@ -61,23 +57,12 @@ export const update = (req: any, res: any) => {
     )
         .then((data: any) => {
             if (!data) {
-                return res
-                    .status(404)
-                    .send({ message: "Rating not found with id " + req.params.ratingId });
+                return { message: "Rating not found with id "+ratingId};
             }
-            res.send(data);
+        return data
+
         })
-        .catch((err: { kind: string }) => {
-            if (err.kind == "ObjectId") {
-                return res.status(404).send({
-                    message: "Rating not found with id " + req.params.ratingId,
-                });
-            }
-            return res.status(500).send({
-                message: "Error updating with id " + req.params.ratingId,
-            });
-        });
-};
+    };
 // Delete a rating 
 export const deleteRating = (req: any, res: any) => {
     RatingSchema.findByIdAndRemove(req.params.ratingId)
