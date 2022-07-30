@@ -19,7 +19,7 @@ describe("Test for Rating endpoint", () => {
         })
         
         describe("/ratings/{id}", () => {
-            it("returns status code 200 if the user exists", async () => {
+            it("returns status code 200 if the rating exists", async () => {
                 const testRating = await Rating.create({
                     "articleID": "12344",
                     "userID": "54321",
@@ -27,8 +27,50 @@ describe("Test for Rating endpoint", () => {
                 })
                 await supertest(app).get(`/ratings/${testRating._id}`).set('Content-Type', 'application/x-www-form-urlencoded').expect(200)
             })
-            it("returns status code 404 if the user doesnot exist", async () => {
+            it("returns status code 404 if the rating doesnot exist", async () => {
                 await supertest(app).get("/ratings/unknown").expect(404)
+            })
+        })
+
+        describe("/ratings/articles/{id}", () => {
+            it("returns status code 200 if the rating exists", async () => {
+                const testRating = await Rating.create({
+                    "articleID": "12344",
+                    "userID": "54321",
+                    "rating": 3
+                })
+                await supertest(app).get(`/ratings/articles/${testRating.articleID}`).set('Content-Type', 'application/x-www-form-urlencoded').expect(200)
+            })
+            it("returns status code 404 if the rating doesnot exist", async () => {
+                await supertest(app).get("/ratings/articles/unknown").expect(404)
+            })
+        })
+
+        describe("/ratings/users/{userID}", () => {
+            it("returns status code 200 if the rating exists", async () => {
+                const testRating = await Rating.create({
+                    "articleID": "12344",
+                    "userID": "54321",
+                    "rating": 3
+                })
+                await supertest(app).get(`/ratings/users/${testRating.userID}`).set('Content-Type', 'application/x-www-form-urlencoded').expect(200)
+            })
+            it("returns status code 404 if the rating doesnot exist", async () => {
+                await supertest(app).get("/ratings/users/unknown").expect(404)
+            })
+        })
+        
+        describe("/ratings/{articleID}/{userID}", () => {
+            it("returns status code 200 if the ratings exists", async () => {
+                const testRating = await Rating.create({
+                    "articleID": "12344",
+                    "userID": "54321",
+                    "rating": 3
+                })
+                await supertest(app).get(`/ratings/${testRating.articleID}/${testRating.userID}`).set('Content-Type', 'application/x-www-form-urlencoded').expect(200)
+            })
+            it("returns status code 404 if the rating doesnot exist", async () => {
+                await supertest(app).get("/ratings/unknown/unknown").expect(404)
             })
         })
         
