@@ -11,15 +11,51 @@ export const getSingleRating = async (id: string) => {
     const rating = await Rating.findById(id);
     if (rating) return ({ statusCode: 200, rating: rating })
     return ({ statusCode: 404, error: "Cannot get rating" });
-  }catch(error) {
+  } catch (error) {
     return ({ statusCode: 404, error: "Cannot get rating" });
   }
-    
-};
 
+};
+export const getAllRatingsForAGivenArticle = async (articleID: string) => {
+  try {
+    const ratings = await Rating.find({ articleID: articleID })
+    return {
+      statusCode: 200,
+      ratings: ratings
+    };
+  }
+  catch (error) {
+    return {
+      statusCode: 404,
+      error: "Article not found"
+    }
+  }
+}
+
+export const getAllRatingsForAGivenArticleAndUser = async (articleID: string, userID: string) => {
+  try {
+    const ratings = await Rating.find({ articleID: articleID, userID: userID })
+    return {
+      statusCode: 200,
+      ratings: ratings
+    };
+  }
+  catch (error) {
+    return {
+      statusCode: 404,
+      error: "Article not found"
+    }
+  }
+}
 export const createRating = async (rating: any) => {
   const { error } = validate(rating);
   if (error) return ({ statusCode: 400, error: error.details[0].message })
+  const ratedBefore = await Rating.findOne({ articleID: rating.articleID, userID: rating.userID });
+  if (ratedBefore) {
+    ratedBefore.rating = rating.rating
+    await ratedBefore.save()
+    return ({ statusCode: 200, rating: rating })
+  }
   let newRating = new Rating({
     articleID: rating.articleID,
     userID: rating.userID,
@@ -30,17 +66,28 @@ export const createRating = async (rating: any) => {
 };
 
 export const updateRating = async (id: string, updated: any) => {
-  const rating = await Rating.findById({ _id: id })
-  if (!rating) return ({ statusCode: 404, error: "Rating not found" })
-  rating.rating = updated.rating || rating.rating;
-  await rating.save()
-  return ({ statusCode: 200, rating: rating })
+  try {
+    const rating = await Rating.findById({ _id: id })
+    if (!rating) return ({ statusCode: 404, error: "Rating not found" })
+    rating.rating = updated.rating || rating.rating;
+    await rating.save()
+    return ({ statusCode: 200, rating: rating })
+  } catch (er) {
+    return ({ statusCode: 404, error: "Please enter valid id" })
+  }
+
 };
 
 export const deleteRating = async (id: string) => {
-  const rating = await Rating.find({ _id: id })
-  if (!rating) return ({ statusCode: 404, error: "Rating not found to be deleted" })
-  const deleteSuccess = await Rating.deleteOne({ _id: id })
-  if (!deleteSuccess) return ({ statusCode: 500, error: "Cannot delete Rating" })
-  return ({ statusCode: 200, rating: rating })
+  try {
+    const rating = await Rating.find({ _id: id })
+    if (!rating) return ({ statusCode: 404, error: "Rating not found to be deleted" })
+    const deleteSuccess = await Rating.deleteOne({ _id: id })
+    if (!deleteSuccess) return ({ statusCode: 500, error: "Cannot delete Rating" })
+    return ({ statusCode: 200, rating: rating })
+  }
+  catch (e) {
+    return ({ statusCode: 404, error: "Please enter a valid id" })
+  }
+
 };
