@@ -5,13 +5,14 @@ const Article = mongoose.model('Article', new mongoose.Schema({
     Author:{
         type: String,
         minlenght: 5,
-        maxlength: 50
+        maxlength: 50,
+        required : true
     },
 
     Comment: {
         type: [ String ],
         minlength: 1,
-        maxlength: 1000
+        maxlength: 1000,
     },
 
     Rating:{
@@ -28,8 +29,9 @@ const Article = mongoose.model('Article', new mongoose.Schema({
     
     Content: {
         type: String,
-        minlength: 100,
-        maxlength: 10000
+        minlength: 20,
+        maxlength: 50,
+        required : true
     }
 }));
 
