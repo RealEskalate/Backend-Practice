@@ -11,9 +11,13 @@ async function getMany (req:Request, res:Response){
 }
 
 async function getByID (req:Request, res:Response){
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)){
+        return res.status(400).send("Invalid Id");
+    }
+
     const article = await Article.findById(req.params.id);
 
-    if(!article) return res.status(404)
+    if(!article) return res.status(404).send("ID not found");
 
     res.send(article);
 }
@@ -29,24 +33,31 @@ async function createArticle (req:Request, res:Response) {
     });
 
     article = await article.save()
-                            .catch((err : any) => res.status(400).send(err.message));
-    res.send(article);
+                            .then(() => res.send(article))
+                            .catch((err : Error) => res.status(400).send(err.message));
+
 }
 
 async function deleteOne (req:Request, res:Response){
     const article = await Article.findByIdAndRemove(req.params.id);
-    console.log(article);    
+    res.send(article);
 }
 
 async function updateOne (req:Request, res:Response){
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)){
+        return res.status(400).send("Invalid Id");
+    };
+
     const article = await Article.findById(req.params.id);
 
     for (let param in req.body){
-        article.param = req.body.param;
+
+        article[param] = req.body[param];
+      
     }
 
     const result = await article.save();
-    console.log(result);
+    res.send(result);
 }
 
 module.exports.getMany = getMany;
