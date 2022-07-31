@@ -2,6 +2,7 @@ import supertest from "supertest";
 import { connect, clear, disconnect } from "./setupdb";
 import app from "../app"
 import {Rating} from "../models/rating"
+import { string } from "joi";
 
 jest.setTimeout(100000)
 
@@ -14,9 +15,20 @@ describe("Test for Rating endpoint", () => {
     describe("Tests the GET endpoints", () => {
         describe("/ratings", () => {
             it("returns status code 200 if the ratings found", async () => {
-                await supertest(app).get("/ratings").expect(200);
+                const response = await supertest(app).get("/ratings");
+				expect(response.statusCode).toBe(200)
+                expect.arrayContaining(
+					[
+						{
+							articleID: expect.any(String),
+							userID: expect.any(String),
+							rating: expect.any(Number),
+							ratedAt: expect.any(String)
+						}
+					]
+				);
             });
-        })
+        });
         
         describe("/ratings/{id}", () => {
             it("returns status code 200 if the rating exists", async () => {
@@ -25,7 +37,16 @@ describe("Test for Rating endpoint", () => {
                     "userID": "54321",
                     "rating": 3
                 })
-                await supertest(app).get(`/ratings/${testRating._id}`).set('Content-Type', 'application/x-www-form-urlencoded').expect(200)
+                const response = await supertest(app).get(`/ratings/${testRating._id}`).set('Content-Type', 'application/x-www-form-urlencoded');
+                expect(response.statusCode).toBe(200)
+                expect.objectContaining(
+					{
+						articleID: expect.any(String),
+						userID: expect.any(String),
+						rating: expect.any(Number),
+						ratedAt: expect.any(String)
+					}
+				);
             })
             it("returns status code 404 if the rating doesnot exist", async () => {
                 await supertest(app).get("/ratings/unknown").expect(404)
@@ -38,8 +59,18 @@ describe("Test for Rating endpoint", () => {
                     "articleID": "12344",
                     "userID": "54321",
                     "rating": 3
-                })
-                await supertest(app).get(`/ratings/articles/${testRating.articleID}`).set('Content-Type', 'application/x-www-form-urlencoded').expect(200)
+                })      
+                const response = await supertest(app).get(`/ratings/articles/${testRating.articleID}`)
+									.set('Content-Type', 'application/x-www-form-urlencoded')
+				expect(response.statusCode).toBe(200)
+                expect.objectContaining(
+					{
+						articleID: expect.any(String),
+						userID: expect.any(String),
+						rating: expect.any(Number),
+						ratedAt: expect.any(String)
+					}
+				);
             })
             it("returns status code 404 if the rating doesnot exist", async () => {
                 await supertest(app).get("/ratings/articles/unknown").expect(404)
@@ -53,7 +84,17 @@ describe("Test for Rating endpoint", () => {
                     "userID": "54321",
                     "rating": 3
                 })
-                await supertest(app).get(`/ratings/users/${testRating.userID}`).set('Content-Type', 'application/x-www-form-urlencoded').expect(200)
+                const response = await supertest(app).get(`/ratings/users/${testRating.userID}`)
+													 .set('Content-Type', 'application/x-www-form-urlencoded')
+				expect(response.statusCode).toBe(200)
+                expect.objectContaining(
+					{
+						articleID: expect.any(String),
+						userID: expect.any(String),
+						rating: expect.any(Number),
+						ratedAt: expect.any(String)
+					}
+				);
             })
             it("returns status code 404 if the rating doesnot exist", async () => {
                 await supertest(app).get("/ratings/users/unknown").expect(404)
@@ -67,7 +108,19 @@ describe("Test for Rating endpoint", () => {
                     "userID": "54321",
                     "rating": 3
                 })
-                await supertest(app).get(`/ratings/${testRating.articleID}/${testRating.userID}`).set('Content-Type', 'application/x-www-form-urlencoded').expect(200)
+                const response = await supertest(app).get(`/ratings/${testRating.articleID}/${testRating.userID}`)
+													 .set('Content-Type', 'application/x-www-form-urlencoded')
+				expect(response.statusCode).toBe(200)
+                expect.arrayContaining(
+					[
+						{
+							articleID: expect.any(String),
+							userID: expect.any(String),
+							rating: expect.any(Number),
+							ratedAt: expect.any(String)
+						}
+					]
+				);
             })
             it("returns status code 404 if the rating doesnot exist", async () => {
                 await supertest(app).get("/ratings/unknown/unknown").expect(404)
