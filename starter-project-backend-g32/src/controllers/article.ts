@@ -4,7 +4,6 @@ import Article from '../models/article'
 export const getSpecificArticle = async (req: Request, res: Response) => {
         try {
             const doc = await Article.findOne({ _id: req.params.id }).lean().exec()
-        
             if (!doc) {
                 return res.status(404).end()
         }
