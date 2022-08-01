@@ -11,5 +11,5 @@ app.use(express.json());
 
 // Routes
 app.use("/users/:userID/posts/:postID/rates", routes.rateRouter);
-app.use('articles', articleRoutes)
+app.use('api/v1/articles', articleRoutes)
 export default app;

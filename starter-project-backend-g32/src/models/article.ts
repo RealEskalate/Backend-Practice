@@ -31,6 +31,6 @@ const articleSchema: Schema<IArticle> = new mongoose.Schema({
   }
 )
 
-const Article = mongoose.model<IArticle>('Review', articleSchema)
+const Article = mongoose.model<IArticle>('Article', articleSchema)
 
 export default Article

@@ -1,14 +1,14 @@
-import { Router } from 'express';
+import { Router } from 'express'
 import {
   getSpecificArticle,
   getAllArticle,
   createArticle,
   updateArticle,
   deleteArticle,
-} from '../controllers/article';
-const router = Router();
+} from '../controllers/article'
+const router = Router()
 
-router.route("/").post(createArticle).get(getAllArticle);
-router.route("/:rateID").get(getSpecificArticle).put(updateArticle).delete(deleteArticle);
+router.route("/").post(createArticle).get(getAllArticle)
+router.route("/:rateID").get(getSpecificArticle).put(updateArticle).delete(deleteArticle)
 
-export default router;
+export default router
