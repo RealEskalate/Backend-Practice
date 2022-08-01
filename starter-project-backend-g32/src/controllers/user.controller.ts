@@ -1,5 +1,4 @@
 import express, {Request, Response, NextFunction} from 'express'
-// const userModel = require("../models/user.models");
 import userModel from '../models/user.models';
 
 
