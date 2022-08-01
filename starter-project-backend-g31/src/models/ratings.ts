@@ -1,8 +1,14 @@
 import  mongoose from "mongoose";
 const {Schema} = mongoose
 const RatingSchema=new Schema({
-    articleId: String,
-    userId:String,
+    articleId:  {
+        type: String,
+        required: true
+    },
+    userId: {
+        type: String,
+        required: true
+    },
     rating:Number,
     date: {type:Date,default:Date.now}
 })

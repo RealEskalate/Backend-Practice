@@ -32,7 +32,7 @@ describe("fetchAll request",()=>{
         afterAll(async()=>{  
             await disconnect()
         })
-        it("Should return a status cod of 201 if created",async ()=>{
+        it("Should return a status cod of 200 if created",async ()=>{
             const response = await request(app)
         .get("/rating");
         expect(response.statusCode).toEqual(200);

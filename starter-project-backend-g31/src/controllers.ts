@@ -14,34 +14,39 @@ export const create = (json: { [x: string]: any; }) => {
             
             return {statusCode:201, message: data };
         })
-        .catch((err: { messge: string; }) => {
-            return {statusCode:400,message:err.messge + "Bad request"}
+        .catch(() => {
+            return {statusCode:400,message:"Bad request"}
         });
 };
 //Retrieve all ratings
 export  const findAll = () => {
     return RatingSchema.find()
         .then((data: any) => {
-            return data;    
-        })
+            return {statusCode:200,message:data};    
+        }).catch(() => {
+            return {statusCode:404,message:"Not Found"}
+        });
+
 };
 // Retrieve a rating
 export const findOne = (ratingId: any) => {
     return RatingSchema.findById(ratingId)
         .then((data: any) => {
-            if (data) {
-                return data;
-            }
-            return {statusCode:404,message:"Request not found"}
-
-        })
+            return {statusCode:200,message:data};
             
-};
+        })
+        .catch(()=>{
+             return {statusCode:404,message:"Not Found"}
+
+        });
+}
+
+            
 // Update rating
 export const update = (ratingId: string,json: { [x: string]: any; }) => {
     //Validate Request
     if (!json["rating"]){
-        return {message:"Not updated"}
+        return {statusCode:400,message: "Bad request"}
     }
 // Find rating and update it with ther request body
     return RatingSchema.findByIdAndUpdate(
@@ -54,20 +59,22 @@ export const update = (ratingId: string,json: { [x: string]: any; }) => {
         }
     )
         .then((data: any) => {
-            if (!data) {
-                return {statusCode:400, message: "Bad request"};
-            }
-        return {statusCode:200,message:data}
+            
+            return {statusCode:200, message: data};
+            })
+            .catch(() => {
+                return {statusCode:400,message:"Bad request"}
+            });
+    
 
-        })
-    };
+        };
 // Delete a rating 
 export const deleteRating = (ratingId:any) => {
     return RatingSchema.findByIdAndRemove(ratingId)
         .then((data: any) => {
-            if (!data) {
-                return { statusCode:404, message: "Not found"};
-            }
             return {statusCode:201, message: "Rating deleted successfully"};
-        });
-};
+        }).catch(()=>{
+        return { statusCode:404, message: "Not found"};
+    
+            });
+            };
