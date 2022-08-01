@@ -1,10 +1,11 @@
 // user.model.ts
 import { Document, Schema, model } from 'mongoose';
 
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 // Create the interface
 export interface IUser extends Document {
+  [x: string]: any;
   name: string;
   email: string;
   password: string;
@@ -35,14 +36,42 @@ const userSchema = new Schema<IUser>({
   }
 });
 
-userSchema.method("hashPassword", function (): void {
-    // Generate a salt factor 
-    const salt = bcrypt.genSaltSync(12);
-    // Hash the password using the generated salt 
-    const hash = bcrypt.hashSync(this.password, salt);
-  
-    this.password = hash;
-  });
+
+// methods 
+ 
+userSchema.pre('save', function preSave(next) { 
+  let model = this; 
+
+  model.hashpassword(model.password, (err: any, hash: string) => { 
+      model.password = hash; 
+      next(); 
+  }); 
+}) 
+
+
+userSchema.method({ 
+    hashpassword(passwd, cb) {  
+      let createHash = (err: any, hash: any) => { 
+        if (err) { 
+          return cb(err); 
+        } 
+     
+        cb(null, hash);
+      } 
+     
+      let generateSalt = (err: any, salt: string | number) => { 
+        if (err) { 
+          return cb(err); 
+        } 
+     
+        // Hash the password using the generated salt 
+        bcrypt.hash(passwd, salt, createHash); 
+      } 
+     
+      // Generate a salt factor 
+      bcrypt.genSalt(12, generateSalt);  
+    } 
+}) 
 
 // Create and export user model
 export const userModel = model<IUser>("User", userSchema);

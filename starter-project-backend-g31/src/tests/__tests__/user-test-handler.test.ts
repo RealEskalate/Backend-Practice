@@ -39,6 +39,8 @@ describe('POST /users', () => {
     const res = await agent
       .post(`/users/`)
       .send({ name: 'Lowin', email: 'lowin@gmail.com', password: 'normaluser' })
+
+    console.log(res.text)
     expect(res.statusCode).toEqual(201)
   })
   it('Fail to create new user due to unspecified required parameters', async () => {
@@ -50,14 +52,12 @@ describe('POST /users', () => {
 })
 
 describe('UPDATE /users/update/:id', () => {
-  // it('Update existing user through a specified parameter', async () => {
-  //   const res = await agent
-  //     .patch(`/users/update/${userId}`)
-  //     .send({ name: 'Aria' })
-
-  //   console.log(res.error)
-  //   expect(res.statusCode).toEqual(201)
-  // })
+  it('Update existing user through a specified parameter', async () => {
+    const res = await agent
+      .patch(`/users/update/${userId}`)
+      .send({ name: 'Aria' })
+    expect(res.statusCode).toEqual(201)
+  })
 
   it('Fail to update non-existent user', async () => {
     const res = await agent

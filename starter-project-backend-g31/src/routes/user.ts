@@ -72,7 +72,7 @@ router.post('/', createUser);
  * @returns {object} 200 - User object 
  * @returns {Error}  default - Unexpected error 
  */ 
-router.put('/update/:id', updateUser); 
+router.patch('/update/:id', updateUser); 
 
 
 /*

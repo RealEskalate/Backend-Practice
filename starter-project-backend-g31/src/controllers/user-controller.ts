@@ -97,7 +97,7 @@ export const createUser = async (
     })
     try {
       const newUser = await user.save()
-      return res.status(201).json({ data: newUser })
+      return res.status(201).json({ data: { _id: newUser.id, name: newUser.name, email: newUser.email } })
     } catch (err) {
       return res
         .status(500)
@@ -119,13 +119,11 @@ export const updateUser = async (
   ) => {
     try {
       const { id } = req.params
-      const { name, email, password } = req.body
+      
       const user = await userModel.findByIdAndUpdate(
         id,
         {
-          name,
-          email,
-          password
+          $set: req.body
         },
         { new: true, runValidators:true, }
       )
@@ -156,6 +154,7 @@ export const deleteUser = async (
     try {
       const { id } = req.params
       const user = await userModel.findByIdAndDelete({ _id: id })
+      
       if (!user) {
         return res.status(404).json({
           message: `Error: User with id number ${id} does not exist`
