@@ -1,8 +1,8 @@
 var request = require('supertest');
 import app from '../../app';
 import { connect, clear, disconnect } from '../setupdb';
-import { findOne, findMany, create, update, _delete } from '../../services/profileService';
-import assert from 'assert';
+import { create, _delete } from '../../services/profileService';
+import mongoose from 'mongoose';
 
 
 jest.setTimeout(10000);
@@ -44,7 +44,7 @@ describe('user-profile API', () => {
 
     describe('GET /api/user-profile/:id', () => {
         it('should return a 400 error because the profile does not exist', async () => {
-                const { body, statusCode, status } = await request(app).get(`/api/user-profile/${23}`)
+                const { body, statusCode, status } = await request(app).get(`/api/user-profile/${new mongoose.Types.ObjectId()}`)
                 .accept('Accept', 'application/json')
                 .expect('Content-Type', "application/json; charset=utf-8");
             
@@ -65,9 +65,7 @@ describe('user-profile API', () => {
             
             
             expect(statusCode).toBe(200);    
-            expect(body.username).toBe(profile.username);
-            expect(body.fullname).toBe(profile.fullname);
-            expect(body.bio).toBe(profile.bio);
+            expect(body).toMatchObject(profileData);
         });
     })
 
@@ -85,9 +83,20 @@ describe('user-profile API', () => {
                 .expect('Content-Type', "application/json; charset=utf-8");
             
             expect(status).toBe(201); 
-            expect(body.username).toBe(profileData.username);
-            expect(body.fullname).toBe(profileData.fullname);
-            expect(body.bio).toBe(profileData.bio);
+            expect(body).toMatchObject(profileData);
+        });
+        it('should return an error because username is not specified', async () => {
+            const profileData = {
+                    fullname: "mate2",
+                    bio: "this is a bio2",
+                    phone: "0994437084",
+            }
+            const { body, status } = await request(app).post(`/api/user-profile`)
+                .send(profileData)
+                .accept('Accept', 'application/json')
+                .expect('Content-Type', "application/json; charset=utf-8");
+            
+            expect(status).toBe(400);
         });
         it('should return a 400 error because the profile already exists', async () => {
                 const profileData = {
@@ -97,8 +106,14 @@ describe('user-profile API', () => {
                         phone: "0994437084",
                 }
             const profile = await create(profileData);
-                const { body, status } = await request(app).post(`/api/user-profile`)
-                .send(profileData)
+            const profileData2 = {
+                        username: profileData.username,
+                        fullname: "fullname",
+                        bio: "this is updated bio",
+                        phone: "0994437090",
+                }
+            const { body, status } = await request(app).post(`/api/user-profile`)
+                .send(profileData2)
                 .accept('Accept', 'application/json')
                     .expect('Content-Type', "application/json; charset=utf-8");
                 expect(status).toBe(400);
@@ -107,13 +122,14 @@ describe('user-profile API', () => {
 
     describe('Delete /api/user-profile/:id', () => {
         it('should return a 400 error', async () => {
-                const { body, statusCode, status } = await request(app).delete(`/api/user-profile/${23}`)
+            const { status } = await request(app).delete(`/api/user-profile/${23}`)
                 .accept('Accept', 'application/json')
                 .expect('Content-Type', "application/json; charset=utf-8");
             
             
-            expect(statusCode).toBe(400);
-        })
+            expect(status).toBe(400);
+        });
+
         it('should delete the user-profile provided that the it exists', async () => {
             const profileData = {
                     username: "hello",
@@ -122,11 +138,12 @@ describe('user-profile API', () => {
                     phone: "0994437084",
             }
             const profile = await create(profileData);
-            const { body, statusCode, status } = await request(app).delete(`/api/user-profile/${profile._id}`)
+            const { body,status } = await request(app).delete(`/api/user-profile/${profile._id}`)
                 .accept('Accept', 'application/json');
             
             
-            expect(statusCode).toBe(204);
+            
+            expect(status).toBe(204);
         });
     })
 
@@ -147,10 +164,10 @@ describe('user-profile API', () => {
                     phone: "0994437084",
             }
             const updatedProfile = {
-                    username: "hello",
-                    fullname: "mate",
-                    bio: "this is a bio",
-                    phone: "0994437084",
+                    username: "herr",
+                    fullname: "mon",
+                    bio: "this is a bio5",
+                    phone: "0994437089",
             }
             const profile = await create(profileData);
             const { body, statusCode, status } = await request(app).patch(`/api/user-profile/${profile._id}`)
@@ -160,9 +177,7 @@ describe('user-profile API', () => {
             
             
             expect(statusCode).toBe(200);    
-            expect(body.username).toBe(updatedProfile.username);
-            expect(body.fullname).toBe(updatedProfile.fullname);
-            expect(body.bio).toBe(updatedProfile.bio);
+            expect(body).toMatchObject(updatedProfile);
         });
     })
 })
