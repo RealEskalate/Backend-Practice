@@ -14,7 +14,7 @@ beforeAll(async () => {
 beforeEach(async () => {
     const article = {
         author: 'shakespeer',
-        content: 'julet I love you so much. Have no word to explain.'
+        content: 'julet I love you so much. I have no word to explain.'
     }
     const newArticle = new Article(article)
     await newArticle.save()

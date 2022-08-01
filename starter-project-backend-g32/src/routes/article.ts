@@ -6,6 +6,7 @@ import {
   updateArticle,
   deleteArticle,
 } from '../controllers/article'
+
 const router = Router()
 
 router.route("/").post(createArticle).get(getAllArticle)

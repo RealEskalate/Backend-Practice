@@ -7,28 +7,28 @@ export interface IArticle extends Document {
 }
 
 const articleSchema: Schema<IArticle> = new mongoose.Schema({
-  author: {
-    type: String,
-    ref: 'User',
-    required: true
-  },
-  content: {
-    type: String,
-    ref: 'InstitutionProfile',
-    required: true
-  },
-  media: {
-    type: String,
-    required: false,
-    default: ''
-  }
-},
-  {
-    timestamps: {
-      createdAt: 'created_at',
-      updatedAt: 'updated_at'
+    author: {
+      type: String,
+      ref: 'User',
+      required: true
+    },
+    content: {
+      type: String,
+      ref: 'InstitutionProfile',
+      required: true
+    },
+    media: {
+      type: String,
+      required: false,
+      default: ''
     }
-  }
+  },
+    {
+      timestamps: {
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
+      }
+    }
 )
 
 const Article = mongoose.model<IArticle>('Article', articleSchema)
