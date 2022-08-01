@@ -37,13 +37,8 @@ router.put("/rating/:ratingId",async(req,res)=>{
 });
 // // Delete a rating with rating id
 router.delete("/rating/:ratingId",async(req,res)=>{
-    if(!req.params.ratingId){
-        return res.status(404).send({
-            message:"Not Found"
-        })
-    }
     const response=await controller.deleteRating(req.params.ratingId);
-    giif (response.statusCode==404){
+    if (response.statusCode==404){
         return res.status(404).send(response)
     }
     return res.status(201).send(response);
