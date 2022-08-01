@@ -20,8 +20,8 @@ db.once('open', () => console.log('Connected to the database instance!'));
 
 // a singleton export
 export default {
-  User: require('../app/users/model'),
-  Comment: require('../app/comments/model'),
-  Article: require('../app/articles/model'),
-  Chapter: require('../app/chapters/model'),
+  User: import('../app/users/model'),
+  Comment: import('../app/comments/model'),
+  Article: import('../app/articles/model'),
+  Chapter: import('../app/chapters/model'),
 };
