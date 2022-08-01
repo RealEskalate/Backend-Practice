@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from 'express'
 import dataAccessLayer from '../../common/dal'
-import Chapter from '../../services/db'
+import Chapter from './model'
 
 const chapterDal = dataAccessLayer(Chapter)
 
 const getAllChapters = (req: Request, res: Response, next: NextFunction) => {
 
     const filter = { isActive: true }
-    chapterDal.getAll(filter)
+    chapterDal.getMany(filter)
         .then((data: any) => {
             if (data.length() == 0) {
                 throw 'no chapter found';
@@ -50,7 +50,7 @@ const updateChapter = (req: Request, res: Response, next: NextFunction) => {
 
 const createChapter = (req: Request, res: Response, next: NextFunction) => {
     const newChapter = req.body
-    chapterDal.createChapter(newChapter, newChapter.id)
+    chapterDal.createOne(newChapter)
         .then(data => {
             if (!data) {
                 throw 'No chapter with this ID'
@@ -63,7 +63,7 @@ const createChapter = (req: Request, res: Response, next: NextFunction) => {
 }
 
 const disableChapter = (req: Request, res: Response, next: NextFunction) => {
-    chapterDal.disableChapter(req.params['id'])
+    chapterDal.deleteOne(req.params['id'])
         .then(data => {
             if (!data) {
                 throw 'Could not diable Chapter'
