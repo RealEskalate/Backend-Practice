@@ -1,12 +1,14 @@
-import express, { NextFunction, Request, Response } from 'express'
+import { Router, NextFunction, Request, Response } from 'express'
 import mongoose from 'mongoose'
 import controller from './controller'
 
-const router = express.Router()
-router.get('/getall', controller.readAllUser)
-router.get('/get/:userId', controller.readOneUser)
-router.post('/signup', controller.signUp)
-router.put('/update/:userId', controller.updateOneUser)
-router.delete('/delete/:userId', controller.deleteOneUser)
+const router = Router()
+
+// TODO: document with docstring
+router.get('/', controller.getAllUser)  
+router.get('/:id', controller.getAUser)
+router.post('/create', controller.create)
+router.put('/:id', controller.updateUser)
+router.delete('/:id', controller.deleteUser)
 
 export = router
