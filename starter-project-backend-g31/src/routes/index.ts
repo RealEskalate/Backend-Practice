@@ -1,5 +1,5 @@
 import * as express from 'express';
-const route = express.Router();
+const indexRouter = express.Router();
 
 /*
  * Returns API status
@@ -8,7 +8,7 @@ const route = express.Router();
  * @returns {object} 200
  * @returns {Error}  default - Unexpected error
  */
-route.get('/', async function(req: express.Request, res: express.Response, next) {
+indexRouter.get('/', async function(req: express.Request, res: express.Response, next) {
   return res.json({
     title: 'Blog API',
     version: '1.0.0',
@@ -16,4 +16,4 @@ route.get('/', async function(req: express.Request, res: express.Response, next)
   })
 });
 
-module.exports = route;
+export const indexRoute = indexRouter; 

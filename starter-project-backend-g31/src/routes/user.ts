@@ -7,7 +7,7 @@ import {
     deleteUser
 } from '../controllers/user-controller';
 import * as express from 'express';
-const router = express.Router();
+const userRouter = express.Router();
 
 /*
  * @typedef User
@@ -22,7 +22,7 @@ const router = express.Router();
  * @returns {object} 200 - Array of users 
  * @returns {Error}  default - Unexpected error 
  */ 
-router.get('/', getUsers); 
+userRouter.get('/', getUsers); 
 
 /*
  * Get a user by id
@@ -31,7 +31,7 @@ router.get('/', getUsers);
  * @returns {object} 200 - User object 
  * @returns {Error}  default - Unexpected error 
  */ 
-router.get('/:id', getUserById); 
+userRouter.get('/:id', getUserById); 
 
 
 /*
@@ -41,7 +41,7 @@ router.get('/:id', getUserById);
  * @returns {object} 200 - User object
  * @returns {Error}  default - Unexpected error 
  */ 
-router.get('/filter/:name', filterUsers); 
+userRouter.get('/filter/:name', filterUsers); 
 
 
 /*
@@ -51,7 +51,7 @@ router.get('/filter/:name', filterUsers);
  * @returns {object} 200 - User object
  * @returns {Error}  default - Unexpected error 
  */ 
-router.get('/filter/:email', filterUsers); 
+userRouter.get('/filter/:email', filterUsers); 
 
 
 /*
@@ -61,7 +61,7 @@ router.get('/filter/:email', filterUsers);
  * @returns {object} 200 - User object 
  * @returns {Error}  default - Unexpected error 
  */ 
-router.post('/', createUser); 
+userRouter.post('/', createUser); 
 
 
 /*
@@ -72,7 +72,7 @@ router.post('/', createUser);
  * @returns {object} 200 - User object 
  * @returns {Error}  default - Unexpected error 
  */ 
-router.patch('/update/:id', updateUser); 
+userRouter.patch('/update/:id', updateUser); 
 
 
 /*
@@ -82,7 +82,7 @@ router.patch('/update/:id', updateUser);
  * @returns {object} 200 - User object 
  * @returns {Error}  default - Unexpected error 
  */ 
-router.delete('/delete/:id', deleteUser); 
+userRouter.delete('/delete/:id', deleteUser); 
 
 
-module.exports = router; 
+export const userRoute = userRouter; 

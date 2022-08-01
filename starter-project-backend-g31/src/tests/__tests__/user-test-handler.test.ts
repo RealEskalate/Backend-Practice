@@ -39,8 +39,6 @@ describe('POST /users', () => {
     const res = await agent
       .post(`/users/`)
       .send({ name: 'Lowin', email: 'lowin@gmail.com', password: 'normaluser' })
-
-    console.log(res.text)
     expect(res.statusCode).toEqual(201)
   })
   it('Fail to create new user due to unspecified required parameters', async () => {
