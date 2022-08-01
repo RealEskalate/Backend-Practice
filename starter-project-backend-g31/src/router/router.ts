@@ -1,5 +1,4 @@
-const express = require('express')
-import { Mongoose } from "mongoose"
+import express from "express"
 const router = express.Router()
 const {
     getAllComment,

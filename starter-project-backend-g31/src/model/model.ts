@@ -1,6 +1,5 @@
-const mongoose = require('mongoose')
-//import { Mongoose } from "mongoose";
-const data_base = new mongoose.Schema({
+import mongoose from "mongoose";
+const dataBase = new mongoose.Schema({
     author : {
         type : String,
         required : true
@@ -15,4 +14,4 @@ const data_base = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('data_base', data_base);
+export const data_base = mongoose.model('data_base', dataBase);

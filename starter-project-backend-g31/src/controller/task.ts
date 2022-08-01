@@ -1,8 +1,7 @@
 import  {Request,Response} from 'express';
-const express = require('express')
-const mongoose = require('mongoose')
-const data_base = require('../model/model')
-//const {req,res} = require('express')
+import { Express } from 'express';
+import { Mongoose } from 'mongoose';
+import {data_base} from "../model/model"
 
 async function getAllComment(req: Request,res: Response)
 {   
