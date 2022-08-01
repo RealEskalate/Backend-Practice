@@ -16,4 +16,4 @@ router.patch('/:id',updateCommentById)
 
 router.delete('/:id',deleteCommentById)
     
-export const router_ = router
+export const commentRoute = router

@@ -14,4 +14,4 @@ const dataBase = new mongoose.Schema({
     }
 });
 
-export const data_base = mongoose.model('data_base', dataBase);
+export const Comment = mongoose.model('data_base', dataBase);

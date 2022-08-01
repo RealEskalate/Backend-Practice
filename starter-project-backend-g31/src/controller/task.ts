@@ -1,12 +1,12 @@
 import  {Request,Response} from 'express';
 import { Express } from 'express';
 import { Mongoose } from 'mongoose';
-import {data_base} from "../model/model"
+import {Comment} from "../model/model"
 
 export async function getAllComment(req: Request,res: Response)
 {   
     try{
-        const comment = await data_base.find();
+        const comment = await Comment.find();
         res.status(200).json(comment);
 
     }catch(err){
@@ -17,7 +17,7 @@ export async function getAllComment(req: Request,res: Response)
 export async function getCommentById(req: Request,res: Response)
 {   
     try{
-        const comment = await data_base.findById(req.params.id);
+        const comment = await Comment.findById(req.params.id);
         res.status(200).json(comment);
     }catch(err){
         console.log(err);
@@ -27,7 +27,7 @@ export async function getCommentById(req: Request,res: Response)
 }
 export async function addComment(req: Request,res: Response)
 {   
-    const comment = new data_base({
+    const comment = new Comment({
         author: req.body.author,
         description: req.body.description
     })
@@ -43,7 +43,7 @@ export async function updateCommentById(req: Request,res: Response)
 {   
     try{
         const data = req.body
-        const done = await data_base.updateOne({_id: req.params.id},{$set : data})
+        const done = await Comment.updateOne({_id: req.params.id},{$set : data})
         res.status(200).send(done)
         }
         catch(err){
@@ -55,18 +55,10 @@ export async function updateCommentById(req: Request,res: Response)
 export async function deleteCommentById(req: Request,res: Response)
 {   
     try{
-        const deletedComment = await data_base.remove({ _id:req.params.id});
+        const deletedComment = await Comment.remove({ _id:req.params.id});
         res.status(200).json(deletedComment);
     }catch(err){
         res.status(404).send("Error");
     }
     
 }
-// module.exports = {
-//     getAllComment,
-//     getCommentById,
-//     addComment,
-//     updateCommentById,
-//     deleteCommentById
-
-// }
