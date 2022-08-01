@@ -1,12 +1,12 @@
-import express from "express"
+import express, { Router } from "express"
 const router = express.Router()
-const {
+import {
     getAllComment,
     getCommentById,
     addComment,
     updateCommentById,
     deleteCommentById
-} = require('../controller/task')
+} from '../controller/task'
 
 router.get('/',getAllComment)
 router.get('/:id',getCommentById)
@@ -16,4 +16,4 @@ router.patch('/:id',updateCommentById)
 
 router.delete('/:id',deleteCommentById)
     
-module.exports = router
+export const router_ = router

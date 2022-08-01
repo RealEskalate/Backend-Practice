@@ -3,7 +3,7 @@ import { Express } from 'express';
 import { Mongoose } from 'mongoose';
 import {data_base} from "../model/model"
 
-async function getAllComment(req: Request,res: Response)
+export async function getAllComment(req: Request,res: Response)
 {   
     try{
         const comment = await data_base.find();
@@ -14,7 +14,7 @@ async function getAllComment(req: Request,res: Response)
     }
     
 }
-async function getCommentById(req: Request,res: Response)
+export async function getCommentById(req: Request,res: Response)
 {   
     try{
         const comment = await data_base.findById(req.params.id);
@@ -25,7 +25,7 @@ async function getCommentById(req: Request,res: Response)
     }
     
 }
-async function addComment(req: Request,res: Response)
+export async function addComment(req: Request,res: Response)
 {   
     const comment = new data_base({
         author: req.body.author,
@@ -39,7 +39,7 @@ async function addComment(req: Request,res: Response)
     }
 }
 
-async function updateCommentById(req: Request,res: Response)
+export async function updateCommentById(req: Request,res: Response)
 {   
     try{
         const data = req.body
@@ -52,7 +52,7 @@ async function updateCommentById(req: Request,res: Response)
     
 }
 
-async function deleteCommentById(req: Request,res: Response)
+export async function deleteCommentById(req: Request,res: Response)
 {   
     try{
         const deletedComment = await data_base.remove({ _id:req.params.id});
@@ -62,11 +62,11 @@ async function deleteCommentById(req: Request,res: Response)
     }
     
 }
-module.exports = {
-    getAllComment,
-    getCommentById,
-    addComment,
-    updateCommentById,
-    deleteCommentById
+// module.exports = {
+//     getAllComment,
+//     getCommentById,
+//     addComment,
+//     updateCommentById,
+//     deleteCommentById
 
-}
+// }
