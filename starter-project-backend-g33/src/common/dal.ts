@@ -1,103 +1,119 @@
-import { Model, Mongoose } from "mongoose";
+import mongoose, { Model } from 'mongoose'
 
-import IArticleInterface from "../app/articles/interface";
-import IChapterInterface from "../app/chapters/interface";
-import ICommentInterface from "../app/comments/interface";
-import IUserInterface from "../app/users/interface";
+
 
 const getOne = (
-    model: 
-    Model<IChapterInterface> | 
-    Model<IUserInterface> | 
-    Model<IArticleInterface> | 
-    Model<ICommentInterface>
-    ) => async (req: any, res: any) => {
+    model:
+        Model<any, {}, {}>
+) => async (id: any) => {
 
     try {
-        const requestedId = req.params.id
-        const doc = await model.findOne({ _id: requestedId })
-
-        if (!doc) {
-            return res.status(404).end()
-        }
-
-        res.status(200).json(doc)
-    } catch (e) {
-        console.log(e)
-    }
-};
-
-// const getAll = (
-//     model: 
-//     Model<IChapterInterface> | 
-//     Model<IUserInterface> | 
-//     Model<IArticleInterface> | 
-//     Model<ICommentInterface>
-//     ) => async (req: any, res: any)  => {
-//     try {
-//         const docs = await model.find()
-//         res.status(200).json(docs)
-//     } catch (e) {
-//         console.log(e)
-//     }
-// }
-
-const createOne = (
-    model:   
-    Model<IChapterInterface> | 
-    Model<IUserInterface> | 
-    Model<IArticleInterface> | 
-    Model<ICommentInterface>
-    ) => async (req: any, res: any) => {
-    try {
-        const payload = req.body
-        const doc = await model.create(payload)
-        res.status(201).json(doc)
+        const doc = await model.findOne({ _id: id })
+        return doc
     } catch (e) {
         console.log(e)
     }
 }
 
-const updateOne =(
-    model: 
-    Model<IChapterInterface> | 
-    Model<IUserInterface> | 
-    Model<IArticleInterface> | 
-    Model<ICommentInterface>
-    ) => async (req: any, res: any) => {
+const getAll = (
+    model:
+        Model<any, {}, {}>
+) => async (props: any) => {
     try {
-        const payload = req.body
+        const filter = props
+        const docs = await model.find(filter)
+        return docs
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+const createOne = (
+    model:
+        Model<any, {}, {}>
+) => async (props: any) => {
+    try {
+        const payload = props
+        const doc = await model.create(payload)
+        return doc
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+const updateOne = (
+    model:
+        Model<any, {}, {}>
+) => async (props: any, id: String) => {
+    try {
+        const payload = props
 
         const doc = await model
             .updateOne(
                 {
-                    _id: req.params.id,
+                    _id: id,
                 },
                 { $set: { payload }, }
             )
 
-        if (!doc) {
-            return res.status(404).end()
-        }
+        return doc
 
-        res.status(200).json(doc)
     } catch (e) {
         console.log(e)
     }
 }
 
+const clap = (
+    model: Model<any, {}, {}>
+) => async (props: any) => {
+    try {
+        const articleId = props.articleId
+        const userId = props.userId
+
+        const doc = await model
+            .updateOne(
+                {
+                    _id: articleId,
+                },
+                { $push: { clappers: userId } }
+            )
+
+        return doc
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+const deleteOne = (
+    model: Model<any, {}, {}>
+) => async (id: any) => {
+    try {
+
+        const doc = await model
+            .updateOne(
+                {
+                    _id: id,
+                },
+                { $set: { isActive: false } }
+            )
+
+        return doc
+    } catch (e) {
+        console.log(e)
+    }
+}
 
 const dataAccessLayer = (
-    model: 
-    Model<IChapterInterface> | 
-    Model<IUserInterface> | 
-    Model<IArticleInterface> | 
-    Model<ICommentInterface>
-    ) => ({
+    model:
+        Model<any, {}, {}>
+) => ({
     updateOne: updateOne(model),
-    // getMany: getAll(model),
+    getMany: getAll(model),
     getOne: getOne(model),
-    createOne: createOne(model)
+    createOne: createOne(model),
+    clap: clap(model),
+    deleteOne: deleteOne(model)
 })
 
 export default dataAccessLayer
+
