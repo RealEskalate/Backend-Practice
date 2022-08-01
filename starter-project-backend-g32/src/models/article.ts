@@ -1,0 +1,36 @@
+import mongoose, { Schema, Document } from 'mongoose'
+
+export interface IArticle extends Document {
+  author: String
+  content: String
+  media: String
+}
+
+const articleSchema: Schema<IArticle> = new mongoose.Schema({
+  author: {
+    type: String,
+    ref: 'User',
+    required: true
+  },
+  content: {
+    type: String,
+    ref: 'InstitutionProfile',
+    required: true
+  },
+  media: {
+    type: String,
+    required: false,
+    default: ''
+  }
+},
+  {
+    timestamps: {
+      createdAt: 'created_at',
+      updatedAt: 'updated_at'
+    }
+  }
+)
+
+const Article = mongoose.model<IArticle>('Review', articleSchema)
+
+export default Article
