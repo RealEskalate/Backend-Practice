@@ -52,14 +52,14 @@ describe('UPDATE BY ID /', () => {
         user = await user.save();
 
         const res = await supertest(app).put('/api/' + user.id).send({
-                firstName:"tsega",
+                firstName:"tsegatsega",
                 lastName: "abcabc",
                 email: "abcabc@gmail.com",
                 role: "ababa",
                 phoneNumber: "0909090909",
         });
         expect(res.status).toBe(201);
-        expect(res.body.data).toHaveProperty('firstName', 'tsega');
+        expect(res.body.data).toHaveProperty('firstName', 'tsegatsega');
 
     });
     it('should return 404 status if invalid id is passed',async () => {
@@ -67,7 +67,7 @@ describe('UPDATE BY ID /', () => {
         expect(res.status).toBe(404);
 
     });
-    it('should return 404', async() => {
+    it('should return 500', async() => {
         let user = new User({
                 firstName:"abcabc",
                 lastName: "abcabc",
@@ -81,7 +81,7 @@ describe('UPDATE BY ID /', () => {
                 email: "abcabc@gmail.com",
                 phoneNumber: "0909090909",
         });
-        expect(res.status).toBe(404);
+        expect(res.status).toBe(500);
 
     });
 });
@@ -113,9 +113,10 @@ describe("delete by id", () => {
     it("should delete the user by its id", async () => {
         let user = new User({
             firstName:"abcabc",
-            lastName: "abcabc",
-            email: "abcabc@gmail.com",
-            phoneNumber: "0909090909",});
+                lastName: "abcabc",
+                email: "abcabc@gmail.com",
+                role: "ababa",
+                phoneNumber: "0909090909",});
         await user.save();
         const res = await supertest(app).delete("/api/" + user.id);
         expect(res.status).toBe(201);
@@ -123,9 +124,10 @@ describe("delete by id", () => {
     it("should return 404 status if the id is invalid or user not found", async () => {
         let user = new User({
             firstName:"abcabc",
-            lastName: "abcabc",
-            email: "abcabc@gmail.com",
-            phoneNumber: "0909090909",});
+                lastName: "abcabc",
+                email: "abcabc@gmail.com",
+                role: "ababa",
+                phoneNumber: "0909090909",});
             await user.save();
             const res = await supertest(app).delete("/api/1");
             expect(res.status).toBe(404);
@@ -138,9 +140,10 @@ describe('get user by id', () => {
     it("should return 200 when their is valid user in a given id", async () => {
         let user = new User({
             firstName:"abcabc",
-            lastName: "abcabc",
-            email: "abcabc@gmail.com",
-            phoneNumber: "0909090909",});
+                lastName: "abcabc",
+                email: "abcabc@gmail.com",
+                role: "ababa",
+                phoneNumber: "0909090909",});
         user = await user.save();
         const res = await supertest(app).get("/api/" + user.id).send(user);
         expect(res.status).toBe(200);
@@ -149,9 +152,10 @@ describe('get user by id', () => {
     it("should return 404 status when their is no user found in this id", async () => {
         let user = new User({
             firstName:"abcabc",
-            lastName: "abcabc",
-            email: "abcabc@gmail.com",
-            phoneNumber: "0909090909",});
+                lastName: "abcabc",
+                email: "abcabc@gmail.com",
+                role: "ababa",
+                phoneNumber: "0909090909",});
         user = await user.save();
         const res = await supertest(app).get("/api/" + Id).send(user);
         expect(res.status).toBe(404);

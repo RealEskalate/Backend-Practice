@@ -14,13 +14,18 @@ const userProfileSchema = new mongoose.Schema<UserInfo>(
         firstName: {
             type: String,
             required : true,
-            
+            minlength: 6,
+            maxlength: 15
         },
         lastName: {
             type: String,
+            required : true,
+            minlength: 6,
+            maxlength: 15
         },
         role: {
             type: String,
+            required : true,
         },
         email: {
             type: String,
@@ -28,6 +33,8 @@ const userProfileSchema = new mongoose.Schema<UserInfo>(
         },
         phoneNumber: {
             type: String,
+            minlength: 10,
+            maxlength: 10
         }
     }
 
