@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-const Comment = require('../models/comment')
+
 const {
         getAllComments,
         getCommentById,
