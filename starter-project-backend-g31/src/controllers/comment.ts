@@ -61,10 +61,3 @@ export async function  updateCommentById(req:Request,res:Response){
     }
 }
 
-// module.exports = {
-//     getAllComments,
-//     getCommentById,
-//     addComment, 
-//     deleteCommentById, 
-//     updateCommentById
-// };
