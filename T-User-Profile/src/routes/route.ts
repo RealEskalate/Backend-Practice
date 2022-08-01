@@ -1,10 +1,13 @@
 import Express,{Router} from "express";
-import { getUserProfile, createUserProfile, deleteUser, updateById } from "../controllers/userProfile"
+import {getUserById, createUserProfile,getUserProfile, deleteUser, updateById } from "../controllers/userProfile"
 
-
-export const router: Router = Express.Router()
+const router = Express.Router()
 
 router.get("/", getUserProfile)
+
+router.get("/:id", getUserById)
 router.post("", createUserProfile)
 router.delete("/:id", deleteUser)
-router.patch("/:id", updateById)
+router.put("/:id", updateById)
+
+export default router;

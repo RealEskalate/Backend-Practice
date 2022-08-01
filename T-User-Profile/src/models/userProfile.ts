@@ -9,10 +9,12 @@ export interface UserInfo extends Document{
 }
 
 
-const userProfileSchema: Schema<UserInfo> = new mongoose.Schema(
+const userProfileSchema = new mongoose.Schema<UserInfo>(
     {
         firstName: {
             type: String,
+            required : true,
+            
         },
         lastName: {
             type: String,
