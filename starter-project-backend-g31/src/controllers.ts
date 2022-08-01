@@ -5,14 +5,13 @@ export const create = (json: { [x: string]: any; }) => {
     const rating = new RatingSchema({
         articleId: json["articleId"],
         userId: json["userId"],
+
         rating: json["rating"] || 0,
     });
    return rating
         .save()
         .then((data: any) => {
             
-        console.log("Rating is created")
-        console.log(data)
             return {statusCode:201, message: data };
         })
         .catch((err: { messge: string; }) => {

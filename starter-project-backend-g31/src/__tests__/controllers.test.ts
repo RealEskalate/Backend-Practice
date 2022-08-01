@@ -92,8 +92,6 @@ describe("Update request",()=>{
     })
 });
 
-
-
 describe("Delete request",()=>{
     describe("Checking  Delet  Rating data",()=>{
         beforeAll(async()=>{        
@@ -117,4 +115,3 @@ describe("Delete request",()=>{
         })
     })
 })
-

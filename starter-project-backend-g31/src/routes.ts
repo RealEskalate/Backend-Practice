@@ -43,7 +43,7 @@ router.delete("/rating/:ratingId",async(req,res)=>{
         })
     }
     const response=await controller.deleteRating(req.params.ratingId);
-    if (response.statusCode==404){
+    giif (response.statusCode==404){
         return res.status(404).send(response)
     }
     return res.status(201).send(response);
