@@ -7,11 +7,13 @@ const Article = require('../../models/ArticleModel');
 // jest.setTimeout(100000);
 
 describe('/api/articles', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
         await connect();
     });
-    afterEach(async () => { await clear(); });
-    afterEach(async () => { await disconnect(); })
+    afterAll(async () => { 
+        await clear();
+        await disconnect();
+     });
 
     describe('GET /', () => {
         it ('should return all articles', async() => {
