@@ -1,19 +1,21 @@
 import {connect , clear, disconnect} from  '../setupdb';
 import app from '../../app';
-import mongoose from 'mongoose';
+import Comment from '../../models/comment';
+import supertest  from 'supertest';
 
-const request = require('supertest')(app);
-const comment = require('../../models/comment');
+
+
+const request = supertest(app);
 jest.setTimeout(30000);
-
 let commentId : String;
+
 
 beforeAll(async () => {
     await connect();
 });
 
 beforeEach(async () => {
-    await comment.create({
+    await Comment.create({
         content: 'test comment',
         createdAt: new Date()
     }).then((result: any) => {
@@ -111,8 +113,8 @@ describe('Test for comment', () => {
     )
 
     it('should patch a comment', async () => {
-        const response = await request.patch('/api/v1/comment/${commentId}').send({
-            content: 'This is an updated test comment',
+        const response = await request.patch('/api/v1/comment/' + commentId).send({
+            "content" : 'This is an updated test comment',
         });
         expect(response.status).toBe(200);
         expect(response.body).toHaveProperty('message');

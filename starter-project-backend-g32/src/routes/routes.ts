@@ -1,7 +1,7 @@
 import express from 'express';
-
+import commentRouter from './comment.routes';
 const router = express.Router();
-const commentRouter = require('../routes/comment.routes');
+
 router.use("/comment", commentRouter);
 
 module.exports = router;

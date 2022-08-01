@@ -1,8 +1,9 @@
 import {Request , Response } from "express";
-const Comment = require('../models/comment');
+import Comment from "../models/comment";
+import mongoose from "mongoose";
 
-const mongoose = require('mongoose');
-const createComment = async (req:Request, res:Response ) => {
+
+export const createComment = async (req:Request, res:Response ) => {
     const comment = new Comment(req.body);
     await comment.save().then(() => {
         res.status(201).json({
@@ -17,7 +18,7 @@ const createComment = async (req:Request, res:Response ) => {
 
 }
 
-const getComment = async (req:Request, res:Response ) => {
+export const getComment = async (req:Request, res:Response ) => {
     await Comment.findById(req.params.id).then((comment : typeof Comment) => {
         res.status(200).json(comment);
     }).catch((error: Error) => {
@@ -27,7 +28,7 @@ const getComment = async (req:Request, res:Response ) => {
     }   );
 }
 
-const getComments = async (req:Request, res:Response ) => {
+export const getComments = async (req:Request, res:Response ) => {
     await Comment.find().then((comments: any) => {
         res.status(200).json(comments);
     }).catch((error: Error) => {
@@ -37,7 +38,7 @@ const getComments = async (req:Request, res:Response ) => {
     }   );
 }
 
-const deleteComment = async (req:Request, res:Response ) => {
+export const deleteComment = async (req:Request, res:Response ) => {
     await Comment.findByIdAndRemove(req.params.id).then(() => {
         res.status(200).json({
             message: "Comment deleted successfully"
@@ -49,13 +50,16 @@ const deleteComment = async (req:Request, res:Response ) => {
     }   );
 }
 
-const updateComment = async (req:Request, res:Response ) => {
+export const updateComment = async (req:Request, res:Response ) => {
     if(!req.body.content) {
         res.status(400).json({
             error: "Content is required"
         });
     }else{
-    await Comment.findByIdAndUpdate(req.params.id, req.body).then(() => {
+    const {content , createdAt} = req.body;
+    const updatedComment = {"content" : content , "createdAt": createdAt ? createdAt : new Date()};
+
+    await Comment.findByIdAndUpdate(req.params.id, updatedComment).then(() => {
         res.status(200).json({
             message: "Comment updated successfully"
         });
@@ -67,29 +71,33 @@ const updateComment = async (req:Request, res:Response ) => {
     }   
 }
 
-const patchComment = async (req:Request, res:Response ) => {
+export const patchComment = async (req:Request, res:Response ) => {
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        console.log("invalid id");
         res.status(400).json({
             error: "Invalid ID"
         });
     }
-    else if(!req.body.content) {
-        res.status(400).json({
-            error: "Content is required"
-        });
-    }
     else{
-        await Comment.findByIdAndUpdate(req.params.id, req.body).then(() => {
-            res.status(200).json({
-                message: "Comment updated successfully"
+        const {content , createdAt} = req.body;
+        await Comment.findById(req.params.id).then((comment : typeof Comment) => {
+            if(content) {
+                comment.content = content;
+            }
+            if(createdAt) {
+                comment.createdAt = createdAt;
+            }
+           comment.save().then(() => {
+            console.log("comment updated");
+                res.status(200).json({
+                    message: "Comment updated successfully"
+                });
             });
-        }).catch((error: Error) => {
-            res.status(404).json({
-                error: error
-            });
-        }   );
+    }).catch((error: Error) => {
+        console.log("error: " + error);
+        res.status(404).json({
+            error: error
+        });
+    }   );
     }
 }
-
-
-module.exports = {createComment , getComments , getComment , deleteComment , updateComment , patchComment};

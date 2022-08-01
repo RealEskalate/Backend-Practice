@@ -1,13 +1,14 @@
 import express from 'express';
+import {createComment , getComments , getComment , deleteComment , updateComment , patchComment} from '../controllers/comment.controller';
 
-const router = express.Router();
-const commentController = require('../controllers/comment.controller');
+const commentRouter = express.Router();
 
-router.get('/', commentController.getComments); // get all comments
-router.get('/:id' , commentController.getComment); // get comment by id
-router.post('/' , commentController.createComment); // create comment
-router.put('/:id' , commentController.updateComment); // update comment
-router.patch('/:id' , commentController.patchComment); // patch comment
-router.delete('/:id' , commentController.deleteComment); // delete comment
 
-module.exports =  router;
+commentRouter.get('/', getComments); // get all comments
+commentRouter.get('/:id' , getComment); // get comment by id
+commentRouter.post('/' , createComment); // create comment
+commentRouter.put('/:id' , updateComment); // update comment
+commentRouter.patch('/:id' , patchComment); // patch comment
+commentRouter.delete('/:id' , deleteComment); // delete comment
+
+export default commentRouter;
