@@ -1,4 +1,4 @@
-# Starter Project - Backend - G32
+# Starter Project - Backend - G31
 This is where new backend team members will practice what they've understood in their respective learning paths. This document will serve as:
 - Overview and description of what the project is going to be, 
 - Workflow as a backend team member and

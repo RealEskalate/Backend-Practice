@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 
 
 const PORT = process.env.PORT || 8000
-const DB_URI = process.env.MONGO_URI || "mongodb://localhost:27017/usersdb";
+const DB_URI = process.env.MONGO_URI || "mongodb://localhost:27017/users";
+
 
 mongoose.connect(DB_URI, {
     useNewUrlParser: true,
@@ -11,7 +12,6 @@ mongoose.connect(DB_URI, {
     useCreateIndex: true,
     useFindAndModify: false,
 })
-
 .then(() => {
     app.listen(PORT, () => console.log('Server running...'));
 })
