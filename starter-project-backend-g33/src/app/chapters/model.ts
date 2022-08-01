@@ -6,13 +6,10 @@ const ChapterSchema: Schema = new Schema({
   hoe: { type: String, required: true },
   deputyHoe: { type: String, required: true },
   location : {type: String, required: true},
-  isActive: { type: Boolean }
-  
-
+  isActive: { type: Boolean, required: true, default: true }
 },
 {
-     timestamps : {createdAt: 'created_at', updatedAt: 'modified_at' }
-     
+     timestamps : {createdAt: 'created_at', updatedAt: 'modified_at' } 
 });
 
 ChapterSchema.set('toJSON', {virtuals:true})
