@@ -1,121 +1,96 @@
-import { Rating, validate } from "../models/rating";
+import { Rating } from "../models/rating";
 
-export const getAllRatings = () => {
+export const getAllRatings = (req: any, res: any) => {
   return Rating.find({})
-    .then((ratings: any) => ({ statusCode: 200, body: ratings }))
-    .catch((error: any) => ({ statusCode: 404, body: error }));
+    .then((ratings: any) => res.send(ratings))
+    .catch((error: any) => res.status(404).send(error));
 };
 
-export const getSingleRating = async (id: string) => {
+export const getSingleRating = async (req: any, res: any) => {
   try {
-    const rating = await Rating.findById(id);
-    if (rating) return ({ statusCode: 200, body: rating })
-    return ({ statusCode: 404, body: "Cannot get rating" });
+    const rating = await Rating.findById(req.params.id);
+    if (rating) return res.send(rating)
+    return res.status(404).send("cannot get rating");
   } catch (error) {
-    return ({ statusCode: 404, body: "Cannot get rating" });
+    return res.status(404).send("cannot get rating");
   }
-
 };
-export const getAllRatingsForAGivenArticle = async (articleID: string) => {
+export const getAllRatingsForAGivenArticle = async (req: any, res: any) => {
   try {
-    const ratings = await Rating.find({ articleID: articleID })
-    if (ratings.length > 0) return {
-      statusCode: 200,
-      body: ratings
-    };
-    return {
-      statusCode: 404,
-      body: "Ratings not found"
-    };
+    const ratings = await Rating.find({ articleID: req.params.articleID })
+    if (ratings.length > 0) return res.send(ratings);
+    return res.status(404).send("Ratings not found");
   }
   catch (error) {
-    return {
-      statusCode: 404,
-      body: "Article not found"
-    }
+    res.status(404).send("Ratings not found")
+  }
+} 
+export const getAllRatingsForAGivenUser = async (req: any, res: any) => {
+  try {
+    const ratings = await Rating.find({ userID: req.params.userID })
+    if (ratings.length > 0) return res.send(ratings);
+    return res.status(404).send("Ratings not found");
+  }
+  catch (error) {
+    return res.status(404).send("Ratings not found")
   }
 }
-export const getAllRatingsForAGivenUser = async (userID: string) => {
+export const getAllRatingsForAGivenArticleAndUser = async (req: any, res: any) => {
   try {
-    const ratings = await Rating.find({ userID: userID })
-    if (ratings.length > 0) return {
-      statusCode: 200,
-      body: ratings
-    };
-    return {
-      statusCode: 404,
-      body: "Ratings not found"
-    };
+    const ratings = await Rating.find({ articleID: req.params.articleID, userID: req.params.userID })
+    if (ratings.length > 0) return res.send(ratings);
+    return res.status(404).send("Ratings not found");
   }
   catch (error) {
-    return {
-      statusCode: 404,
-      body: "Article not found"
-    }
-  }
-}
-export const getAllRatingsForAGivenArticleAndUser = async (articleID: string, userID: string) => {
-  try {
-    const ratings = await Rating.find({ articleID: articleID, userID: userID })
-    if (ratings.length > 0) return {
-      statusCode: 200,
-      body: ratings
-    };
-    return {
-      statusCode: 404,
-      body: "Ratings not found"
-    };
-  }
-  catch (error) {
-    return {
-      statusCode: 404,
-      body: "Article not found"
-    }
+    return res.status(404).send("Ratings not found")
   }
 }
 
 
-export const createRating = async (rating: any) => {
-  const { error } = validate(rating);
-  if (error) return ({ statusCode: 400, body: error.details[0].message })
-  const ratedBefore = await Rating.findOne({ articleID: rating.articleID, userID: rating.userID });
-  if (ratedBefore) {
-    ratedBefore.rating = rating.rating
-    await ratedBefore.save()
-    return ({ statusCode: 200, body: rating })
-  }
-  let newRating = new Rating({
-    articleID: rating.articleID,
-    userID: rating.userID,
-    rating: rating.rating,
-  });
-  await newRating.save();
-  return ({ statusCode: 201, body: rating })
-};
-
-export const updateRating = async (id: string, updated: any) => {
+export const createRating = async (req: any, res: any) => {
   try {
-    const rating = await Rating.findById({ _id: id })
-    if (!rating) return ({ statusCode: 404, body: "Rating not found" })
-    rating.rating = updated.rating || rating.rating;
+    const ratedBefore = await Rating.findOne({ articleID: req.body.articleID, userID: req.body.userID });
+    if (ratedBefore) {
+      ratedBefore.rating = req.body.rating
+      await ratedBefore.save()
+      return res.send(ratedBefore)
+    }
+    let newRating = new Rating({
+      articleID: req.body.articleID,
+      userID: req.body.userID,
+      rating: req.body.rating,
+    });
+    await newRating.save();
+    return res.status(201).send(newRating)
+  }
+	catch (error) {
+    res.status(400).send(error.message)
+  }
+}
+
+export const updateRating = async (req: any, res: any) => {
+  try {
+    const rating = await Rating.findById({ _id: req.params.id })
+    if (!rating) return res.status(404).send("Rating not found to be updated")
+    rating.rating = req.body.rating || rating.rating;
     await rating.save()
-    return ({ statusCode: 200, body: rating })
+    return res.send(rating)
   } catch (er) {
-    return ({ statusCode: 404, body: "Please enter valid id" })
+    return res.status(404).send("Please enter a valid ID")
   }
 
 };
 
-export const deleteRating = async (id: string) => {
+export const deleteRating = async (req: any, res: any) => {
   try {
-    const rating = await Rating.find({ _id: id })
-    if (!rating) return ({ statusCode: 404, body: "Rating not found to be deleted" })
-    const deleteSuccess = await Rating.deleteOne({ _id: id })
-    if (!deleteSuccess) return ({ statusCode: 500, body: "Cannot delete Rating" })
-    return ({ statusCode: 200, body: rating })
+    const rating = await Rating.find({ _id: req.params.id })
+    if (!rating) return res.status(404).send("Rating not found to be deleted")
+    const deleteSuccess = await Rating.deleteOne({ _id: req.params.id })
+    if (!deleteSuccess) return res.status(500).send("Cannot delete rating")
+    return res.send(rating)
   }
-  catch (e) {
-    return ({ statusCode: 404, body: "Please enter a valid id" })
+  catch (e) { 
+    return res.status(404).send("Please enter a valid id")
   }
 
 };

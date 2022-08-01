@@ -5,7 +5,6 @@ import {Rating} from "../models/rating"
 import { string } from "joi";
 
 jest.setTimeout(100000)
-
 describe("Test for Rating endpoint", () => {
     beforeAll(async () => await connect());
     afterAll(async () => {
@@ -17,7 +16,7 @@ describe("Test for Rating endpoint", () => {
             it("returns status code 200 if the ratings found", async () => {
                 const response = await supertest(app).get("/ratings");
 				expect(response.statusCode).toBe(200)
-                expect.arrayContaining(
+				expect.arrayContaining(
 					[
 						{
 							articleID: expect.any(String),

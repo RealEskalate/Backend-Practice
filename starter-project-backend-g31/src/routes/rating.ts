@@ -13,45 +13,35 @@ import {
 const ratingRouter = express.Router()
 
 ratingRouter.get("/", async (req, res) => {
-    const response = await getAllRatings();
-    res.status(response.statusCode).send(response.body)
+    await getAllRatings(req, res);
 })
 
 ratingRouter.get("/:id", async (req, res) => {
-    const response = await getSingleRating(req.params.id)
-    res.status(response.statusCode).send(response.body)
+    await getSingleRating(req, res)
 })
 
 ratingRouter.get("/articles/:articleID", async (req, res) => {
-    const response = await getAllRatingsForAGivenArticle(req.params.articleID)
-    res.status(response.statusCode).send(response.body)
-    
+    await getAllRatingsForAGivenArticle(req, res)
 })
 
 ratingRouter.get("/users/:userID", async (req, res) => {
-    const response = await getAllRatingsForAGivenUser(req.params.userID)
-    res.status(response.statusCode).send(response.body)
-    
+    await getAllRatingsForAGivenUser(req, res)   
 })
 
 ratingRouter.get("/:articleID/:userID", async (req, res) => {
-    const response = await getAllRatingsForAGivenArticleAndUser(req.params.articleID, req.params.userID)
-    res.status(response.statusCode).send(response.body)
+    await getAllRatingsForAGivenArticleAndUser(req, res)
 })
 
 ratingRouter.post("/", async (req, res) => {
-    const response = await createRating(req.body)
-    res.status(response.statusCode).send(response.body)
+    const response = await createRating(req, res)
 })
 
 ratingRouter.put("/:id", async (req, res) => {
-    const response = await updateRating(req.params.id, req.body);
-    res.status(response.statusCode).send(response.body)
+    await updateRating(req, res);
 })
 
 ratingRouter.delete("/:id", async (req, res) => {
-    const response = await deleteRating(req.params.id);
-    res.status(response.statusCode).send(response.body)
+    await deleteRating(req, res);
 })
 
 
