@@ -4,7 +4,7 @@ import IChapterInterface from '../chapters/interface'
 
 const UserSchema: Schema = new Schema(
   {
-    name: { type: String, required: 'Name is required'},
+    name: { type: String, required: true},
     email:{ type: String, required: true, unique: true},
     bio:  { type: String },
     profileImage: { type: String },
