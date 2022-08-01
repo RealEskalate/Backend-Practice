@@ -5,7 +5,9 @@ const ChapterSchema: Schema = new Schema({
   name: { type: String, required: true, unique: true },
   hoe: { type: String, required: true },
   deputyHoe: { type: String, required: true },
-  location : {type: String, required: true}
+  location : {type: String, required: true},
+  isActive: { type: Boolean }
+  
 
 },
 {
