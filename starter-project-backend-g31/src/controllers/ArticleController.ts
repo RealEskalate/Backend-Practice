@@ -2,12 +2,12 @@ import mongoose from 'mongoose';
 import {Request, Response} from 'express';
 const Article = require('../models/ArticleModel');
 
-async function getMany(req: Request, res: Response) {
+export const getMany = async (req: Request, res: Response) => {
     const article  = await Article.find();
     res.send(article);
 }
 
-async function getOne(req: Request, res: Response) {
+export const getOne = async (req: Request, res: Response) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.id))
         return res.status(404).send('Invalid ID');
 
@@ -17,7 +17,7 @@ async function getOne(req: Request, res: Response) {
     res.send(article);
 }
 
-async function createArticle(req: Request, res: Response) {
+export const createArticle = async(req: Request, res: Response) => {
     let article = new Article({
         Author: req.body.Author,
         Content: req.body.Content,
@@ -31,7 +31,7 @@ async function createArticle(req: Request, res: Response) {
         .catch((error: Error) =>  res.status(400).send(error.message));
 }
 
-async function updateOne(req: Request, res: Response) {
+export const updateOne = async (req: Request, res: Response) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.id))
         return res.status(404).send('Invalid ID');
 
@@ -52,7 +52,7 @@ async function updateOne(req: Request, res: Response) {
 
 }
 
-async function deleteOne(req: Request, res: Response) {
+export const deleteOne = async (req: Request, res: Response) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.id))
         return res.status(404).send('Invalid ID');
 
@@ -62,9 +62,3 @@ async function deleteOne(req: Request, res: Response) {
     res.send(article);
 }
 
-
-module.exports.getMany = getMany;
-module.exports.getOne = getOne;
-module.exports.createArticle = createArticle;
-module.exports.updateOne = updateOne;
-module.exports.deleteOne = deleteOne;
