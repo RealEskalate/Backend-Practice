@@ -1,6 +1,6 @@
 import express, {Application, Request, Response, NextFunction, json} from 'express';
 import dotenv from 'dotenv';
-const commentRoute = require('../src/route/comment');
+import { commentRoute } from  './route/comment';
 dotenv.config();
 
 const app: Application = express();

@@ -1,12 +1,12 @@
 import express from 'express';
 import mongoose from 'mongoose';
 
-const {
+import {
         getAllComments,
         getCommentById,
         addComment, 
         deleteCommentById, 
-        updateCommentById} = require('../controllers/comment');
+        updateCommentById} from  '../controllers/comment';
 
 const router = express.Router();
 
@@ -20,4 +20,4 @@ router.delete('/:commentId', deleteCommentById);
 
 router.patch('/:commentId', updateCommentById);
 
-module.exports = router;
+export const commentRoute =  router;
