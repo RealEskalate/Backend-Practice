@@ -1,6 +1,6 @@
 import  {Request,Response} from 'express';
 import mongoose from 'mongoose';
-const Comment = require('../models/comment');
+import {Comment} from'../models/comment';
 
 
 async function getAllComments(req: Request, res: Response){
@@ -19,7 +19,7 @@ async function getCommentById(req: Request,res: Response){
         const comment = await Comment.findById(req.params.commentId);
         res.status(200).json(comment);
     }catch(err){
-        console.log(err);
+        
         res.status(404).send("Error");
     }
 } 
