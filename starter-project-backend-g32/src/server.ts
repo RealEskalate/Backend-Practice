@@ -12,7 +12,6 @@ mongoose.connect(DB_URI, {
     useCreateIndex: true,
     useFindAndModify: false,
 })
-.then(()=>{console.log('Database Commented !!')})
 .then(() => {
     app.listen(PORT, () => console.log(`Server running on port ${process.env.PORT}`));
 })
