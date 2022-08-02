@@ -4,12 +4,12 @@ import Article from '../articles/model'
 
 const articleDal = dataAccessLayer(Article)
 
-const getAllArticles = (req: Request, res: Response, next: NextFunction) => {  // GET 
+const getAllArticles = (req: Request, res: Response, next: NextFunction) => { 
     const filter = { isActive: true }
     articleDal.getMany(filter)
         .then((data: any) => {
             if (data.length() == 0) {
-                throw 'no article found';
+                return []
             }
             res.status(200).json(data)
 
