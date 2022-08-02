@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "name": "starter-project-backend",
   "version": "1.0.0",
@@ -32,3 +33,38 @@
     "typescript": "^4.3.5"
   }
 }
+=======
+{
+  "name": "starter-project-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --runInBand --detectOpenHandles",
+    "start": "node dist/server.js",
+    "dev": "nodemon src/server.ts",
+    "build": "tsc -p ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongodb-memory-server": "^7.6.3",
+    "mongoose": "^5.13.4"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.13",
+    "@types/jest": "^26.0.24",
+    "@types/node": "^16.4.6",
+    "@types/supertest": "^2.0.11",
+    "nodemon": "^2.0.12",
+    "supertest": "^6.2.2",
+    "ts-jest": "^27.0.4",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
+  }
+}
+>>>>>>> a1850cce8c2d08c7654ff3ffa577668604330b23

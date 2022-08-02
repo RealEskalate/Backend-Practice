@@ -1,8 +1,8 @@
 import supertest from "supertest";
-import { connect, clear, disconnect } from "./setupdb";
-import app from "../app"
-import {Rating} from "../models/rating"
-import { string } from "joi";
+import { connect, clear, disconnect } from "../setupdb";
+import app from "../../app"
+import {Rating} from "../../models/rating"
+
 
 jest.setTimeout(100000)
 describe("Test for Rating endpoint", () => {
