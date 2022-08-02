@@ -13,9 +13,12 @@ export const createRate = async (req: Request, res: Response) => {
       data: rate,
     });
   } catch (err: any) {
-    res.status(500).json({
-      message: err.message,
-    })
+    res
+      .status(400)
+      .json({
+        message: err.message,
+      })
+      .end();
   }
 };
 
@@ -47,9 +50,12 @@ export const getRate = async (req: Request, res: Response) => {
       data: rate,
     });
   } catch (err: any) {
-    res.status(400).json({
-      message: err.message,
-    });
+    res
+      .status(400)
+      .json({
+        message: err.message,
+      })
+      .end();
   }
 };
 
@@ -58,19 +64,28 @@ export const getRate = async (req: Request, res: Response) => {
 // @access    Private
 export const updateRate = async (req: Request, res: Response) => {
   try {
-    const rate = await RateModel.findByIdAndUpdate(req.params.rateID, req.body, {
-      new: true,
-    });
+    const rate = await RateModel.findByIdAndUpdate(
+      req.params.rateID,
+      req.body,
+      {
+        new: true,
+        upsert: true,
+        setDefaultsOnInsert: true,
+      }
+    );
     res.status(200).json({
       success: true,
       data: rate,
     });
   } catch (err: any) {
-    res.status(400).json({
-      message: err.message,
-    });
+    res
+      .status(400)
+      .json({
+        message: err.message,
+      })
+      .end();
   }
-}
+};
 
 // @desc      Delete rate
 // @route     DELETE /users/:userID/posts/:postID/rates/:rateID
@@ -83,9 +98,11 @@ export const deleteRate = async (req: Request, res: Response) => {
       data: rate,
     });
   } catch (err: any) {
-    res.status(400).json({
-      message: err.message,
-    });
+    res
+      .status(400)
+      .json({
+        message: err.message,
+      })
+      .end();
   }
-}
-
+};
