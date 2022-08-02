@@ -6,6 +6,7 @@ import express from 'express'
 import {connect, disconnect, clear} from '../setupdb'
 
 const app = express()
+let articleID = ''
 
 beforeAll(async () => {
     await connect()
@@ -18,6 +19,7 @@ beforeEach(async () => {
     }
     const newArticle = new Article(article)
     await newArticle.save()
+    articleID = newArticle._id
 })
 
 afterAll(async () => {
@@ -33,7 +35,7 @@ app.use('/api/v1/articles',router)
 
 describe('Integration testing for user routes', () => {
 
-    it('Fails to create a user', async () => {
+    it('Fails to create an article', async () => {
         let user = {}
         try{
             const newUser = new Article(user)
@@ -43,7 +45,7 @@ describe('Integration testing for user routes', () => {
         }
     })
 
-    it('Post article request', async () => {
+    it('Post an article', async () => {
         const {body,statusCode} = await request(app).post("/api/v1/articles").send({
             author: 'Addis Alemayehu',
             content: 'Bezabih and Seblewengew used to meet around debretabor.',
@@ -53,7 +55,41 @@ describe('Integration testing for user routes', () => {
         expect(statusCode).toBe(201)
     })
 
-    it('Get all request ', async() => {
+    it('Get an article', async () => {
+        const {body,statusCode} = await request(app).get(`/api/v1/articles/${articleID}`)
+        expect(body).not.toBeFalsy()
+        expect(statusCode).toBe(200)
+    })
+    
+    it('Fail to get an article', async () => {
+        const {body,statusCode} = await request(app).get(`/api/v1/articles/nonearticleid`)
+        expect(body).toStrictEqual({})
+        expect(statusCode).toBe(500)
+    })
+
+    it('Delete an article', async () => {
+        const {body,statusCode} = await request(app).delete(`/api/v1/articles/${articleID}`)
+        expect(body).not.toBeFalsy()
+        expect(statusCode).toBe(200)
+    })
+
+    it('Update an article', async () => {
+        const {body,statusCode} = await request(app).put(`/api/v1/articles/${articleID}`).send({
+            author: 'Addis Alemayehu',
+            content: 'Bezabih and Seblewengew used to meet around debretabor.',
+            media: 'lksdjf',
+        })
+        expect(body).not.toBeFalsy()
+        expect(statusCode).toBe(200)
+    })
+
+    it('Fail to update an article', async () => {
+        const {body,statusCode} = await request(app).put(`/api/v1/articles/nonearticleid`).send({})
+        expect(body).toStrictEqual({})
+        expect(statusCode).toBe(500)
+    })
+
+    it('Get all articles', async() => {
         const {body, statusCode} = await request(app).get('/api/v1/articles')
         expect(body).toEqual(
         expect.objectContaining({
@@ -68,4 +104,5 @@ describe('Integration testing for user routes', () => {
         )
         expect(statusCode).toBe(200);
     })
+
 })
