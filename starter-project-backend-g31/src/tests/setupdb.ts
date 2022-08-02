@@ -1,5 +1,5 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
-import { UserProfile } from "../models/UserProfile";
+
 
 const mongoose = require("mongoose");
 
@@ -22,7 +22,7 @@ export const connect = async () => {
 
 export const clear = async () => {
   const collections = await mongoose.connection.collections;
-  await UserProfile.deleteMany()
+ 
   for (let collection of collections) {
     await collection.deleteMany();
   }
