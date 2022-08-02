@@ -5,8 +5,13 @@ import express, {Request, Response} from 'express';
 const Article = require('../models/ArticleModel');
 
 async function getMany (req:Request, res:Response){
-    const articles = await Article.find()
-                                  .sort('name');
+    let articles;
+    try {
+        articles = await Article.find()
+                                      .sort('name');
+    }catch(err){
+        res.status(400).send("got an error");
+    }
     res.send(articles);
 }
 
