@@ -73,7 +73,7 @@ export const updateComment = async (req:Request, res:Response ) => {
 
 export const patchComment = async (req:Request, res:Response ) => {
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
-        console.log("invalid id");
+    
         res.status(400).json({
             error: "Invalid ID"
         });
@@ -88,13 +88,11 @@ export const patchComment = async (req:Request, res:Response ) => {
                 comment.createdAt = createdAt;
             }
            comment.save().then(() => {
-            console.log("comment updated");
                 res.status(200).json({
                     message: "Comment updated successfully"
                 });
             });
     }).catch((error: Error) => {
-        console.log("error: " + error);
         res.status(404).json({
             error: error
         });
