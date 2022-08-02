@@ -6,7 +6,7 @@ const router = Router()
 router.get('/', articleController.getAllArticles)
 router.get('/:id', articleController.getArticle)
 router.put('/:id', articleController.updateArticle)
-router.post('create', articleController.createArticle)
-router.delete('/remove', articleController.deleteArticle)
+router.post('/', articleController.createArticle)
+router.delete('/:id', articleController.deleteArticle)
 
 export default router
