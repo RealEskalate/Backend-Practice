@@ -14,6 +14,6 @@ const ChapterSchema: Schema = new Schema(
   }
 )
 
-ChapterSchema.set('toJSON', { virtuals: true })
+ChapterSchema.set('toJSON', { virtuals: false })
 
 export default mongoose.model<IChapterInterface>('Chapter', ChapterSchema)
