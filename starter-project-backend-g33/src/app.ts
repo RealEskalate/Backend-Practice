@@ -1,13 +1,37 @@
-import express, {Application, Request, Response, NextFunction, json} from 'express';
-import dotenv from 'dotenv';
+import express, {
+  Application,
+  Request,
+  Response,
+  NextFunction,
+  json
+} from 'express'
+import cors from 'cors'
+import logger from './common/logger'
+import errorHandler from './middlewares/errorHandler'
+import startDB from './services/db'
 
-dotenv.config();
+import routes from './common/routes'
 
-const app: Application = express();
+const app: Application = express()
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.disable('x-powered-by')
+app.use(cors())
+app.use(
+  express.urlencoded({
+    extended: true,
+    limit: process.env.REQUEST_LIMIT || '100kb'
+  })
+)
+app.use(express.json())
 
-app.use("/", json({}))
+app.get('/', (_request, Response) =>
+  Response.json({ success: 'top level api working' })
+)
+
+startDB()
+
+app.use('/v1/', routes)
+
+app.use(errorHandler)
 
 export default app
