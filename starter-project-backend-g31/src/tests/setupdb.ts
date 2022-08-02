@@ -1,4 +1,5 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
+import { Profile } from '../models/profileModel';
 const mongoose = require("mongoose");
 
 let mongoServer: { getUri: () => any; stop: () => any };
@@ -19,11 +20,9 @@ export const connect = async () => {
 };
 
 export const clear = async () => {
-  const collections = await mongoose.connection.db.collections();
+  const collections = mongoose.connection.collections;
 
-  for (let collection of collections) {
-    await collection.deleteMany();
-  }
+  await Profile.deleteMany();
 };
 
 export const disconnect = async () => {
