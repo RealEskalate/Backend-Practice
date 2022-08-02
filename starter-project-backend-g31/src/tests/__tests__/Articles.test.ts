@@ -3,17 +3,21 @@ import {connect, disconnect, clear} from '../setupdb';
 import app from "../../app";
 import { createConnection } from 'net';
 import { response } from 'express';
+import { resourceLimits } from 'worker_threads';
 jest.setTimeout(10000);
 const Article = require("../../models/ArticleModel");
 const request = require('supertest')(app);
 
-beforeEach(async () => {
+beforeAll(async() => {
     await connect();
 });
 
 afterEach(async() =>{
-    await clear();
-    await disconnect(); 
+    await clear(); 
+});
+
+afterAll(async() => {
+    await disconnect();
 });
 
 describe("GET /", () => {
@@ -31,7 +35,7 @@ describe("GET /", () => {
         const result = await request.get('/api/articles');
         expect(result.body.length).toBe(2);
         expect(result.status).toBe(200);
-    })
+    });
 });
 
 describe("GET BY ID /", () => {
@@ -99,13 +103,24 @@ describe('Update One ...', () => {
             Content : "this is the secondfgvybuhnijmok content",
             Rating : 4
         });
-        await article.save();
-        const id = article.id;
 
-        const res = await request.put(`/api/articles/${id}`).send({
+        await article.save();
+        let id = article.id;
+
+        const res1 = await request.put(`/api/articles/${id}`).send({
             Author : 'Fitsum',
             Rating : 2
         });
-        expect(res.body).toHaveProperty('Author', 'Fitsum');
+        expect(res1.body).toHaveProperty('Author', 'Fitsum');
+    });
+
+    it("should result in an error ", async() => {
+        let id;
+
+        const res2 = await request.put(`/api/articles/${id}`).send({
+            Author : 'Fitsum',
+            Rating : 2
+        });
+        expect(res2.status).toBe(400);
     });
 });
