@@ -3,32 +3,35 @@ import express, {
   Request,
   Response,
   NextFunction,
-  json,
-} from 'express';
-import cors from 'cors';
-import logger from './common/logger';
-import errorHandler from './middlewares/errorHandler';
+  json
+} from 'express'
+import cors from 'cors'
+import logger from './common/logger'
+import errorHandler from './middlewares/errorHandler'
+import startDB from './services/db'
 
-import routes from './common/routes';
+import routes from './common/routes'
 
-const app: Application = express();
+const app: Application = express()
 
-app.disable('x-powered-by');
-app.use(cors());
+app.disable('x-powered-by')
+app.use(cors())
 app.use(
   express.urlencoded({
     extended: true,
-    limit: process.env.REQUEST_LIMIT || '100kb',
+    limit: process.env.REQUEST_LIMIT || '100kb'
   })
-);
-app.use(express.json());
+)
+app.use(express.json())
 
 app.get('/', (_request, Response) =>
   Response.json({ success: 'top level api working' })
-);
+)
 
-// app.use('/v1/', routes);
+startDB()
 
-app.use(errorHandler);
+app.use('/v1/', routes)
 
-export default app;
+app.use(errorHandler)
+
+export default app
