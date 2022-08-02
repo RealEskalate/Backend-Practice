@@ -9,12 +9,10 @@ export interface IArticle extends Document {
 const articleSchema: Schema<IArticle> = new mongoose.Schema({
     author: {
       type: String,
-      ref: 'User',
       required: true
     },
     content: {
       type: String,
-      ref: 'InstitutionProfile',
       required: true
     },
     media: {
