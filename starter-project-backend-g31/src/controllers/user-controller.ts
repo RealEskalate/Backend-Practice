@@ -13,12 +13,13 @@ export const getUsers = async (
   ) => {
     try {
       const users = await userModel.find({})
+      const results = users.map((user) => ({ _id: user._id, name: user.name, email: user.email }))
       if (!users) {
         return res
           .status(404)
           .json({ data: `Users do not exist` })
       }
-      return res.status(200).json({ data: users })
+      return res.status(200).json({ data: results })
     } catch (err) {
       return res
         .status(500)
@@ -45,7 +46,7 @@ export const getUserById = async (
           .status(404)
           .json({ data: `Error: User with id ${id} does not exist` })
       }
-      return res.status(200).json({ data: user })
+      return res.status(200).json({ data:  { _id: user._id, name: user.name, email: user.email }  })
     } catch (err) {
       return res
         .status(500)
@@ -65,13 +66,13 @@ export const filterUsers = async (
   ) => {
     try {
       const { name, email } = req.params
-      const user = await userModel.find({$or:[{ name: name },{ email: email }]})
+      const user: any = await userModel.find({$or:[{ name: name },{ email: email }]})
       if (!user) {
         return res
           .status(404)
           .json({ data: `Error: User with specified parameters does not exist` })
       }
-      return res.status(200).json({ data: user })
+      return res.status(200).json({ data:  { _id: user._id, name: user.name, email: user.email }  })
     } catch (err) {
       return res
         .status(500)
@@ -97,7 +98,7 @@ export const createUser = async (
     })
     try {
       const newUser = await user.save()
-      return res.status(201).json({ data: { _id: newUser.id, name: newUser.name, email: newUser.email } })
+      return res.status(201).json({ data: { _id: newUser._id, name: newUser.name, email: newUser.email } })
     } catch (err) {
       return res
         .status(500)
@@ -132,7 +133,7 @@ export const updateUser = async (
           message: `Error: User with id number ${id} does not exist`
         })
       }
-      return res.status(201).json({ data: user })
+      return res.status(201).json({ data: { _id: user._id, name: user.name, email: user.email } })
     } catch (e) {
       return res
         .status(500)
