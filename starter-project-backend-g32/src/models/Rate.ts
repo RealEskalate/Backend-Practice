@@ -1,4 +1,7 @@
 import { Schema, model } from "mongoose";
+interface IRate {
+  rate: number;
+}
 const rateFields = {
   // user: {
   //   type: Schema.Types.ObjectId,
@@ -18,7 +21,6 @@ const rateFields = {
   },
 };
 
-const RateSchema = new Schema(rateFields, { timestamps: true });
-const Rate = model("Rate", RateSchema);
-
+const RateSchema = new Schema<IRate>(rateFields, { timestamps: true });
+const Rate = model<IRate>("Rate", RateSchema);
 export default Rate;
