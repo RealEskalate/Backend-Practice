@@ -1,9 +1,22 @@
 import mongoose from "mongoose"
 
-const UserProfileSchema = new mongoose.Schema({
+export interface Profile{
+    name: string | undefined,
+    username: string,
+    bio: string | undefined,
+    phone: string | undefined,
+    avatar: string | undefined,
+}
+export const UserProfileSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
+    },
+
+    username: {
+        type: String,
+        required: true,
+        unique: true
     },
 
     bio: {
@@ -14,7 +27,7 @@ const UserProfileSchema = new mongoose.Schema({
         type: String
     },
 
-    profilePicture: {
+    avatar: {
         
         required: false
     }

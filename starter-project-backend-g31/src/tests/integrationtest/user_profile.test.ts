@@ -11,6 +11,7 @@ import { UserProfile } from "../../models/UserProfile";
 export const userId = new mongoose.Types.ObjectId().toString();
 export const userProfile = {
   _id: userId,
+  username: "sdcfggh",
   name: "jane.doe@example.com",
   bio: "Jane Doe",
   phone: "+25143674477"
@@ -48,8 +49,47 @@ afterAll(async () => {
       
       });
 
+      describe("given the profile already exist", () => {
+          
+        it("should return 400 status", async () => {
+            // @ts-ignore
+            
+           
+    
+            const { body, statusCode } = await supertest(app).post(
+              `/api/user-profiles`
+            ).send(userProfile);
+    
+            expect(statusCode).toBe(400);
+           
+          });
+    
+      });
+
+    describe("given the profile is missing required field", () => {
+          
+        it("should return 400 status", async () => {
+            // @ts-ignore
+           
+            userProfile = {
+              bio: "Jane Doe",
+              phone: "+25143674477"
+            };
+    
+            const { body, statusCode } = await supertest(app).post(
+              `/api/user-profiles`
+            ).send(userProfile);
+    
+            expect(statusCode).toBe(400);
+           
+          });
+    
+    });
+
 
     });
+
+    
 
     describe("get user Profile route", ()=> {
       describe("given the user profile exist", () => {
@@ -69,7 +109,7 @@ afterAll(async () => {
       
       });
 
-      describe("given the user profile exist", () => {
+      describe("given the user profile does not exist", () => {
           
         it("should return 404 status", async () => {
             // @ts-ignore
@@ -100,7 +140,7 @@ afterAll(async () => {
               );
       
               expect(statusCode).toBe(200);
-              expect(body.length).toBe(1)
+              expect(body.length).toBeGreaterThan(0)
             });
       
       });
