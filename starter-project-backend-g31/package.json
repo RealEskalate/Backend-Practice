@@ -1,7 +1,7 @@
 {
   "name": "starter-project-backend",
   "version": "1.0.0",
-  "description": "This is where new backend team members will practice what they've understood in their respective learning paths. This document will serve as:\r - Overview and description of what the project is going to be, \r - Workflow as a backend team member and\r - Source of any additional information you might need",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "jest --runInBand --detectOpenHandles",
@@ -25,7 +25,7 @@
     "@types/node": "^16.4.6",
     "@types/supertest": "^2.0.11",
     "nodemon": "^2.0.12",
-    "supertest": "^6.2.4",
+    "supertest": "^6.2.2",
     "ts-jest": "^27.0.4",
     "ts-node": "^10.1.0",
     "typescript": "^4.3.5"
