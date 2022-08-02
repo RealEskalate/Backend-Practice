@@ -3,12 +3,15 @@ import {Request, Response} from "express"
 import { Model, Mongoose, Schema } from "mongoose"
 import { destructProfile } from "../helper/userprofilehelper"
 import {UserProfile} from "../models/UserProfile"
-import { createProfile, deleteProfile, getProfile, getProfiles, updateProfile } from "../service/userProfileService"
+
 
 export const getProfileHandler = async function(req: Request, res: Response){
     try{
-        const userProfile = await getProfile(req.params.id)
-        res.status(200).json(userProfile)
+
+        const profile = await UserProfile.findById(req.params.id);
+        if(!profile) throw Error("Profile doesnt exist"); 
+        
+        res.status(200).json(profile)
         
     } catch(err) { 
         res.status(404).json(err);
@@ -17,7 +20,7 @@ export const getProfileHandler = async function(req: Request, res: Response){
 
 export const getProfilesHandler = async function(req: Request, res: Response){
     try{
-        const userProfiles = await getProfiles()
+        const userProfiles = await UserProfile.find({});
         res.status(200).json(userProfiles)
         
     } catch(err) { 
@@ -27,9 +30,7 @@ export const getProfilesHandler = async function(req: Request, res: Response){
 
 export const updateProfileHandler = async function(req: Request, res: Response){
     try{
-
-        
-        const profile = await updateProfile(req.params.id, destructProfile(req.body))
+        const profile = await UserProfile.updateOne({_id: req.params.id}, {$set: destructProfile(req.body)})
         res.json(profile)     
     } catch(err) { 
         res.status(400).json(err);}
@@ -38,7 +39,7 @@ export const updateProfileHandler = async function(req: Request, res: Response){
 export const deleteProfileHandler = async function(req: Request, res: Response){
     try{
         
-        await deleteProfile(req.params.id).then(result => {
+        await UserProfile.deleteOne({_id: req.params.id}).then((result: any) => {
             res.status(204).json(result)
         })
         
@@ -49,7 +50,7 @@ export const deleteProfileHandler = async function(req: Request, res: Response){
 export const createProfileHandler = async function(req: Request, res: Response){
     try{
         
-        const profile = await createProfile( destructProfile(req.body)).then( profile => {
+        const profile = await UserProfile.create(destructProfile(req.body)).then( profile => {
             res.status(201).json(profile)
             
         })} catch(err: any) { 

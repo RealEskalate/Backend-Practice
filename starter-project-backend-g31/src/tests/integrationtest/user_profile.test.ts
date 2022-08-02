@@ -5,7 +5,7 @@ import {clear, connect, disconnect } from "../setupdb";
 import app from "../../app";
 
 import {request, Request, response} from "express"
-import { createProfile, getProfile } from "../../service/userProfileService";
+
 import { UserProfile } from "../../models/UserProfile";
 
 export const userId = new mongoose.Types.ObjectId().toString();
@@ -164,12 +164,14 @@ afterAll(async () => {
                 `/api/user-profiles/${userId}`
               ).send(newUserProfile);
 
-              const profile = await getProfile(userId)
+              const {body} = await supertest(app).get(
+                `/api/user-profiles/${userId}`
+              );
       
               expect(statusCode).toBe(200);
-              expect(profile.name).toBe(newUserProfile.name)
-              expect(profile.bio).toBe(newUserProfile.bio)
-              expect(profile.phone).toBe(newUserProfile.phone)
+              expect(body.name).toBe(newUserProfile.name)
+              expect(body.bio).toBe(newUserProfile.bio)
+              expect(body.phone).toBe(newUserProfile.phone)
             });
       
       });
