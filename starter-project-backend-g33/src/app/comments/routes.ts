@@ -7,6 +7,6 @@ router.get('/', commentController.getAllComments)
 router.get('/:id', commentController.getComment)
 router.put('/:id', commentController.updateComment)
 router.post('/create', commentController.createComment)
-router.delete('/remove/:id', commentController.deleteComment)
+router.delete('/:id', commentController.deleteComment)
 
 export default router
