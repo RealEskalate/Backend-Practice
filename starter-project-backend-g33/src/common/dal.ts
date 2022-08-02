@@ -21,12 +21,8 @@ const updateOne =
     logger.info(`Updating ${model.modelName} with id: ${id}`)
 
     const payload = props
-    return await model.updateOne(
-      {
-        _id: id
-      },
-      { $set: { payload } }
-    )
+    return await model.findOneAndUpdate({id: id}, payload , {new: true})
+
   }
 
 const clap = (model: Model<any, {}, {}>) => async (props: any) => {
