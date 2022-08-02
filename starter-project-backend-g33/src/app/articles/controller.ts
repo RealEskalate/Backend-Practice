@@ -46,12 +46,12 @@ const updateArticle = (req: Request, res: Response, next: NextFunction) => {
 }
 
 const createArticle = (req: Request, res: Response, next: NextFunction) => {
-  const newChapter = req.body
+  const newArticle = req.body
   articleDal
-    .createOne(newChapter)
+    .createOne(newArticle)
     .then((data: any) => {
       if (!data) {
-        throw 'No article with this ID'
+        throw 'Could not create Article'
       }
       res.status(200).json(data)
     })
