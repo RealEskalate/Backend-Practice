@@ -4,7 +4,7 @@ import app from "../../app"
 import {Rating} from "../../models/rating"
 
 
-jest.setTimeout(100000)
+
 describe("Test for Rating endpoint", () => {
     beforeAll(async () => await connect());
     afterAll(async () => {
@@ -36,7 +36,6 @@ describe("Test for Rating endpoint", () => {
                     "userID": "54321",
                     "rating": 3
                 });
-                // console.log(testRating._id);
                 const response = await supertest(app).get(`/ratings/${testRating._id}`);
                 expect(response.statusCode).toBe(200)
                 expect.objectContaining(
@@ -221,3 +220,4 @@ describe("Test for Rating endpoint", () => {
     })
 
 })
+afterAll( async () => await disconnect());
