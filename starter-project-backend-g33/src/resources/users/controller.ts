@@ -23,6 +23,7 @@ const getAllUser = (req: Request, res: Response, next: NextFunction) => {
   UserDAL.getMany(filter)
     .then((data: any) => {
       if (data.length == 0) {
+        res.status(404)
         throw 'No User Found'
       }
       res.status(200).json(data)
@@ -36,6 +37,7 @@ const getUser = (req: Request, res: Response, next: NextFunction) => {
   UserDAL.getOne(userId)
     .then((data: any) => {
       if (!data) {
+        res.status(404)
         throw 'User Not Found'
       }
       res.status(200).json(data)
@@ -50,8 +52,9 @@ const create = (req: Request, res: Response, next: NextFunction) => {
   UserDAL.createOne(newUser)
     .then((data) => {
       if (!data) {
-        console.log(data)
-        throw " Couldn't  create a new user"
+        //console.log(data)
+        res.status(400)
+        throw " Couldn't create a new user"
       }
       res.status(200).json(data)
     })
@@ -67,7 +70,8 @@ const updateUser = (req: Request, res: Response, next: NextFunction) => {
   UserDAL.updateOne(changedProps, userId)
     .then((data) => {
       if (!data) {
-        throw " Couldn't  Update the user"
+        res.status(202)
+        throw " Couldn't Update the user"
       }
       res.status(200).json(data)
     })
@@ -81,6 +85,7 @@ const deleteUser = (req: Request, res: Response, next: NextFunction) => {
   UserDAL.deleteOne(userId)
     .then((data) => {
       if (!data) {
+        res.status(202)
         throw " Couldn't  Delete the user"
       }
       res.status(200).json(data)
