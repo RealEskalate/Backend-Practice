@@ -1,17 +1,21 @@
 import mongoose,{Schema,Document} from "mongoose"
 
-
-interface IUserProfile extends Document {
-    name: string,
-    bio: string,
-    phone:string,
-    profilePicture:string
+export interface IProfile{
+    name: string | undefined,
+    username: string,
+    bio: string | undefined,
+    phone: string | undefined,
+    avatar: string | undefined,
 }
-
-const UserProfileSchema:Schema<IUserProfile> = new mongoose.Schema({
+export const UserProfileSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
+    },
+    username: {
+        type: String,
+        required: true,
+        unique: true
     },
 
     bio: {
@@ -22,11 +26,11 @@ const UserProfileSchema:Schema<IUserProfile> = new mongoose.Schema({
         type: String
     },
 
-    profilePicture: {
-        type: String,
+    avatar: {
+        
         required: false
     }
 
 });
 
-export const UserProfile = mongoose.model<IUserProfile>("UserProfile", UserProfileSchema);
+export const UserProfile = mongoose.model<IProfile>("UserProfile", UserProfileSchema);
