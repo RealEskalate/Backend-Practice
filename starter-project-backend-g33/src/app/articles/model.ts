@@ -7,6 +7,7 @@ const ArticleSchema : Schema = new Schema({
     content : {type: String, required : true},
     Author: {
         type: Schema.Types.ObjectId,
+        ref: 'User',
         required: true,
       },
     featuredImage: {type : String },

@@ -4,6 +4,7 @@ import mongoose, {Schema} from 'mongoose'
 const CommentSchema = new Schema({
   articleId: {
     type:  Schema.Types.ObjectId,
+    ref: 'Article',
     required: true,
   },
   commentContent: {
