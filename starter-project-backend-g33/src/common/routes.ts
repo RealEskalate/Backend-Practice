@@ -1,19 +1,17 @@
-import { Response, Router } from 'express';
+import { Response, Router } from 'express'
 
-const router: Router = Router();
+const router: Router = Router()
 
-import userRouter from './app/users/routes';
-import commentRouter from './app/comments/routes';
-import articleRouter from './app/articles/routes';
-import chapterRouter from './app/chapter/routes';
+// Route imports
+import userRouter from '../resources/users/routes'
+import commentRouter from '../resources/comments/routes'
+import articleRouter from '../resources/articles/routes'
+import chapterRouter from '../resources/chapters/routes'
 
-router.get('health-check', (_request, Response) =>
-  Response.json({ success: true })
-);
+// Higher route declaration
+router.use('/users', userRouter)
+router.use('/comments', commentRouter)
+router.use('/articles', articleRouter)
+router.use('/chapters', chapterRouter)
 
-router.use('/users', userRouter);
-router.use('/comments', commentRouter);
-router.use('/articles', articleRouter);
-router.use('/chapters', chapterRouter);
-
-export = router;
+export = router

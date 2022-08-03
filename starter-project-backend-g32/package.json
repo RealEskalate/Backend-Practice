@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --runInBand --detectOpenHandles",
+    "test": "jest --runInBand --detectOpenHandles --verbose",
     "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
     "build": "tsc -p ."
