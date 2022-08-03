@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 
 const PORT = process.env.PORT || 8000
 const DB_URI = process.env.MONGO_URI || "mongodb://localhost:27017/usersdb";
-
 mongoose.connect(DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
