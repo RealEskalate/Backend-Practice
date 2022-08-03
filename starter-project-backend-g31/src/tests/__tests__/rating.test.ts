@@ -3,9 +3,8 @@ import { connect, clear, disconnect } from "../setupdb";
 import app from "../../app"
 import {Rating} from "../../models/rating"
 
-
 jest.setTimeout(100000)
-describe("Test for Rating endpoint", async() => {
+describe("Test for Rating endpoint", () => {
 	
     beforeAll(async () => await connect());
     afterAll(async () => {
@@ -36,10 +35,9 @@ describe("Test for Rating endpoint", async() => {
                     "articleID": "12344",
                     "userID": "54321",
                     "rating": 3
-                })
-                const response = await supertest(app)
-								.get(`/ratings/${testRating._id}`)
-								.set('Content-Type', 'application/x-www-form-urlencoded');
+                });
+                // console.log(testRating._id);
+                const response = await supertest(app).get(`/ratings/${testRating._id}`);
                 expect(response.statusCode).toBe(200)
                 expect.objectContaining(
 					{
@@ -62,8 +60,8 @@ describe("Test for Rating endpoint", async() => {
                     "userID": "54321",
                     "rating": 3
                 })      
-                const response = await supertest(app).get(`/ratings/articles/${testRating._id}`)
-									.set('Content-Type', 'application/x-www-form-urlencoded')
+                const response = await supertest(app).get(`/ratings/articles/${testRating.articleID}`)
+		
 				expect(response.statusCode).toBe(200)
                 expect.objectContaining(
 					{
@@ -86,7 +84,7 @@ describe("Test for Rating endpoint", async() => {
                     "userID": "54321",
                     "rating": 3
                 })
-                const response = await supertest(app).get(`/ratings/users/${testRating._id}`)
+                const response = await supertest(app).get(`/ratings/users/${testRating.userID}`)
 													 .set('Content-Type', 'application/x-www-form-urlencoded')
 				expect(response.statusCode).toBe(200)
                 expect.objectContaining(
@@ -110,7 +108,7 @@ describe("Test for Rating endpoint", async() => {
                     "userID": "54321",
                     "rating": 3
                 })
-                const response = await supertest(app).get(`/ratings/${testRating._id}/${testRating._id}`)
+                const response = await supertest(app).get(`/ratings/${testRating.articleID}/${testRating.userID}`)
 													 .set('Content-Type', 'application/x-www-form-urlencoded')
 				expect(response.statusCode).toBe(200)
                 expect.arrayContaining(
