@@ -5,9 +5,8 @@ import Article from '../articles/model'
 const articleDal = dataAccessLayer(Article)
 
 const getAllArticles = (req: Request, res: Response, next: NextFunction) => {
-  const filter = { isActive: true }
   articleDal
-    .getMany(filter)
+    .getMany({})
     .then((data: any) => {
       res.status(200).json(data)
     })
