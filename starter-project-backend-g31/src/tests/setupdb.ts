@@ -20,11 +20,7 @@ export const connect = async () => {
 };
 
 export const clear = async () => {
-<<<<<<< HEAD:starter-project-backend-g31/src/__tests__/setupdb.ts
   const collections = await mongoose.connection.db.collection;
-=======
-  const collections = await mongoose.connection.collections;
->>>>>>> 594f9d6b8aeae2e5c67f1d937aa9e2b763a25295:starter-project-backend-g31/src/tests/setupdb.ts
 
   for (let collection of collections) {
     await collection.deleteMany({});

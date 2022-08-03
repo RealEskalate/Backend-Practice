@@ -8,7 +8,7 @@ import {
     getAllRatingsForAGivenArticle,
     getAllRatingsForAGivenArticleAndUser,
     getAllRatingsForAGivenUser
-} from "../controller/rating"
+} from "../controllers/rating"
 
 const ratingRouter = express.Router()
 
