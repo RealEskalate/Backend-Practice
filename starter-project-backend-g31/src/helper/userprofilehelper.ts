@@ -1,5 +1,3 @@
-import { Profile } from "../models/UserProfile";
-
 export function destructProfile(body: any){
     var {_id,  name, username, bio, phone, avatar } = body
 

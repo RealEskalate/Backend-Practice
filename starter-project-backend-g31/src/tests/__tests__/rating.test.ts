@@ -36,7 +36,6 @@ describe("Test for Rating endpoint", () => {
                     "userID": "54321",
                     "rating": 3
                 });
-                // console.log(testRating._id);
                 const response = await supertest(app).get(`/ratings/${testRating._id}`);
                 expect(response.statusCode).toBe(200)
                 expect.objectContaining(
