@@ -11,6 +11,7 @@ const getAllComments = (req: Request, res: Response, next: NextFunction) => {
     commentDal.getMany(filter)
         .then((data: any) => {
             if (data.length() == 0) {
+                res.status(404)
                 throw 'no comment found';
             }
             res.status(200).json(data)
@@ -32,6 +33,7 @@ const getComment = (req: Request, res: Response, next: NextFunction) => {
     commentDal.getOne(req.params['id'])
         .then(data => {
             if (!data) {
+                res.status(404)
                 throw 'No comment by that ID is found'
             }
             res.status(200).json(data)
@@ -43,13 +45,15 @@ const getComment = (req: Request, res: Response, next: NextFunction) => {
 
 const updateComment = (req: Request, res: Response, next: NextFunction) => {
     const newComment = req.body
-    if(!newComment || !newComment.commentContent){
+    if (!newComment || !newComment.commentContent) {
+        res.status(400)
         throw 'Please enter a comment'
     }
     else{
     commentDal.updateOne(newComment, newComment.id)
         .then(data => {
             if (!data) {
+                res.status(404)
                 throw 'No comment with this ID'
             }
             res.status(200).json(data)
@@ -65,6 +69,7 @@ const createComment = (req: Request, res: Response, next: NextFunction) => {
     commentDal.createOne(newComment)
         .then(data => {
             if (!data) {
+                res.status(400)
                 throw 'Could not create the comment'
             }
             res.status(200).json(data)
@@ -78,6 +83,7 @@ const deleteComment = (req: Request, res: Response, next: NextFunction) => {
     commentDal.deleteOne(req.params['id'])
         .then(data => {
             if (!data) {
+                res.status(400)
                 throw 'Could not delete comment'
             }
             res.status(200).json(data)
