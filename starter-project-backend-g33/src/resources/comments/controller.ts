@@ -69,7 +69,7 @@ const createComment = (req: Request, res: Response, next: NextFunction) => {
     commentDal.createOne(newComment)
         .then(data => {
             if (!data) {
-                res.status(400)
+                res.status(202)
                 throw 'Could not create the comment'
             }
             res.status(200).json(data)
@@ -83,7 +83,7 @@ const deleteComment = (req: Request, res: Response, next: NextFunction) => {
     commentDal.deleteOne(req.params['id'])
         .then(data => {
             if (!data) {
-                res.status(400)
+                res.status(202)
                 throw 'Could not delete comment'
             }
             res.status(200).json(data)
