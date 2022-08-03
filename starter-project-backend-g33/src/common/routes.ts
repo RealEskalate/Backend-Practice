@@ -3,7 +3,7 @@ import { Response, Router } from 'express'
 const router: Router = Router()
 
 // Route imports
-import userRouter from '../app/users/routes'
+import userRouter from '../resources/users/routes'
 // import commentRouter from '../app/comments/routes'
 // import articleRouter from '../app/articles/routes'
 // import chapterRouter from '../app/chapter/routes'
