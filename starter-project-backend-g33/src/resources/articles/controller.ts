@@ -21,6 +21,7 @@ const getArticle = (req: Request, res: Response, next: NextFunction) => {
     .getOne(req.params['id'])
     .then((data: any) => {
       if (!data) {
+        res.status(404)
         throw 'No article by that ID is found'
       }
       res.status(200).json(data)
@@ -36,6 +37,7 @@ const updateArticle = (req: Request, res: Response, next: NextFunction) => {
     .updateOne(newArticle, newArticle.id)
     .then((data: any) => {
       if (!data) {
+        res.status(404)
         throw 'No article with this ID'
       }
       res.status(200).json(data)
@@ -51,6 +53,7 @@ const createArticle = (req: Request, res: Response, next: NextFunction) => {
     .createOne(newChapter)
     .then((data: any) => {
       if (!data) {
+        res.status(404)
         throw 'No article with this ID'
       }
       res.status(200).json(data)
@@ -65,6 +68,7 @@ const deleteArticle = (req: Request, res: Response, next: NextFunction) => {
     .deleteOne(req.params['id'])
     .then((data: any) => {
       if (!data) {
+        res.status(400)
         throw 'Could not delete Article'
       }
       res.status(200).json(data)
