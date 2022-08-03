@@ -1,7 +1,7 @@
 var request = require('supertest');
 import app from '../../app';
 import { connect, clear, disconnect } from '../setupdb';
-import { create, _delete } from '../../services/profileService';
+import { Profile } from '../../models/profileModel';
 import mongoose from 'mongoose';
 
 
@@ -58,7 +58,7 @@ describe('user-profile API', () => {
                     bio: "this is a bio",
                     phone: "0994437084",
             }
-            const profile = await create(profileData);
+            const profile = await Profile.create(profileData);
             const { body, statusCode, status } = await request(app).get(`/api/user-profile/${profile._id}`)
                 .accept('Accept', 'application/json')
                 .expect('Content-Type', "application/json; charset=utf-8");
@@ -105,7 +105,7 @@ describe('user-profile API', () => {
                         bio: "this is a bio2",
                         phone: "0994437084",
                 }
-            const profile = await create(profileData);
+            const profile = await Profile.create(profileData);
             const profileData2 = {
                         username: profileData.username,
                         fullname: "fullname",
@@ -137,7 +137,7 @@ describe('user-profile API', () => {
                     bio: "this is a bio",
                     phone: "0994437084",
             }
-            const profile = await create(profileData);
+            const profile = await Profile.create(profileData);
             const { body,status } = await request(app).delete(`/api/user-profile/${profile._id}`)
                 .accept('Accept', 'application/json');
             
@@ -169,7 +169,7 @@ describe('user-profile API', () => {
                     bio: "this is a bio5",
                     phone: "0994437089",
             }
-            const profile = await create(profileData);
+            const profile = await Profile.create(profileData);
             const { body, statusCode, status } = await request(app).patch(`/api/user-profile/${profile._id}`)
                 .send(updatedProfile)
                 .accept('Accept', 'application/json')
