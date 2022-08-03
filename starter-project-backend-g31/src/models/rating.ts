@@ -1,6 +1,12 @@
-import mongoose from "mongoose";
+import mongoose , { Schema, Document } from 'mongoose';
 
-const ratingSchema = new mongoose.Schema(
+interface IRating extends Document{
+    articleID:string,
+    userID:string,
+    rating:number,
+    ratedAt:string,
+}
+const ratingSchema : Schema<IRating> = new mongoose.Schema(
     {
         articleID: {
             type: String,
@@ -16,13 +22,12 @@ const ratingSchema = new mongoose.Schema(
         },
         ratedAt: {
             type: Date,
-            required: true,
-            default: Date.now
+            default: Date.now()
         }
 
     }
 );
 
-export const Rating = mongoose.model("Rating", ratingSchema);
+export const Rating = mongoose.model<IRating>("Rating", ratingSchema);
 
 
