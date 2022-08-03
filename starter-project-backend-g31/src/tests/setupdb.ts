@@ -1,14 +1,15 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
 const mongoose = require("mongoose");
 
-let mongoServer: { getUri: () => any; stop: () => any };
+let mongoServer: {
+  [x: string]: any; getUri: () => any; stop: () => any 
+};
 
 export const connect = async () => {
-  await mongoose.disconnect();
-
-  mongoServer = await MongoMemoryServer.create();
-  const URI = await mongoServer.getUri();
+  await mongoose.disconnect() 
   
+  mongoServer = await MongoMemoryServer.create();
+  const URI = mongoServer.getUri();
 
   mongoose.connect(URI, {
     useNewUrlParser: true,
@@ -19,7 +20,7 @@ export const connect = async () => {
 };
 
 export const clear = async () => {
-  const collections = await mongoose.connection.db.collections();
+  const collections = await mongoose.connection.collections;
 
   for (let collection of collections) {
     await collection.deleteMany();
