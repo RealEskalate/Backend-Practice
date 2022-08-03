@@ -5,10 +5,10 @@ import {
   getRate,
   updateRate,
   deleteRate,
-} from "../controllers/rate";
-const router = Router({mergeParams: true});
+} from "../controllers/rate.controller";
+const router = Router({ mergeParams: true });
 
 router.route("/").post(createRate).get(getRates);
-router.route("/:rateID").get(getRate).put(updateRate).delete(deleteRate);
+router.route("/:rateId").get(getRate).put(updateRate).delete(deleteRate);
 
 export default router;
