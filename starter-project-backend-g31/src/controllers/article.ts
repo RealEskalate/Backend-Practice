@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import {Request, Response} from 'express';
-const Article = require('../models/ArticleModel');
+import {Article} from '../models/article';
+
 
 export const getMany = async (req: Request, res: Response) => {
     const article  = await Article.find();
@@ -18,17 +19,19 @@ export const getOne = async (req: Request, res: Response) => {
 }
 
 export const createArticle = async(req: Request, res: Response) => {
-    let article = new Article({
-        Author: req.body.Author,
-        Content: req.body.Content,
-        Rating: req.body.Rating,
-        Comment: req.body.Comment,
-        postDate: req.body.postDate
-    });
-
-    article = await article.save()
-        .then(() => res.status(200).send(article))
-        .catch((error: Error) =>  res.status(400).send(error.message));
+    try{
+        let article = new Article({
+            Author: req.body.Author,
+            Content: req.body.Content,
+            Rating: req.body.Rating,
+            Comment: req.body.Comment,
+            postDate: req.body.postDate
+        });
+    
+        await article.save();
+    }catch(err){
+        return res.status(404);
+    }
 }
 
 export const updateOne = async (req: Request, res: Response) => {

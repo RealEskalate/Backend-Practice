@@ -2,7 +2,7 @@
 import express, {Application, Request, Response, NextFunction, json} from 'express';
 import dotenv from 'dotenv';
 import ratingRoute from "./routes/rating"
-import article from './routes/ArticleRoute';
+import article from './routes/article';
 import { commentRoute } from  './routes/comment';
 import { userRoute }  from './routes/user';
 import { indexRoute } from './routes/index';
