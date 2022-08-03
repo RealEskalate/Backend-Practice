@@ -201,3 +201,5 @@ describe('DELETE: "/comment" delete existing comment by id', ()=>{
   
 })
 // });
+
+afterAll( async () => await disconnect());

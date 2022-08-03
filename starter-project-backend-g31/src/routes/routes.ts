@@ -1,5 +1,5 @@
 import Express,{Router} from "express";
-import { getProfileHandler, createProfileHandler, deleteProfileHandler, updateProfileHandler, getProfilesHandler } from "../controllers/userProfileControllers"
+import { getProfileHandler, createProfileHandler, deleteProfileHandler, updateProfileHandler, getProfilesHandler } from "../controllers/userProfile"
 
 
 export const router: Router = Express.Router()

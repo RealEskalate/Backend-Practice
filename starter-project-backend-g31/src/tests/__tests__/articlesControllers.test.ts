@@ -4,7 +4,7 @@ import request from 'supertest';
 import {Article} from '../../models/article';
 // import setupdb from '../../setupdb'
 
-// jest.setTimeout(100000);
+jest.setTimeout(10000);
 
 describe('/api/articles', () => {
     beforeAll(async () => {
@@ -56,6 +56,7 @@ describe('/api/articles', () => {
     });
 
     describe('POST /', () => {
+        jest.setTimeout(30000)
         it('should return an article with the passed body', async() => {
             const res = await request(app)
                 .post('/api/articles')
@@ -78,6 +79,7 @@ describe('/api/articles', () => {
     });
 
     describe('PUT /', () => {
+        jest.setTimeout(30000);
         it('should update a document with the given ID', async() => {
             const article = new Article({
                 author: 'Brook Zewdu', content: 'Born and raised in the small town of hidaro I was..',
@@ -140,3 +142,4 @@ describe('/api/articles', () => {
 
     
 });
+afterAll( async () => await disconnect());

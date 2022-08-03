@@ -1,6 +1,14 @@
-import mongoose from "mongoose"
+import mongoose,{Schema,Document} from "mongoose"
 
-const UserProfileSchema = new mongoose.Schema({
+
+interface IUserProfile extends Document {
+    name: string,
+    bio: string,
+    phone:string,
+    profilePicture:string
+}
+
+const UserProfileSchema:Schema<IUserProfile> = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -15,10 +23,10 @@ const UserProfileSchema = new mongoose.Schema({
     },
 
     profilePicture: {
-        
+        type: String,
         required: false
     }
 
 });
 
-export const UserProfile = mongoose.model("UserProfile", UserProfileSchema);
+export const UserProfile = mongoose.model<IUserProfile>("UserProfile", UserProfileSchema);

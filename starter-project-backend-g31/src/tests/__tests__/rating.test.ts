@@ -4,7 +4,7 @@ import app from "../../app"
 import {Rating} from "../../models/rating"
 
 
-jest.setTimeout(100000)
+
 describe("Test for Rating endpoint", () => {
     beforeAll(async () => await connect());
     afterAll(async () => {
@@ -221,3 +221,4 @@ describe("Test for Rating endpoint", () => {
     })
 
 })
+afterAll( async () => await disconnect());

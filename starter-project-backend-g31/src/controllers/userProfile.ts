@@ -2,7 +2,7 @@ import {Request, Response} from "express"
 
 import { Model, Mongoose, Schema } from "mongoose"
 import {UserProfile} from "../models/UserProfile"
-import { createProfile, deleteProfile, getProfile, getProfiles, updateProfile } from "../service/userProfileService"
+
 
 export const getProfileHandler = async function(req: Request, res: Response){
     try{
