@@ -10,18 +10,15 @@ const CommentSchema = new Schema({
     type: String,
     required: true,
   },
-  replies: {
-    type: String,
-  },
+  replies: [{
+    type: Schema.Types.ObjectId,
+  }],
   commentOwner: {
-    type:  String,
+    type:  Schema.Types.ObjectId,
     required: true
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-})
+  }
+},
+ { timestamps: {createdAt: 'created_at', updatedAt: 'modified_at'}})
 
 CommentSchema.set('toJSON',{virtuals: true})
 export default mongoose.model<ICommentInterface>('Comment', CommentSchema);
