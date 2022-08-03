@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 
+
 const articleSchema = new mongoose.Schema({
     Author: {
         type: String,
@@ -15,11 +16,13 @@ const articleSchema = new mongoose.Schema({
         required: true,
     },
     Rating: {
-        type: Number,
-        min: 0,
-        max: 5,
-        required: true
+		1: Number,
+		2: Number,
+		3: Number,
+		4: Number,
+		5: Number
     },
+	averageRating: Number,
     Comment: {
         type: [ String ],
         maxlength: 5000,

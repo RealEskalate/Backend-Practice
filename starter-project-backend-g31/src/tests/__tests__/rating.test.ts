@@ -5,7 +5,8 @@ import {Rating} from "../../models/rating"
 
 
 jest.setTimeout(100000)
-describe("Test for Rating endpoint", () => {
+describe("Test for Rating endpoint", async() => {
+	
     beforeAll(async () => await connect());
     afterAll(async () => {
         await clear()
@@ -36,7 +37,9 @@ describe("Test for Rating endpoint", () => {
                     "userID": "54321",
                     "rating": 3
                 })
-                const response = await supertest(app).get(`/ratings/${testRating._id}`).set('Content-Type', 'application/x-www-form-urlencoded');
+                const response = await supertest(app)
+								.get(`/ratings/${testRating._id}`)
+								.set('Content-Type', 'application/x-www-form-urlencoded');
                 expect(response.statusCode).toBe(200)
                 expect.objectContaining(
 					{

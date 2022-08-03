@@ -1,5 +1,6 @@
 import { Rating } from "../models/rating";
-
+import {Article} from '../models/article';
+import {reloadRating} from "./article"
 export const getAllRatings = (req: any, res: any) => {
   return Rating.find({})
     .then((ratings: any) => res.send(ratings))
@@ -53,6 +54,7 @@ export const createRating = async (req: any, res: any) => {
     if (ratedBefore) {
       ratedBefore.rating = req.body.rating
       await ratedBefore.save()
+	  
       return res.send(ratedBefore)
     }
     let newRating = new Rating({
