@@ -1,6 +1,6 @@
 import Joi, { ObjectSchema } from 'joi'
 import { NextFunction, Request, Response } from 'express'
-import IUserInterface from '../app/users/interface'
+import IUserInterface from '../resources/users/interface'
 
 export const validateJoi = (schema: ObjectSchema) => {
   return async (req: Request, res: Response, next: NextFunction) => {
