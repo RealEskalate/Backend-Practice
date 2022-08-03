@@ -3,6 +3,8 @@ interface IRate {
   rate: number;
 }
 const rateFields = {
+
+  // this will change later
   // user: {
   //   type: Schema.Types.ObjectId,
   //   ref: "User",
@@ -13,11 +15,20 @@ const rateFields = {
   //   ref: "Post",
   //   required: true,
   // }
+
   rate: {
     type: Number,
     required: true,
     min: 1,
     max: 5,
+  },
+  user: {
+    type: String,
+    required: true,
+  },
+  article: {
+    type: String,
+    required: true,
   },
 };
 

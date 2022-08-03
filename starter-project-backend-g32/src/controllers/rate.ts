@@ -1,8 +1,9 @@
 import RateModel from "../models/Rate";
 import { Request, Response } from "express";
 
-// @desc      Get all rates
-// @route     GET /users/:userID/posts/:postID/rates
+// @desc      Create rates
+// @route     POST /rates
+// @route     POST /articles/:articleID/rates
 // @access    Public
 export const createRate = async (req: Request, res: Response) => {
   try {
@@ -23,24 +24,39 @@ export const createRate = async (req: Request, res: Response) => {
 };
 
 // @desc      Get all rates
-// @route     GET /users/:userID/posts/:postID/rates
+// @route     GET /rates
+// @route     GET /articles/:articleID/rates
 // @access    Public
 export const getRates = async (req: Request, res: Response) => {
-  try {
-    const rates = await RateModel.find({});
-    res.status(200).json({
-      success: true,
-      data: rates,
-    });
-  } catch (err: any) {
-    res.status(400).json({
-      message: err.message,
-    });
+  if (req.params.postID) {
+    try {
+      const rates = await RateModel.find({});
+      res.status(200).json({
+        success: true,
+        data: rates,
+      });
+    } catch (err: any) {
+      res.status(400).json({
+        message: err.message,
+      });
+    }
+  } else {
+    try {
+      const rates = await RateModel.find({ article: req.params.articleID });
+      res.status(200).json({
+        success: true,
+        data: rates,
+      });
+    } catch (err: any) {
+      res.status(400).json({
+        message: err.message,
+      });
+    }
   }
 };
 
 // @desc      Get rate
-// @route     GET /users/:userID/posts/:postID/rates/:rateID
+// @route     GET /articles/:articleID/rates/:rateID
 // @access    Public
 export const getRate = async (req: Request, res: Response) => {
   try {

@@ -1,0 +1,1 @@
+import rateRouter from './rate';

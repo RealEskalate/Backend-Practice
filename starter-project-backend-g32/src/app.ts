@@ -9,6 +9,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Routes
-app.use("/users/:userID/posts/:postID/rates", routes.rateRouter);
+app.use("/api/v1/rates", routes.rateRouter);
 
 export default app;
