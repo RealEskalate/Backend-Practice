@@ -1,2 +1,3 @@
 import rateRouter from "./rate";
-export default { rateRouter };
+import userProfileRouter from "./user-profile";
+export default { rateRouter, userProfileRouter };
