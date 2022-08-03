@@ -57,6 +57,7 @@ export async function deleteProfile(req: Request, res: Response): Promise<void> 
     var id = req.params.id;
     try {
         const profile = await Profile.findByIdAndDelete({ _id: id });
+        if (!profile) throw Error(`User with Id: ${id} doesn't exist`);
         res.status(204).json();
     } catch (err: any) {
         res.status(400).json({message: 'unable to delete profile', error: err.toString() });

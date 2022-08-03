@@ -122,9 +122,8 @@ describe('user-profile API', () => {
 
     describe('Delete /api/user-profile/:id', () => {
         it('should return a 400 error', async () => {
-            const { status } = await request(app).delete(`/api/user-profile/${23}`)
-                .accept('Accept', 'application/json')
-                .expect('Content-Type', "application/json; charset=utf-8");
+            const { status } = await request(app).delete(`/api/user-profile/${new mongoose.Types.ObjectId()}`)
+                .accept('Accept', 'application/json');
             
             
             expect(status).toBe(400);
@@ -149,7 +148,7 @@ describe('user-profile API', () => {
 
     describe('PATCH /api/user-profile/:id', () => {
         it('should return a 400 error because the profile does not exist', async () => {
-                const { body, statusCode, status } = await request(app).patch(`/api/user-profile/${23}`)
+                const { body, statusCode, status } = await request(app).patch(`/api/user-profile/${new mongoose.Types.ObjectId()}`)
                 .accept('Accept', 'application/json')
                 .expect('Content-Type', "application/json; charset=utf-8");
             
