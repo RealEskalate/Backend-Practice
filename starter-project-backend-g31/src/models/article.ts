@@ -16,11 +16,26 @@ const articleSchema = new mongoose.Schema({
         required: true,
     },
     Rating: {
-		1: Number,
-		2: Number,
-		3: Number,
-		4: Number,
-		5: Number
+		1: {
+			type: Number,
+			default: 0
+			},
+		2: {
+			type: Number,
+			default: 0
+			},
+		3: {
+			type: Number,
+			default: 0
+			},
+		4: {
+			type: Number,
+			default: 0
+			},
+		5: {
+			type: Number,
+			default: 0
+			}
     },
 	averageRating: Number,
     Comment: {

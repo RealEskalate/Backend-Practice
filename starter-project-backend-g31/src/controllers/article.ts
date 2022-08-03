@@ -29,6 +29,7 @@ export const createArticle = async(req: Request, res: Response) => {
         });
     
         await article.save();
+		res.send(article)
     }catch(err){
         return res.status(404);
     }
@@ -67,9 +68,9 @@ export const deleteOne = async (req: Request, res: Response) => {
 
 export const reloadRating = async (id: string, rating: number) => {
 	const article = await Article.findById(id);
-	article.Rating[rating.rating] += 1;
-	const totalRating =(article.Rating.[1] * 1) + (article.Rating.[2] * 2) + (article.Rating.[3] * 3) + (article.Rating.[4] * 4) + (article.Rating.[5] * 5)
-	const frequency = article.Rating[1] + article.Rating.[2] + article.Rating.[3] + article.Rating.[4] + article.Rating.[5];
+	article.Rating[rating] += 1;
+	const totalRating =(article.Rating[1] * 1) + (article.Rating[2] * 2) + (article.Rating[3] * 3) + (article.Rating[4] * 4) + (article.Rating[5] * 5)
+	const frequency = article.Rating[1] + article.Rating[2] + article.Rating[3] + article.Rating[4] + article.Rating[5];
 	article.averageRating = totalRating / frequency
 	await article.save();
 }
