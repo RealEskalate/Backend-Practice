@@ -1,20 +1,36 @@
 import { NextFunction, Request, Response } from 'express'
+import bcryptjs, { hash } from 'bcryptjs'
 import User from './model'
 import dataAccessLayer from '../../common/dal'
 
 const UserDAL = dataAccessLayer(User)
 
-const tester = (res, next, func, message, filter) => {
-  func(filter)
-    .then((data: any) => {
-      if (data.length == 0) {
-        throw message
-      }
-      res.status(200).json(data)
-    })
-    .catch((err) => {
-      next(err)
-    })
+// register
+const create = (req: Request, res: Response, next: NextFunction) => {
+  const newUser = req.body
+  const password = newUser.password
+  console.log(password)
+
+  bcryptjs.hash(password, 12, (hashError, hash) => {
+    if (hashError) {
+      return res.status(401).json({
+        message: hashError.message,
+        error: hashError
+      })
+    }
+    console.log(hash)
+    newUser.password = hash
+    UserDAL.createOne(newUser)
+      .then((data) => {
+        if (!data) {
+          throw " Couldn't  create a new user"
+        }
+        res.status(200).json(data)
+      })
+      .catch((err) => {
+        next(err)
+      })
+  })
 }
 
 const getAllUser = (req: Request, res: Response, next: NextFunction) => {
@@ -37,21 +53,6 @@ const getUser = (req: Request, res: Response, next: NextFunction) => {
     .then((data: any) => {
       if (!data) {
         throw 'User Not Found'
-      }
-      res.status(200).json(data)
-    })
-    .catch((err) => {
-      next(err)
-    })
-}
-// create user
-const create = (req: Request, res: Response, next: NextFunction) => {
-  const newUser = req.body
-  UserDAL.createOne(newUser)
-    .then((data) => {
-      if (!data) {
-        console.log(data)
-        throw " Couldn't  create a new user"
       }
       res.status(200).json(data)
     })

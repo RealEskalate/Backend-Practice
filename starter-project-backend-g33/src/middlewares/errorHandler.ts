@@ -21,7 +21,7 @@ export default function errorHandler(
   let customError = err;
 
   if (!(err instanceof CustomError)) {
-    customError = new CustomError(
+    customError = new CustomError( String(err) ||
       'Oh no, this is embarrassing. We are having internal troubles'
     );
   }

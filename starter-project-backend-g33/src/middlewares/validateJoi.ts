@@ -12,7 +12,6 @@ export const validateJoi = (schema: ObjectSchema) => {
     next()
   }
 }
-// create validate schema
 export const Schemas = {
   user: {
     create: Joi.object<IUserInterface>({

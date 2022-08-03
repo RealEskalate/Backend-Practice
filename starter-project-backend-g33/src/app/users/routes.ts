@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import controller from './controller'
-import { validateJoi, Schemas } from '../../middlewares/userJoi'
+import { validateJoi, Schemas } from '../../middlewares/validateJoi'
 
 const router = Router()
 
