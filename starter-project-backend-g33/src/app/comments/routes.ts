@@ -6,7 +6,7 @@ const router = Router()
 router.get('/', commentController.getAllComments)
 router.get('/:id', commentController.getComment)
 router.put('/:id', commentController.updateComment)
-router.post('/create', commentController.createComment)
+router.post('/', commentController.createComment)
 router.delete('/:id', commentController.deleteComment)
 
 export default router
