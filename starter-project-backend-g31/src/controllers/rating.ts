@@ -64,7 +64,7 @@ export const createRating = async (req: any, res: any) => {
     return res.status(201).send(newRating)
   }
 	catch (error) {
-    res.status(400).send(error.message)
+    res.status(400).send("error");
   }
 }
 

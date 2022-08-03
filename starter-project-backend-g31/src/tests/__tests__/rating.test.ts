@@ -59,7 +59,7 @@ describe("Test for Rating endpoint", () => {
                     "userID": "54321",
                     "rating": 3
                 })      
-                const response = await supertest(app).get(`/ratings/articles/${testRating.articleID}`)
+                const response = await supertest(app).get(`/ratings/articles/${testRating._id}`)
 									.set('Content-Type', 'application/x-www-form-urlencoded')
 				expect(response.statusCode).toBe(200)
                 expect.objectContaining(
@@ -83,7 +83,7 @@ describe("Test for Rating endpoint", () => {
                     "userID": "54321",
                     "rating": 3
                 })
-                const response = await supertest(app).get(`/ratings/users/${testRating.userID}`)
+                const response = await supertest(app).get(`/ratings/users/${testRating._id}`)
 													 .set('Content-Type', 'application/x-www-form-urlencoded')
 				expect(response.statusCode).toBe(200)
                 expect.objectContaining(
@@ -107,7 +107,7 @@ describe("Test for Rating endpoint", () => {
                     "userID": "54321",
                     "rating": 3
                 })
-                const response = await supertest(app).get(`/ratings/${testRating.articleID}/${testRating.userID}`)
+                const response = await supertest(app).get(`/ratings/${testRating._id}/${testRating._id}`)
 													 .set('Content-Type', 'application/x-www-form-urlencoded')
 				expect(response.statusCode).toBe(200)
                 expect.arrayContaining(
