@@ -1,13 +1,9 @@
 
 import mongoose from 'mongoose'
-import app from '../app'
-import {connect, clear, disconnect} from '../tests/setupdb'
+import app from '../../app';
+import {connect, clear, disconnect} from '../setupdb'
 import request from 'supertest'
-
-
-
-
-import {Comment} from '../models/comment';
+import {Comment} from '../../models/comment';
 
 //connect to data base before starting any test
 beforeAll(async () => {

@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
 import express from 'express';
-const {getMany, getOne, createArticle, updateOne, deleteOne} = require('../controllers/ArticleController');
-const router = express.Router();
+import {getMany, getOne, createArticle, updateOne, deleteOne} from '../controllers/article';
 
+
+const router = express.Router();
 router.get('/', getMany);
 router.get('/:id', getOne);
 router.post('/', createArticle);
