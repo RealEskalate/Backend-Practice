@@ -1,5 +1,5 @@
 import IArticleInterface from "./interface";
-import mongoose , {Schema} from 'mongoose';
+import mongoose, {Schema} from 'mongoose';
 
 const ArticleSchema : Schema = new Schema({
     id: {type:String , required : true},
