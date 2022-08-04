@@ -12,6 +12,23 @@ export async function getAllComments(req: Request, res: Response){
         res.status(404).send("Error");
     }
 }
+export async function getCommentsWithArticleId (limit = 3, skip = 0, article_id: any) {
+    const comments = await Comment.find({article: article_id})
+                            .skip(skip)
+                            .limit(limit)
+                            .select('-article')
+                            .sort('date');
+    
+    return comments;
+}
+export async function deleteCommentsWithArticleId(article_id: any) {
+    const comments = await Comment.find({article: article_id});
+    
+    for (let comment of comments) {
+        await Comment.findByIdAndDelete(comment._id);
+    }
+
+}
 
 export async function getCommentById(req: Request,res: Response){
     
@@ -27,7 +44,8 @@ export async function getCommentById(req: Request,res: Response){
 export async function addComment(req: Request,res:Response){
     const comment = new Comment({
         author: req.body.author,
-        description: req.body.description
+        description: req.body.description,
+        article: req.body.article
     })
     try{
         const savedComment = await comment.save();
@@ -39,7 +57,7 @@ export async function addComment(req: Request,res:Response){
 
 export async function deleteCommentById(req:Request,res:Response){
     try{
-        const deletedComment = await Comment.remove({ _id:req.params.commentId});
+        const deletedComment = await Comment.findByIdAndRemove(req.params.commentId);
         res.status(200).json(deletedComment);
     }catch(err){
         res.status(404).send("Error");
