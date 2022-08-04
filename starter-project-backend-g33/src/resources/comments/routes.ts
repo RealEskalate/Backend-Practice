@@ -3,16 +3,12 @@ import commentController from './controller'
 
 const router = Router()
 
-
-router
-  .route('/')
-  .get(commentController.getAllComments)
-  .post(commentController.createComment)
-
+router.route('/').post(commentController.createComment)
 
 router
   .route('/:id')
-  .get(commentController.getComment)
+  .get(commentController.getAllComments)
+  // .get(commentController.getComment)
   .put(commentController.updateComment)
   .delete(commentController.deleteComment)
 
