@@ -2,8 +2,14 @@ import mongoose from 'mongoose';
 import {userModel} from './user-model';
 import {Article} from './article';
 
+export interface comment_interface extends Document{
+    author:mongoose.Types.ObjectId,
+    article:mongoose.Types.ObjectId,
+    description:string,
+    date:Date
+} 
 
-const CommentSchema = new mongoose.Schema({
+const CommentSchema :mongoose.Schema<comment_interface> = new mongoose.Schema({
     author : {
         type : mongoose.Types.ObjectId,
         ref: userModel,

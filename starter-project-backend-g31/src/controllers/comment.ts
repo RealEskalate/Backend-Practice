@@ -33,7 +33,7 @@ export async function getCommentById(req: Request,res: Response){
                 select: 'content -_id'
             }
         ]);
-        console.log(comment)
+        
         // const ans = await comment.populate('author');
         
         res.status(200).send(comment);
@@ -84,7 +84,7 @@ export async function deleteCommentById(req:Request,res:Response){
             res.status(401).send("You are not alowed to delete this comment");
        }
     }catch(err){
-        
+        res.status(404).send("Error");
     }
 }
 
