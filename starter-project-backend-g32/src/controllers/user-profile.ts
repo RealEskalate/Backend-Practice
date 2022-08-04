@@ -25,7 +25,7 @@ export const createUserProfile = async (req: Request, res: Response) => {
         ));
 
     } catch (e: any) {
-        res.status(400).json(response(
+        res.status(500).json(response(
             {
                 success: false,
                 message: e.message,
@@ -47,7 +47,7 @@ export const getUserProfiles = async (req: Request, res: Response) => {
         ));
 
     } catch (e: any) {
-        res.status(400).json(response(
+        res.status(500).json(response(
             {
                 success: false,
                 message: e.message
@@ -78,9 +78,8 @@ export const getUserProfile = async (req: Request, res: Response) => {
             }
         ));
 
-
     } catch (e: any) {
-        res.status(400).json(response(
+        res.status(500).json(response(
             {
                 success: false,
                 message: e.message
@@ -111,7 +110,7 @@ export const updateUserProfile = async (req: Request, res: Response) => {
             }
         ));
     } catch (e: any) {
-        res.status(400).json(response(
+        res.status(500).json(response(
             {
                 success: false,
                 message: e.message,
@@ -141,7 +140,7 @@ export const deleteUserProfile = async (req: Request, res: Response) => {
             }
         ));
     } catch (e: any) {
-        res.status(400).json(response(
+        res.status(500).json(response(
             {
                 success: false,
                 message: e.message,

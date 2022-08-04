@@ -1,6 +1,13 @@
 import { model, Schema } from "mongoose";
 
-const userProfile = {
+interface IUserProfile {
+    firstName: string;
+    lastName: string;
+    gender: string;
+    profilePicture: string;
+}
+
+const userProfileSchema = new Schema<IUserProfile>({
     firstName: {
         type: String,
         required: true,
@@ -16,9 +23,8 @@ const userProfile = {
     profilePicture: {
         type: String
     }
-}
+}, { timestamps: true });
 
-const UserProfileSchema = new Schema(userProfile, { timestamps: true });
-const UserProfile = model("UserProfile", UserProfileSchema);
+const UserProfile = model("UserProfile", userProfileSchema);
 
 export default UserProfile;
