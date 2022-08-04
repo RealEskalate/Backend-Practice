@@ -6,9 +6,8 @@ import { CustomError } from '../../middlewares/errorModel'
 const articleDal = dataAccessLayer(Article)
 
 const getAllArticles = (req: Request, res: Response, next: NextFunction) => {
-  const filter = { isActive: true }
   articleDal
-    .getMany(filter)
+    .getMany({})
     .then((data: any) => {
       res.status(200).json(data)
     })
@@ -18,11 +17,26 @@ const getAllArticles = (req: Request, res: Response, next: NextFunction) => {
 }
 
 const getArticle = (req: Request, res: Response, next: NextFunction) => {
+  const filter = { _id: req.params.id }
   articleDal
-    .getOne(req.params['id'])
+    .getOne(filter)
     .then((data: any) => {
       if (!data) {
         throw new CustomError('No article by that ID is found', 404, data)
+      }
+      res.status(200).json(data)
+    })
+    .catch((err) => {
+      next(err)
+    })
+}
+const getMyArticle = (req: Request, res: Response, next: NextFunction) => {
+  const filter = { Author: req.params.id }
+  articleDal
+    .getOne(filter)
+    .then((data: any) => {
+      if (!data) {
+        throw 'This author has no articles'
       }
       res.status(200).json(data)
     })
@@ -75,10 +89,28 @@ const deleteArticle = (req: Request, res: Response, next: NextFunction) => {
     })
 }
 
+const clap = (req: Request, res: Response, next: NextFunction) => {
+  const props = req.body
+  console.log(props, req.body)
+  articleDal
+    .clap(props)
+    .then((data) => {
+      if (!data) {
+        res.status(502).send()
+      }
+      res.status(200).send({ message: 'clapped' })
+    })
+    .catch((err) => {
+      next(err)
+    })
+}
+
 export default {
   getAllArticles,
   getArticle,
+  getMyArticle,
   updateArticle,
   createArticle,
-  deleteArticle
+  deleteArticle,
+  clap
 }

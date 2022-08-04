@@ -54,6 +54,6 @@ export const createProfileHandler = async function(req: Request, res: Response){
             res.status(201).json(profile)
             
         })} catch(err: any) { 
-        console.log(err.toString())
+        // console.log(err.toString())
         res.status(400).json(err);}
 }
