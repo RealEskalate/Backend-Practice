@@ -4,8 +4,11 @@ import app from '../../app';
 import {connect, clear, disconnect} from '../setupdb'
 import request from 'supertest'
 import {Comment} from '../../models/comment';
-import {userModel} from'../../models/user-model';
-import {Article} from'../../models/article';
+import {userModel} from '../../models/user-model';
+import {Article} from '../../models/article';
+
+import bcrypt from 'bcrypt';
+import { getAllComments } from '../../controllers/comment';
 
 //connect to data base before starting any test
 beforeAll(async () => {
@@ -14,6 +17,7 @@ beforeAll(async () => {
 
 //disconect from database after any test
 afterAll(async ()=>{
+  await clear();
   await disconnect();
 })
 
@@ -27,37 +31,39 @@ jest.setTimeout(30000);
 // Create an object id for dummy document to use for testing
 const commentId = mongoose.Types.ObjectId();
 const userId = mongoose.Types.ObjectId();
+// let userId: any;
+// let articleId: any;
 const articleId = mongoose.Types.ObjectId();
 
 // create a variable to hole a sample/dummy document
 let comment: any;
+let user: any;
+let article: any;
 
 // create and save sample document before any test
 beforeEach(async()=>{
-  
-  comment = new Comment({
-    _id:commentId,
-    author:userId,
-    article:articleId,
-    description:"test comment description",
-  });
-  await comment.save();
-
-  let user = new userModel({
+  user = new userModel({
     _id:userId,
     name: 'Sasi',
     email: 'sasi@gmail.com',
     password: "password"
   })
   await user.save()
-  let article = new Article({
-    _id:articleId,
-    author: 'Brook Zewdu', 
-    content: 'Born and raised in the small town of hidaro I was..',
-    rating: 4,
+  // userId = user._id;
+  const article = new Article({
+    _id : articleId,
+    author: 'sample author',
+    content: 'sample article 12345678901112131415',
+    rating: 4
+});
+  await article.save()
+  comment = new Comment({
+    _id:commentId,
+    author:userId,
+    article: articleId,
+    description:"test comment description",
   });
-    await article.save()
-
+  await comment.save();
 });
 // dummy data to insert
 const dummy = {
@@ -65,10 +71,13 @@ const dummy = {
 };
 // remove sample document after any test to avoid object id redundancy 
 afterEach(async()=>{
-  //await comment.remove({})
   await Comment.collection.remove({})
   await Article.collection.remove({})
   await userModel.collection.remove({})
+  
+  // await comment.remove({});
+  // await user.remove({});
+  // await article.remove({});
 });
 
 
@@ -105,7 +114,8 @@ describe('GET: "/comment/:id" get a comment by id', ()=>{
       it('return the comment', async ()=>{
 
         const res = await request(app).get(`/comment/${commentId}`);
-        
+        //const ans = res.body.populate('author')
+        //console.log(res.body.author,ans)
         expect(res.body).not.toBeNull();
         expect(res.status).toBe(200);
     
@@ -125,7 +135,7 @@ describe('GET: "/comment/:id" get a comment by id', ()=>{
 
 
 // check the add comment feature
-describe('POST: "/comment" Add new comment', ()=>{
+describe('POST: "/comment/:userId/:articleId" Add new comment', ()=>{
   
   // if author and description are properly filled
   
@@ -158,7 +168,7 @@ describe('POST: "/comment" Add new comment', ()=>{
 
 
 //check the update comment by id feature
-describe('PATCH: "/comment/:id" update existing comment by id', ()=>{
+describe('PATCH: "/comment/commentId:/id:userId/:articleId" update existing comment by id', ()=>{
   
     
     // check status, content type, database
