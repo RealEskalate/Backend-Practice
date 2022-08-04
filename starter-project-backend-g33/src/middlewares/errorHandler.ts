@@ -1,16 +1,6 @@
-import express, { Request, Response, NextFunction } from 'express'
-
-class CustomError {
-  message!: string
-  status!: number
-  additionalInfo!: any
-
-  constructor(message: string, status: number = 500, additionalInfo: any = {}) {
-    this.message = message
-    this.status = status
-    this.additionalInfo = additionalInfo
-  }
-}
+import { Request, Response, NextFunction } from 'express'
+import logger from '../common/logger'
+import { CustomError } from './errorModel'
 
 export default function errorHandler(
   err: TypeError | CustomError,
@@ -21,9 +11,9 @@ export default function errorHandler(
   let customError = err
 
   if (!(err instanceof CustomError)) {
+    logger.error(err.stack)
     customError = new CustomError(
-      err.toString() ||
-        'Oh no, this is embarrassing. We are having internal troubles'
+      'Oh no, this is embarrassing. We are having internal troubles'
     )
   }
 

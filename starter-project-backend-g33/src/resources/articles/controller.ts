@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import dataAccessLayer from '../../common/dal'
 import Article from '../articles/model'
+import { CustomError } from '../../middlewares/errorModel'
 
 const articleDal = dataAccessLayer(Article)
 
@@ -21,7 +22,7 @@ const getArticle = (req: Request, res: Response, next: NextFunction) => {
     .getOne(filter)
     .then((data: any) => {
       if (!data) {
-        throw 'No article by that ID is found'
+        throw new CustomError('No article by that ID is found', 404, data)
       }
       res.status(200).json(data)
     })
