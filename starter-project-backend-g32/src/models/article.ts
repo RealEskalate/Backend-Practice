@@ -7,6 +7,7 @@ export interface IArticle extends Document {
 }
 
 const articleSchema: Schema<IArticle> = new mongoose.Schema({
+    
     author: {
       type: String,
       required: true
