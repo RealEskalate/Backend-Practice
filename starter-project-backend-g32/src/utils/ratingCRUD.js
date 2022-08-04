@@ -1,3 +1,9 @@
+const { Console } = require("console");
+
+const Article = require("../models/article").default;
+const stars_arr = ["one", "two", "three", "four", "five"];
+
+
 const getOne = (model) => async (req, res) => {
     try {
       const doc = await model.findOne({ _id: req.params.id }).lean().exec();
@@ -26,16 +32,72 @@ const getOne = (model) => async (req, res) => {
   
   const createOne = (model) => async (req, res) => {
     try {
-      const doc = await model.create({ ...req.body });
-      res.status(201).json({ data: doc });
+        //get the rating information from the req body
+        const rating = req.body;
+        const articleId = rating.article;
+        const stars = stars_arr[rating.stars -1];
+
+        //get the article to be rated
+        try {
+            const doc = await Article.findOne({ _id: articleId }).lean().exec()
+            if (!doc) {
+                //retutn 400 cuz it's a bad request
+                return res.status(400).end()
+            }
+            //Update the rating info
+            const articleRating = doc.rating;
+            articleRating[stars] = articleRating[stars] +1;
+            //Save the update using put
+            await Article.findOneAndUpdate(
+                {
+                    _id: articleId,
+                },
+                {
+                    rating: {...articleRating}
+                }
+                ,
+                { new: true }
+                ).lean().exec()
+
+        } catch (e) {
+          return res.status(400).end()
+        }
+
+      const ratingDoc = await model.create({ ...req.body });
+      res.status(201).json({ data: ratingDoc });
     } catch (e) {
       console.error(e);
-      res.status(400).end();
+      return res.status(400).end();
     }
   };
   
   const updateOne = (model) => async (req, res) => {
     try {
+
+      //find the rating and extract old stars value
+      const rating = await model.findOne({ _id: req.params.id }).lean().exec();
+      const old_star = stars_arr[rating.stars -1];
+
+      //find the respective article and decrement the old value
+      const articleId = rating.article;
+      const articleDoc = await Article.findOne({ _id: articleId }).lean().exec()
+      const articleRating = articleDoc.rating;
+      articleRating[old_star] -= 1;
+
+      //increment the new value and update article
+      const new_star = stars_arr[req.body.stars -1];
+      articleRating[new_star] += 1;
+      await Article.findOneAndUpdate(
+        {
+            _id: articleId,
+        },
+        {
+          rating: {...articleRating}
+        },
+        { new: true }
+        ).lean().exec()
+
+      //update the rating as well
       const updatedDoc = await model
         .findOneAndUpdate(
           {

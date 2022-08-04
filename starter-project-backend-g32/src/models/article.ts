@@ -19,6 +19,29 @@ const articleSchema: Schema<IArticle> = new mongoose.Schema({
       type: String,
       required: false,
       default: ''
+    },
+    rating: {
+      one: {
+        type: Number,
+        default: 0
+      },
+      two: {
+        type: Number,
+        default: 0
+      },
+      three: {
+        type: Number,
+        default: 0
+      },
+      four: {
+        type: Number,
+        default: 0
+      },
+      five: {
+        type: Number,
+        default: 0
+      },
+      default: { one: 0, two: 0, three: 0, four: 0, five: 0 }
     }
   },
     {
