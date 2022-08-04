@@ -14,10 +14,10 @@ router.get('/', getAllComments);
 
 router.get('/:commentId', getCommentById);
 
-router.post('/', addComment);
+router.post('/:userId/:articleId', addComment);
 
-router.delete('/:commentId', deleteCommentById);
+router.delete('/:commentId/:userId/:articleId', deleteCommentById);
 
-router.patch('/:commentId', updateCommentById);
+router.patch('/:commentId/:userId/:articleId', updateCommentById);
 
 export const commentRoute =  router;

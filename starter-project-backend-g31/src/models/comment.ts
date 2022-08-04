@@ -1,8 +1,17 @@
 import mongoose from 'mongoose';
+import {userModel} from './user-model';
+import {Article} from './article';
+
 
 const CommentSchema = new mongoose.Schema({
     author : {
-        type : String,
+        type : mongoose.Types.ObjectId,
+        ref: 'userModel',
+        required : true
+    },
+    article : {
+        type : mongoose.Types.ObjectId,
+        ref: 'Article',
         required : true
     },
     description : {
