@@ -1,6 +1,8 @@
 import mongoose , { Schema, Document } from 'mongoose';
+import { UserProfile } from './UserProfile';
 
 export interface IArticle extends Document{
+    userId: string,
     author:string,
     content:string,
     comment:string,
@@ -10,12 +12,28 @@ export interface IArticle extends Document{
 
 
 const articleSchema: Schema<IArticle> = new mongoose.Schema({
+    
+
     author: {
-        type: String,
-        minlength: 5,
-        maxlength:50,
-        required: true
+
+        
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "UserProfile",
+        required: true,
+        validate: {
+            validator: async (userId: mongoose.Schema.Types.ObjectId) =>
+            {
+                const user = await UserProfile.findById(userId)
+                if (!user) return false
+                return true
+            },
+
+            message: `user doesnt exist!`
+          },
     },
+
+
+
     content: {
         type: String,
         minLength: 20,

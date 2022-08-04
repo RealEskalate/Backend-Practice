@@ -7,6 +7,7 @@ export interface IProfile{
     phone: string | undefined,
     avatar: string | undefined,
 }
+
 export const UserProfileSchema = new mongoose.Schema({
     name: {
         type: String,

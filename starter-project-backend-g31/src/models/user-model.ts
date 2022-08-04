@@ -48,7 +48,6 @@ userSchema.pre('save', function preSave(next) {
   }); 
 }) 
 
-
 userSchema.method({ 
     hashpassword(passwd, cb) {  
       let createHash = (err: any, hash: any) => { 
