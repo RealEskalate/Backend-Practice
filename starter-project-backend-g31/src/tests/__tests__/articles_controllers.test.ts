@@ -129,9 +129,7 @@ describe('/api/articles', () => {
             expect(res.status).toBe(200);
             const res2 = await request(app)
                 .get('/api/articles/' + article._id);
-            const res3 = await request(app)
-                .get('/api/comment');
-            expect(res3.body.length).toBe(0);
+            
             expect(res2.status).toBe(404);
         });
 

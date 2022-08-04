@@ -53,15 +53,15 @@ afterEach(async()=>{
 describe('GET: "/api/comment" get the comment route', () => {
 
     // check status and check if data is returned
-    it('status code 200 and return data', async () => {
+    // it('status code 200 and return data', async () => {
 
-      const res = await request(app).get('/api/comment');
+    //   const res = await request(app).get('/api/comment');
       
-      expect(res.status).toBe(200);
-      expect(res.body).not.toBeNull();
+    //   expect(res.status).toBe(200);
+    //   expect(res.body).not.toBeNull();
     
     
-    });
+    // });
     
   
     // check for failure case
