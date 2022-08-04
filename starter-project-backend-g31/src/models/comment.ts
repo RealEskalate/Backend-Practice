@@ -6,12 +6,12 @@ import {Article} from './article';
 const CommentSchema = new mongoose.Schema({
     author : {
         type : mongoose.Types.ObjectId,
-        ref: 'userModel',
+        ref: userModel,
         required : true
     },
     article : {
         type : mongoose.Types.ObjectId,
-        ref: 'Article',
+        ref: Article,
         required : true
     },
     description : {

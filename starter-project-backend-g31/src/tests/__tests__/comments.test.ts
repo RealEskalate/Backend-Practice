@@ -114,7 +114,8 @@ describe('GET: "/comment/:id" get a comment by id', ()=>{
       it('return the comment', async ()=>{
 
         const res = await request(app).get(`/comment/${commentId}`);
-        
+        //const ans = res.body.populate('author')
+        //console.log(res.body.author,ans)
         expect(res.body).not.toBeNull();
         expect(res.status).toBe(200);
     
