@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose'
+import { isNumberObject } from 'util/types'
 
 export interface RatingInterface extends Document {
   stars: Number
@@ -12,6 +13,7 @@ const ratingSchema: Schema<RatingInterface> = new mongoose.Schema({
       required: true,
       min: [1, "rating too low"],
       max: [5, "rating too high"],
+      default: 0
     },
     articleId: {
         type: mongoose.Types.ObjectId,

@@ -1,9 +1,10 @@
-import mongoose, { Schema, Document } from 'mongoose'
+import mongoose, { Schema, Document, AnyObject } from 'mongoose'
 
 export interface IArticle extends Document {
   author: String
   content: String
   media: String
+  rating?: AnyObject
 }
 
 const articleSchema: Schema<IArticle> = new mongoose.Schema({
