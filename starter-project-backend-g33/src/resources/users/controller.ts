@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import bcryptjs, { hash } from 'bcryptjs'
+import bcrypt, { hash } from 'bcryptjs'
 import User from './model'
 import dataAccessLayer from '../../common/dal'
 import jwt from 'jsonwebtoken'
@@ -10,7 +10,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
   const newUser = req.body
   const { password } = newUser
 
-  bcryptjs.hash(password, 12, (hashError, hash) => {
+  bcrypt.hash(password, 12, (hashError, hash) => {
     if (hashError) {
       return res.status(401).json({
         message: hashError.message,
@@ -44,7 +44,7 @@ const login = (req: Request, res: Response, next: NextFunction) => {
         })
       }
 
-      bcryptjs.compare(password, user.password, (err, result) => {
+      bcrypt.compare(password, user.password, (err, result) => {
         if (!result) {
           return res.status(401).json({ message: 'password does not match' })
         } else {
