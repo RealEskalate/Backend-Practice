@@ -65,14 +65,14 @@ export const deleteOne = async (req: Request, res: Response) => {
 
 export const addRatingToArticle = async (id: string, val: number) => {
     const article = await Article.findById(id);
-    if (article != null) {
+    if (article && val) {
         article.addRating(val)
     }
 }
 
 export const updateRatingForArticle = async (id: string, prev: number, current: number) => {
     const article = await Article.findById(id);
-    if (article != null) {
+    if (article && current && prev) {
         article.updateRating(prev, current)
     }
 }

@@ -1,5 +1,4 @@
 import { Rating } from "../models/rating";
-import {Article} from '../models/article';
 import {addRatingToArticle, updateRatingForArticle} from "./article"
 
 export const getAllRatings = (req: any, res: any) => {

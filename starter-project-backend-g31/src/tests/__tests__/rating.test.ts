@@ -4,7 +4,7 @@ import app from "../../app"
 import {Rating} from "../../models/rating"
 import {Article} from "../../models/article"
 
-jest.setTimeout(3000);
+jest.setTimeout(5000);
 describe("Test for Rating endpoint", () => {
 	
     beforeAll(async () => await connect());
