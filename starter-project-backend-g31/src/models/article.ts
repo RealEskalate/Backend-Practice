@@ -5,7 +5,7 @@ export interface IArticle extends Document{
     content:string,
     comment:string,
     rating: IHash,
-    averageRating: Number,
+    averageRating: number ,
     postdate:Date,
     addRating(val: number): void,
     updateRating(prev: number, current: number): void
@@ -68,12 +68,12 @@ articleSchema.methods.addRating = function(val: number) {
 articleSchema.methods.updateRating = function(prev: number, current: number) {
     this.rating[prev]--;
     this.rating[current]++;
-    this.averageRating = calculateAverage(this)
+    this.averageRating = calculateAverage(this) || this.averageRating
     this.markModified("rating")
     this.save()
 }
 
-const calculateAverage = (article: IArticle) => {
+const calculateAverage = (article: IArticle): number => {
 	const totalRating = (article.rating[1] * 1) + (article.rating[2] * 2) + (article.rating[3] * 3) + (article.rating[4] * 4) + (article.rating[5] * 5)
     const frequency = article.rating[1] + article.rating[2] + article.rating[3] + article.rating[4] + article.rating[5];
     return totalRating / frequency
