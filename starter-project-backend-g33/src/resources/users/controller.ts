@@ -36,7 +36,7 @@ const login = (req: Request, res: Response, next: NextFunction) => {
   let { username, email, password } = req.body
   const props = username ? { username: username } : { email: email }
 
-  User.findOne(props)
+  UserDAL.getOne(props)
     .then((user: any) => {
       if (user.length !== 1) {
         return res.status(401).json({
@@ -77,7 +77,7 @@ const getAllUser = (req: Request, res: Response, next: NextFunction) => {
 }
 const getUser = (req: Request, res: Response, next: NextFunction) => {
   const userId = req.params.id
-  UserDAL.getOne(userId)
+  UserDAL.getOne({ _id: userId })
     .then((data: any) => {
       if (!data) {
         throw 'User Not Found'
