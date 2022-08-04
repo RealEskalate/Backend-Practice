@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import dataAccessLayer from '../../common/dal'
 import Chapter from './model'
+import { CustomError } from '../../middlewares/errorModel'
 
 const chapterDal = dataAccessLayer(Chapter)
 
@@ -10,8 +11,11 @@ const getAllChapters = (req: Request, res: Response, next: NextFunction) => {
     .getMany(filter)
     .then((data: any) => {
       if (!data) {
-        res.status(404)
-        throw 'no chapter found'
+        throw new CustomError(
+          'Chapters not found',
+          404,
+          'Could not fetch chapters with this id'
+        )
       }
       res.status(200).json(data)
     })
@@ -25,8 +29,11 @@ const getChapter = (req: Request, res: Response, next: NextFunction) => {
     .getOne(req.params['id'])
     .then((data) => {
       if (!data) {
-        res.status(404)
-        throw 'No chapter by that ID is found'
+        throw new CustomError(
+          'Chapter not found',
+          404,
+          'Could not fetch chapter with this id'
+        )
       }
       res.status(200).json(data)
     })
@@ -41,8 +48,7 @@ const updateChapter = (req: Request, res: Response, next: NextFunction) => {
     .updateOne(newChapter, req.params.id)
     .then((data) => {
       if (!data) {
-        res.status(404)
-        throw 'No chapter with this ID'
+        throw new CustomError('Cannot update chapter', 400)
       }
       res.status(200).json(data)
     })
@@ -57,8 +63,7 @@ const createChapter = (req: Request, res: Response, next: NextFunction) => {
     .createOne(newChapter)
     .then((data) => {
       if (!data) {
-        res.status(404)
-        throw 'No chapter with this ID'
+        throw new CustomError('Cannot create chapter', 400)
       }
       res.status(200).json(data)
     })
@@ -72,8 +77,7 @@ const disableChapter = (req: Request, res: Response, next: NextFunction) => {
     .deleteOne(req.params['id'])
     .then((data) => {
       if (!data) {
-        res.status(400)
-        throw 'Could not disable Chapter'
+        throw new CustomError('Cannot disable chapter', 404)
       }
       res.status(200).json(data)
     })
