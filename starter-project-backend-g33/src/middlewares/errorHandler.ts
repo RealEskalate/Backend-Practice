@@ -23,7 +23,3 @@ export default function errorHandler(
   // NOT use, like in this example, the NextFunction .i.e., next(new Error())
   res.status((customError as CustomError).status).send(customError)
 }
-
-// to throw an error,
-// import { CustomError } from '../common/errorModel'
-// throw new CustomError('Oh no, this is embarrassing. We are having internal troubles', 404, 'some additional info')
