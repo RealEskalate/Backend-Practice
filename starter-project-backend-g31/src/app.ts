@@ -18,7 +18,7 @@ app.use("/api/user-profiles", router)
 app.use('/api/articles', article);
 app.use("/api/comment", commentRoute);
 app.use("/api/ratings", ratingRoute);
-app.use('/api//users', userRoute);
+app.use('/api/users', userRoute);
 app.get('/', (req:Request, res:Response) => {
     res.send('Welcome to our Blog App...');
 });

@@ -23,58 +23,58 @@ const agent = request.agent(app)
 
 jest.setTimeout(30000)
 
-describe('GET /users/:id', () => {
+describe('GET /api/users/:id', () => {
   it('Retrieve specified user through Id', async () => {
-    const res = await agent.get(`/users/${userId}`).send()
+    const res = await agent.get(`/api/users/${userId}`).send()
     expect(res.statusCode).toEqual(200)
   })
   it('Fail retrieving specified non existent user', async () => {
-    const res = await agent.get(`/users/${new mongoose.Types.ObjectId()}`).send()
+    const res = await agent.get(`/api/users/${new mongoose.Types.ObjectId()}`).send()
     expect(res.statusCode).toEqual(404)
   })
 })
 
-describe('POST /users', () => {
+describe('POST /api/users', () => {
   it('Create a new user', async () => {
     const res = await agent
-      .post(`/users/`)
+      .post(`/api/users/`)
       .send({ name: 'Lowin', email: 'lowin@gmail.com', password: 'normaluser' })
     expect(res.statusCode).toEqual(201)
   })
   it('Fail to create new user due to unspecified required parameters', async () => {
     const res = await agent
-      .post(`/users/`)
+      .post(`/api/users/`)
       .send({ email: '' })
     expect(res.statusCode).toEqual(500)
   })
 })
 
-describe('UPDATE /users/update/:id', () => {
+describe('UPDATE /api/users/update/:id', () => {
   it('Update existing user through a specified parameter', async () => {
     const res = await agent
-      .patch(`/users/update/${userId}`)
+      .patch(`/api/users/update/${userId}`)
       .send({ name: 'Aria' })
     expect(res.statusCode).toEqual(201)
   })
 
   it('Fail to update non-existent user', async () => {
     const res = await agent
-      .patch(`/users/update/${new mongoose.Types.ObjectId()}`)
+      .patch(`/api/users/update/${new mongoose.Types.ObjectId()}`)
       .send({ name: 'New user name' })
     expect(res.statusCode).toEqual(404)
   })
 })
 
-describe('DELETE /users/delete/:id', () => {
+describe('DELETE /api/users/delete/:id', () => {
   it('Delete existing user through specified Id', async () => {
     const res = await agent
-      .delete(`/users/delete/${userId}`)
+      .delete(`/api/users/delete/${userId}`)
       .send()
     expect(res.statusCode).toEqual(201)
   })
   it('Fail to delete non-existing user', async () => {
     const res = await agent
-      .delete(`/users/delete/${new mongoose.Types.ObjectId()}`)
+      .delete(`/api/users/delete/${new mongoose.Types.ObjectId()}`)
       .send()
     expect(res.statusCode).toEqual(404)
   })
