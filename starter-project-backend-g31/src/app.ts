@@ -16,9 +16,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/api/user-profiles", router)
 app.use('/api/articles', article);
-app.use("/comment", commentRoute);
-app.use("/ratings", ratingRoute);
-app.use('/users', userRoute);
+app.use("/api/comment", commentRoute);
+app.use("/api/ratings", ratingRoute);
+app.use('/api//users', userRoute);
 app.get('/', (req:Request, res:Response) => {
     res.send('Welcome to our Blog App...');
 });
