@@ -173,6 +173,11 @@ export const updateRating = async (req: Request, res: Response) => {
         const oldStar = stars_arr[Number(oldStarNumber) - 1]
 
         //try updating the new value on the Rating first || it maybe subject to errors so better try first
+        if(!req.body.stars || req.body.stars < 1 || req.body.stars > 5)
+        {
+            console.log("Stars should be set correctly: ", req.body.stars)
+            return res.status(400).end()
+        }
         const updatedDoc = await Rating
             .findOneAndUpdate(
             { 

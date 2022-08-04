@@ -6,7 +6,7 @@ import {
   updateArticle,
   deleteArticle,
 
-  //to be implimented
+  //Rating endpoints
   getAllRating,
   getSpecificRating,
   createRating,
