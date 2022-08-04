@@ -53,7 +53,6 @@ export const createProfileHandler = async function(req: Request, res: Response){
         const profile = await UserProfile.create(destructProfile(req.body)).then( profile => {
             res.status(201).json(profile)
             
-        })} catch(err: any) { 
-        console.log(err.toString())
+        })} catch(err: any) {
         res.status(400).json(err);}
 }

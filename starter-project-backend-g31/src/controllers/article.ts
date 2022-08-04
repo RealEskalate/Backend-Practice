@@ -4,7 +4,7 @@ import {Article} from '../models/article';
 
 
 export const getMany = async (req: Request, res: Response) => {
-    const article  = await Article.find();
+    const article  = await Article.find().populate('author');
     res.send(article);
 }
 
@@ -12,7 +12,7 @@ export const getOne = async (req: Request, res: Response) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.id))
         return res.status(404).send('Invalid ID');
 
-    const article = await Article.findById(req.params.id);
+    const article = await Article.findById(req.params.id).populate('author');
     if (!article) return res.status(404).send('Article not found');
 
     res.send(article);
@@ -41,7 +41,6 @@ export const updateOne = async (req: Request, res: Response) => {
     if (!article) return res.status(404).send('Article not found');
 
     article.set({
-        author: req.body.author,
         content: req.body.content,
         rating: req.body.rating,
         comment: req.body.comment,

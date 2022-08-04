@@ -1,7 +1,8 @@
-import mongoose , { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
+import { UserProfile } from '../models/UserProfile';
 
 export interface IArticle extends Document{
-    author:string,
+    author:mongoose.Types.ObjectId,
     content:string,
     comment:string,
     rating:string,
@@ -11,10 +12,16 @@ export interface IArticle extends Document{
 
 const articleSchema: Schema<IArticle> = new mongoose.Schema({
     author: {
-        type: String,
-        minlength: 5,
-        maxlength:50,
-        required: true
+        type: mongoose.Types.ObjectId,
+        ref: 'UserProfile',
+        required: true,
+        validate: {
+            validator: async (id : mongoose.Types.ObjectId) => {
+                const user = await UserProfile.findOne({ _id: id });
+                return  user === null ? false : true
+            },
+            message : `author profile with given id does not exist`
+        }
     },
     content: {
         type: String,
@@ -38,7 +45,5 @@ const articleSchema: Schema<IArticle> = new mongoose.Schema({
         default: Date.now()
     }
 });
-
-
 
 export const Article = mongoose.model<IArticle>('Article', articleSchema);
