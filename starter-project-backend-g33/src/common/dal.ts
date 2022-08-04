@@ -1,9 +1,9 @@
 import { Model } from 'mongoose'
 import logger from './logger'
 
-const getOne = (model: Model<any, {}, {}>) => async (id: any) => {
-  logger.info(`Fetching ${model.modelName} with id: ${id}`)
-  return await model.findOne({ _id: id })
+const getOne = (model: Model<any, {}, {}>) => async (props: any) => {
+  logger.info(`Fetching ${model.modelName} with id: ${props}`)
+  return await model.findOne(props)
 }
 
 const getAll = (model: Model<any, {}, {}>) => async (props: any) => {
@@ -25,15 +25,10 @@ const updateOne =
   }
 
 const clap = (model: Model<any, {}, {}>) => async (props: any) => {
-  const articleId = props.articleId
-  const userId = props.userId
-
+  const { articleId, userId } = props
   logger.info(`Clapping ${model.modelName} with id: ${articleId}`)
-  const article = await model.findOne({ _id: articleId })
   return await model.updateOne(
-    {
-      _id: articleId
-    },
+    { _id: articleId },
     { $push: { clappers: userId } }
   )
 }
