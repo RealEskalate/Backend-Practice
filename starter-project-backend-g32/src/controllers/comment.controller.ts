@@ -70,32 +70,3 @@ export const updateComment = async (req:Request, res:Response ) => {
     }   );
     }   
 }
-
-export const patchComment = async (req:Request, res:Response ) => {
-    if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    
-        res.status(400).json({
-            error: "Invalid ID"
-        });
-    }
-    else{
-        const {content , createdAt} = req.body;
-        await Comment.findById(req.params.id).then((comment : typeof Comment) => {
-            if(content) {
-                comment.content = content;
-            }
-            if(createdAt) {
-                comment.createdAt = createdAt;
-            }
-           comment.save().then(() => {
-                res.status(200).json({
-                    message: "Comment updated successfully"
-                });
-            });
-    }).catch((error: Error) => {
-        res.status(404).json({
-            error: error
-        });
-    }   );
-    }
-}

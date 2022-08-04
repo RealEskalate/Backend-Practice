@@ -4,4 +4,4 @@ const router = express.Router();
 
 router.use("/comment", commentRouter);
 
-module.exports = router;
+export default router;
