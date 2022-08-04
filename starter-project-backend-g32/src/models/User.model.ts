@@ -1,7 +1,11 @@
 import mongoose from "mongoose";
-import bcrypt from "bcrypt"
 
-const saltRound = 10
+import { Document } from "mongoose";
+
+export default interface IUser extends Document {
+    username : string;
+    password: string;
+} 
 const UserSchema = new mongoose.Schema(
     {
         username : {type : String , required : true ,unique : true },

@@ -97,18 +97,39 @@ describe('Users Model test', () => {
                 const sample2 = {"password": "tobechanged", "username": "Bekele"}
                 var user = await User.create(sample)
 
-
-              
-
                 const {body , statusCode} = await supertest(app).patch("/api/users/" + user._id).send(sample2)
                 .accept("Accept" , "application/json");
                 
-                expect(body.password).toBe("tobechanged");
+                expect(body.username).toBe("Bekele");
                 expect(statusCode).toBe(200);
                 
             })
 
 
         } )
-   
+    
+       describe("POST login" , () => {
+        it("should login given the correct username and password" , async () => {
+            const sample = {"password": "BekelePassword", "username": "Abebe"}
+            await supertest(app).post("/api/users").send(sample)
+            .accept("Accept" , "application/json")
+            .expect("Content-Type" ,  "application/json; charset=utf-8");
+            const {body} = await supertest(app).post("/api/users/login").send(sample)
+            expect(body.token).toBeTruthy()
+                
+            });
+        it("should not login given wrong username and password" , async () => {
+            const sample = {"password": "BekelePassword", "username": "Abebe"}
+            await supertest(app).post("/api/users").send(sample)
+            .accept("Accept" , "application/json")
+            .expect("Content-Type" ,  "application/json; charset=utf-8");
+            
+            const {body , stausCode} = await supertest(app).post("/api/users/login").send({"password":"bekelepass" , "username" : "Abebe"})
+            expect(body.token).toBeFalsy()
+
+        })
+            
+
+    })
 })
+

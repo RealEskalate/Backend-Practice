@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import config from '../config/config';
-import IUser from '../interfaces/user.interface';
+import IUser from '../models/User.model';
 
 export const signJWT = (user: IUser, callback: (error: Error | null | unknown, token: string | null) => void): void => {
     var timeSinceEpoch = new Date().getTime();
@@ -21,10 +21,10 @@ export const signJWT = (user: IUser, callback: (error: Error | null | unknown, t
             },
             (error, token) => {
                 if (error) {
-                    console.log("token error")
+                
                     callback(error, null);
                 } else if (token) {
-                    console.log("token given")
+             
                     callback(null, token);
                 }
             }
