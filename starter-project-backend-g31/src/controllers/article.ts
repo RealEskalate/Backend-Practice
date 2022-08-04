@@ -25,7 +25,6 @@ export const createArticle = async (req: Request, res: Response) => {
             content: req.body.content,
             comment: req.body.comment
         });
-        console.log(article)
         const result = await article.save().catch((err) => res.status(400).send(err));
         res.json(result);
     } catch (err) {

@@ -1,10 +1,6 @@
 import mongoose , { Schema, Document } from 'mongoose';
-<<<<<<< HEAD
-interface IRating extends Document{
-=======
 
 export interface IRating extends Document{
->>>>>>> a3f8e4ee173c190c0945eae16973b317e0c541ee
     articleID:string,
     userID:string,
     rating:number,

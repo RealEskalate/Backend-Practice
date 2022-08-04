@@ -60,22 +60,23 @@ const articleSchema: Schema<IArticle> = new mongoose.Schema({
 });
 
 articleSchema.methods.addRating = function(val: number) {
-    
     this.rating[val]++;
-    const totalRating = (this.rating[1] * 1) + (this.rating[2] * 2) + (this.rating[3] * 3) + (this.rating[4] * 4) + (this.rating[5] * 5)
-    const frequency = this.rating[1] + this.rating[2] + this.rating[3] + this.rating[4] + this.rating[5];
-    this.averageRating = totalRating / frequency
+    this.averageRating = calculateAverage(this)
     this.markModified("rating")
     this.save()
 }  
 articleSchema.methods.updateRating = function(prev: number, current: number) {
     this.rating[prev]--;
     this.rating[current]++;
-    const totalRating = (this.rating[1] * 1) + (this.rating[2] * 2) + (this.rating[3] * 3) + (this.rating[4] * 4) + (this.rating[5] * 5)
-    const frequency = this.rating[1] + this.rating[2] + this.rating[3] + this.rating[4] + this.rating[5];
-    this.averageRating = totalRating / frequency
+    this.averageRating = calculateAverage(this)
     this.markModified("rating")
     this.save()
+}
+
+const calculateAverage = (article: IArticle) => {
+	const totalRating = (article.rating[1] * 1) + (article.rating[2] * 2) + (article.rating[3] * 3) + (article.rating[4] * 4) + (article.rating[5] * 5)
+    const frequency = article.rating[1] + article.rating[2] + article.rating[3] + article.rating[4] + article.rating[5];
+    return totalRating / frequency
 }
 
 export const Article = mongoose.model<IArticle>('Article', articleSchema);
