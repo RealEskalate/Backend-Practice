@@ -10,7 +10,7 @@ beforeAll(async () => {
   const article = new Article({
     title: 'test article',
     content: 'I can publish an ariticle, just for testing purposes',
-    Author: 'someone'
+    author: 'someone'
   })
   await article.save()
   articleID = article._id
