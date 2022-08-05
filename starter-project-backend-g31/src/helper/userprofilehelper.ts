@@ -1,5 +1,14 @@
-export function destructProfile(body: any){
-    var {_id,  name, username, bio, phone, avatar } = body
+import { AnyAaaaRecord } from 'dns'
+import cloudinary from '../utils/cloudinary'
+
+export async function destructProfile(body: any, fileRequest: any) {
+    var { _id, name, username, bio, phone } = body
+    var file = undefined
+    if (fileRequest) {
+            const result = await cloudinary.uploader.upload(fileRequest.path)
+            file  = result.url
+        }
+    var avatar  = file
 
     interface Profile{
         _id?: string,

@@ -2,8 +2,7 @@ import {Request, Response} from "express"
 
 import { Model, Mongoose, Schema } from "mongoose"
 import { destructProfile } from "../helper/userprofilehelper"
-import {UserProfile} from "../models/UserProfile"
-
+import { UserProfile } from "../models/UserProfile"
 
 export const getProfileHandler = async function(req: Request, res: Response){
     try{
@@ -30,7 +29,7 @@ export const getProfilesHandler = async function(req: Request, res: Response){
 
 export const updateProfileHandler = async function(req: Request, res: Response){
     try{
-        const profile = await UserProfile.updateOne({_id: req.params.id}, {$set: destructProfile(req.body)})
+        const profile = await UserProfile.updateOne({_id: req.params.id}, {$set: await destructProfile(req.body, req.file)})
         res.json(profile)     
     } catch(err) { 
         res.status(400).json(err);}
@@ -48,9 +47,8 @@ export const deleteProfileHandler = async function(req: Request, res: Response){
 }
 
 export const createProfileHandler = async function(req: Request, res: Response){
-    try{
-        
-        const profile = await UserProfile.create(destructProfile(req.body)).then( profile => {
+    try {
+        const profile = await UserProfile.create(await destructProfile(req.body,req.file)).then( profile => {
             res.status(201).json(profile)
             
         })} catch(err: any) {
