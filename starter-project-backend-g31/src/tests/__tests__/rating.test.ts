@@ -4,7 +4,7 @@ import app from "../../app"
 import {Rating} from "../../models/rating"
 
 
-jest.setTimeout(100000)
+
 describe("Test for Rating endpoint", () => {
     beforeAll(async () => await connect());
     afterAll(async () => {
@@ -12,9 +12,9 @@ describe("Test for Rating endpoint", () => {
         await disconnect()});
     
     describe("Tests the GET endpoints", () => {
-        describe("/ratings", () => {
+        describe("/api/ratings", () => {
             it("returns status code 200 if the ratings found", async () => {
-                const response = await supertest(app).get("/ratings");
+                const response = await supertest(app).get("/api/ratings");
 				expect(response.statusCode).toBe(200)
 				expect.arrayContaining(
 					[
@@ -29,14 +29,14 @@ describe("Test for Rating endpoint", () => {
             });
         });
         
-        describe("/ratings/{id}", () => {
+        describe("/api/ratings/{id}", () => {
             it("returns status code 200 if the rating exists", async () => {
                 const testRating = await Rating.create({
                     "articleID": "12344",
                     "userID": "54321",
                     "rating": 3
-                })
-                const response = await supertest(app).get(`/ratings/${testRating._id}`).set('Content-Type', 'application/x-www-form-urlencoded');
+                });
+                const response = await supertest(app).get(`/api/ratings/${testRating._id}`);
                 expect(response.statusCode).toBe(200)
                 expect.objectContaining(
 					{
@@ -48,19 +48,19 @@ describe("Test for Rating endpoint", () => {
 				);
             })
             it("returns status code 404 if the rating doesnot exist", async () => {
-                await supertest(app).get("/ratings/unknown").expect(404)
+                await supertest(app).get("/api/ratings/unknown").expect(404)
             })
         })
 
-        describe("/ratings/articles/{id}", () => {
+        describe("/api/ratings/articles/{id}", () => {
             it("returns status code 200 if the rating exists", async () => {
                 const testRating = await Rating.create({
                     "articleID": "12344",
                     "userID": "54321",
                     "rating": 3
                 })      
-                const response = await supertest(app).get(`/ratings/articles/${testRating._id}`)
-									.set('Content-Type', 'application/x-www-form-urlencoded')
+                const response = await supertest(app).get(`/api/ratings/articles/${testRating.articleID}`)
+		
 				expect(response.statusCode).toBe(200)
                 expect.objectContaining(
 					{
@@ -72,18 +72,18 @@ describe("Test for Rating endpoint", () => {
 				);
             })
             it("returns status code 404 if the rating doesnot exist", async () => {
-                await supertest(app).get("/ratings/articles/unknown").expect(404)
+                await supertest(app).get("/api/ratings/articles/unknown").expect(404)
             })
         })
 
-        describe("/ratings/users/{userID}", () => {
+        describe("/api/ratings/users/{userID}", () => {
             it("returns status code 200 if the rating exists", async () => {
                 const testRating = await Rating.create({
                     "articleID": "12344",
                     "userID": "54321",
                     "rating": 3
                 })
-                const response = await supertest(app).get(`/ratings/users/${testRating._id}`)
+                const response = await supertest(app).get(`/api/ratings/users/${testRating.userID}`)
 													 .set('Content-Type', 'application/x-www-form-urlencoded')
 				expect(response.statusCode).toBe(200)
                 expect.objectContaining(
@@ -96,18 +96,18 @@ describe("Test for Rating endpoint", () => {
 				);
             })
             it("returns status code 404 if the rating doesnot exist", async () => {
-                await supertest(app).get("/ratings/users/unknown").expect(404)
+                await supertest(app).get("/api/ratings/users/unknown").expect(404)
             })
         })
         
-        describe("/ratings/{articleID}/{userID}", () => {
+        describe("/api/ratings/{articleID}/{userID}", () => {
             it("returns status code 200 if the ratings exists", async () => {
                 const testRating = await Rating.create({
                     "articleID": "12344",
                     "userID": "54321",
                     "rating": 3
                 })
-                const response = await supertest(app).get(`/ratings/${testRating._id}/${testRating._id}`)
+                const response = await supertest(app).get(`/api/ratings/${testRating.articleID}/${testRating.userID}`)
 													 .set('Content-Type', 'application/x-www-form-urlencoded')
 				expect(response.statusCode).toBe(200)
                 expect.arrayContaining(
@@ -122,7 +122,7 @@ describe("Test for Rating endpoint", () => {
 				);
             })
             it("returns status code 404 if the rating doesnot exist", async () => {
-                await supertest(app).get("/ratings/unknown/unknown").expect(404)
+                await supertest(app).get("/api/ratings/unknown/unknown").expect(404)
             })
         })
         
@@ -132,7 +132,7 @@ describe("Test for Rating endpoint", () => {
         describe("/rating", () => {
             it("returns status code 201 on succesful creation", async () => {
                 await supertest(app)
-                        .post("/ratings")
+                        .post("/api/ratings")
                         .send({
                             "articleID": "12344555",
                             "userID": "843702",
@@ -144,7 +144,7 @@ describe("Test for Rating endpoint", () => {
             });
             it("returns status code 200 if the rating is already there and changes the old rating with the new one", async () => {
                 await supertest(app)
-                        .post("/ratings")
+                        .post("/api/ratings")
                         .send({
                             "articleID": "12344555",
                             "userID": "843702",
@@ -155,7 +155,7 @@ describe("Test for Rating endpoint", () => {
             });
             it("returns status code 400 if one of the fields are missing or invalid", async () => {
                 await supertest(app)
-                        .post("/ratings")
+                        .post("/api/ratings")
                         .send({
                             "userID": "843702",
                             "rating": 3
@@ -176,7 +176,7 @@ describe("Test for Rating endpoint", () => {
                     "rating": 3
                 })
                 await supertest(app)
-                        .put(`/ratings/${testRating._id}`)
+                        .put(`/api/ratings/${testRating._id}`)
                         .send({
                             "rating": 3
                         })
@@ -185,7 +185,7 @@ describe("Test for Rating endpoint", () => {
     
             it("returns 404 if the rating with the given id does not exist", async () => {
                 await supertest(app)
-                        .put("/ratings/unknown")
+                        .put("/api/ratings/unknown")
                         .send({
                             "rating": 3
                         })
@@ -204,13 +204,13 @@ describe("Test for Rating endpoint", () => {
                     "rating": 3
                 })
                 await supertest(app)
-                        .delete(`/ratings/${testRating._id}`)
+                        .delete(`/api/ratings/${testRating._id}`)
                         .send()
                         .expect(200)
             });
             it("returns 404 if the user to be deleted is not found", async () => {
                 await supertest(app)
-                        .delete("/ratings/12")
+                        .delete("/api/ratings/12")
                         .send()
                         .expect(404)
             });
@@ -220,3 +220,4 @@ describe("Test for Rating endpoint", () => {
     })
 
 })
+afterAll( async () => await disconnect());

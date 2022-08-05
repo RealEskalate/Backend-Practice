@@ -15,15 +15,15 @@ export const validateJoi = (schema: ObjectSchema) => {
 export const Schemas = {
   user: {
     create: Joi.object<IUserInterface>({
-      firstName: Joi.string().required(),
+      firstName: Joi.string(),
       middleName: Joi.string(),
-      lastName: Joi.string().required(),
-      username: Joi.string().min(4).max(10).required(),
+      lastName: Joi.string(),
+      username: Joi.string().min(4).max(10),
       email: Joi.string().email(),
       password: Joi.string().alphanum().min(6),
-      bio: Joi.string().min(10).max(300).required(),
+      bio: Joi.string().min(10).max(300),
       profileImage: Joi.string().uri(),
-      isActive: Joi.number(),
+      isActive: Joi.boolean(),
       chapter: Joi.string().id()
     })
   }
