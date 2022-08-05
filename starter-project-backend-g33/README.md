@@ -109,7 +109,7 @@ DEL → Delete comment by Id
 
 ### Future Works
 
-- Add xss and helmet middleware for security on headers
+- Add xss protection for all routes
 - Add newsletter options
 - Cron Scheduled emails going out to all users on saturday with contest link
 - Add a search feature for articles for any user and search users for admins
