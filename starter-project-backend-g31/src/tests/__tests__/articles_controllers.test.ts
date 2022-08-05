@@ -44,6 +44,7 @@ describe('/api/articles', () => {
             const res = await request(app).get('/api/articles/' + article._id);
             expect(res.status).toBe(200);
             expect(res.body).toHaveProperty('article.author', article.author);
+            expect(res.body).toHaveProperty('comments');
 
         });
 

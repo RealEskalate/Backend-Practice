@@ -3,15 +3,6 @@ import mongoose from 'mongoose';
 import {Comment} from'../models/comment';
 
 
-// export async function getAllComments(req: Request, res: Response){
-//     try{
-//         const comment = await Comment.find();
-//         res.status(200).json(comment);
-
-//     }catch(err){
-//         res.status(404).send("Error");
-//     }
-// }
 export async function getCommentsWithArticleId (limit = 3, skip = 0, article_id: any) {
     const comments = await Comment.find({article: article_id})
                             .skip(skip)

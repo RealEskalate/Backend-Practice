@@ -9,7 +9,6 @@ import {
 
 const router = express.Router();
 
-// router.get('/', getAllComments);
 
 router.get('/:commentId', getCommentById);
 
