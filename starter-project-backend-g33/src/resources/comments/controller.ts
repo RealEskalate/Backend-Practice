@@ -21,7 +21,6 @@ const getAllComments = (req: Request, res: Response, next: NextFunction) => {
         next(err)
       })
   } else {
-    res.status(400)
     throw new CustomError('Missing article ID', 400)
   }
 }

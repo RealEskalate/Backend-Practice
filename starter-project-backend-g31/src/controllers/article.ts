@@ -21,14 +21,13 @@ export const getOne = async (req: Request, res: Response) => {
 export const createArticle = async(req: Request, res: Response) => {
     try{
         let article = new Article({
-            Author: req.body.Author,
-            Content: req.body.Content,
-            Rating: req.body.Rating,
-            Comment: req.body.Comment,
-            postDate: req.body.postDate
+            author: req.body.author,
+            content: req.body.content,
+            rating: req.body.rating,
+            comment: req.body.comment
         });
-    
-        await article.save();
+        const result = await article.save().catch((err) => res.status(400).send("Bad request"));
+        res.json(result);
     }catch(err){
         return res.status(404);
     }
@@ -42,14 +41,14 @@ export const updateOne = async (req: Request, res: Response) => {
     if (!article) return res.status(404).send('Article not found');
 
     article.set({
-        Author: req.body.Author,
-        Content: req.body.Content,
-        Rating: req.body.Rating,
-        Comment: req.body.Comment,
-        postDate: req.body.postDate
+        author: req.body.author,
+        content: req.body.content,
+        rating: req.body.rating,
+        comment: req.body.comment,
+        postdate: req.body.postdate
     });
 
-    article = await article.save()
+    await article.save()
         .then(() => res.status(200).send(article))
         .catch((err: Error) => res.status(400).send(err.message));
 

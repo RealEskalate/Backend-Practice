@@ -26,7 +26,7 @@ const getAllChapters = (req: Request, res: Response, next: NextFunction) => {
 
 const getChapter = (req: Request, res: Response, next: NextFunction) => {
   chapterDal
-    .getOne(req.params['id'])
+    .getOne({ _id: req.params['id'] })
     .then((data) => {
       if (!data) {
         throw new CustomError(

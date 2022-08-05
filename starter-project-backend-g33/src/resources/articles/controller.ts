@@ -99,7 +99,6 @@ const deleteArticle = (req: Request, res: Response, next: NextFunction) => {
 
 const clap = (req: Request, res: Response, next: NextFunction) => {
   const props = req.body
-  console.log(props, req.body)
   articleDal
     .clap(props)
     .then((data) => {
