@@ -2,7 +2,6 @@ import express from 'express';
 import mongoose from 'mongoose';
 
 import {
-        getAllComments,
         getCommentById,
         addComment, 
         deleteCommentById, 
@@ -10,7 +9,6 @@ import {
 
 const router = express.Router();
 
-router.get('/', getAllComments);
 
 router.get('/:commentId', getCommentById);
 

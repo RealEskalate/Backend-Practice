@@ -49,30 +49,6 @@ afterEach(async()=>{
 });
 
 
-// test the get all api feature
-describe('GET: "/api/comment" get the comment route', () => {
-
-    // check status and check if data is returned
-    it('status code 200 and return data', async () => {
-
-      const res = await request(app).get('/api/comment');
-      
-      expect(res.status).toBe(200);
-      expect(res.body).not.toBeNull();
-    
-    
-    });
-    
-  
-    // check for failure case
-    
-    it('return status code 404', async () =>{
-      const res = await request(app).get('/wrongRoute');
-      expect(res.status).toBe(404);
-    });
-  
-});
-
 // test the get comment by id feature
 describe('GET: "/api/comment/:id" get a comment by id', ()=>{
 
