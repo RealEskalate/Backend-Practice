@@ -18,7 +18,9 @@ const ratingSchema : Schema<IRating> = new mongoose.Schema(
         },
         rating: {
             type: Number,
-            required: true
+            required: true,
+            min: [1, "Must be at least 1"],
+            max: [5, "Must be at most 5"]
         },
         ratedAt: {
             type: Date,

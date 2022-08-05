@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from 'express'
-import bcrypt, { hash } from 'bcryptjs'
+import { NextFunction, Request, Response } from 'express';
+import bcrypt, { hash } from 'bcryptjs';
 import User from './model'
 import dataAccessLayer from '../../common/dal'
-import jwt from 'jsonwebtoken'
-import { CustomError } from '../../middlewares/errorModel'
+import jwt from 'jsonwebtoken';
+import { CustomError } from '../../middlewares/errorModel';
 
 const UserDAL = dataAccessLayer(User)
 
@@ -18,7 +18,6 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
         error: hashError
       })
     }
-
     newUser.password = hash
     UserDAL.createOne(newUser)
       .then((data) => {

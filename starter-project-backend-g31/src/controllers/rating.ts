@@ -1,4 +1,5 @@
 import { Rating } from "../models/rating";
+import {addRatingToArticle, updateRatingForArticle} from "./article"
 
 export const getAllRatings = (req: any, res: any) => {
   return Rating.find({})
@@ -51,6 +52,7 @@ export const createRating = async (req: any, res: any) => {
   try {
     const ratedBefore = await Rating.findOne({ articleID: req.body.articleID, userID: req.body.userID });
     if (ratedBefore) {
+      await updateRatingForArticle(ratedBefore.articleID, ratedBefore.rating, req.body.rating)
       ratedBefore.rating = req.body.rating
       await ratedBefore.save()
       return res.send(ratedBefore)
@@ -61,6 +63,8 @@ export const createRating = async (req: any, res: any) => {
       rating: req.body.rating,
     });
     await newRating.save();
+    await addRatingToArticle(newRating.articleID, newRating.rating)
+
     return res.status(201).send(newRating)
   }
 	catch (error) {
@@ -72,6 +76,7 @@ export const updateRating = async (req: any, res: any) => {
   try {
     const rating = await Rating.findById({ _id: req.params.id })
     if (!rating) return res.status(404).send("Rating not found to be updated")
+    await updateRatingForArticle(rating.articleID, rating.rating, req.body.rating)
     rating.rating = req.body.rating || rating.rating;
     await rating.save()
     return res.send(rating)
