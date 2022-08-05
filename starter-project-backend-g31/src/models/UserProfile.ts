@@ -1,11 +1,12 @@
 import mongoose,{Schema,Document} from "mongoose"
 
-export interface IProfile{
+export interface IProfile {
     name: string | undefined,
     username: string,
     bio: string | undefined,
     phone: string | undefined,
     avatar: string | undefined,
+    photo_id: string | undefined
 }
 export const UserProfileSchema = new mongoose.Schema({
     name: {
@@ -27,8 +28,11 @@ export const UserProfileSchema = new mongoose.Schema({
     },
 
     avatar: {
-        type: String,
-        required: false
+        type: String
+    },
+
+    photo_id: {
+        type: String
     }
 
 });
