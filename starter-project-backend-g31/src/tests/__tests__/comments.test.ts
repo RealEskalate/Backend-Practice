@@ -175,8 +175,10 @@ describe('PATCH: "/api/comment/commentId:/id:userId/:articleId" update existing 
       const res = await request(app).patch(`/api/comment/${commentId}/${userId}/${articleId}`).send({
         description: "changed"
       });
+      
+      let updatedcomment : any;
 
-      const updatedcomment = await Comment.findById(commentId);
+      updatedcomment = await Comment.findById(commentId);
       
       expect(updatedcomment.description).toStrictEqual("changed");
       expect(res.status).toBe(200);

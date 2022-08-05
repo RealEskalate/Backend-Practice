@@ -72,10 +72,10 @@ export async function deleteCommentById(req:Request,res:Response){
     if (!article) return res.status(404).send("Article not found");
 
     try{
+        let comment:any;
+        comment = await Comment.findById(req.params.commentId);
+        if (!comment) return res.status(404).send("comment not found");
 
-        
-        const comment = await Comment.findById(req.params.commentId);
-        
         if (comment.author == req.params.userId){
             const deletedComment = await Comment.remove({ _id:req.params.commentId});
             res.status(200).json(deletedComment);
@@ -95,8 +95,10 @@ export async function  updateCommentById(req:Request,res:Response){
     if (!article) return res.status(404).send("Article not found");
 
     try{
-        const comment = await Comment.findById(req.params.commentId);
-        
+        let comment:any;
+        comment = await Comment.findById(req.params.commentId);
+        if (!comment) return res.status(404).send("comment not found");
+
         if (comment.author == req.params.userId){
             const updatedComment = await Comment.updateOne({ _id:req.params.commentId}, 
                 { $set:{

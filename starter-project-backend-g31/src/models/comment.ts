@@ -31,5 +31,5 @@ const CommentSchema :mongoose.Schema<comment_interface> = new mongoose.Schema({
 });
 
 
-export const Comment = mongoose.model('Comment', CommentSchema);
+export const Comment = mongoose.model<comment_interface>('Comment', CommentSchema);
 
