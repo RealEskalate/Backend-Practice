@@ -5,7 +5,6 @@ import dataAccessLayer from '../../common/dal'
 import jwt from 'jsonwebtoken'
 import { CustomError } from '../../middlewares/errorModel'
 
-
 const UserDAL = dataAccessLayer(User)
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
@@ -40,25 +39,15 @@ const login = (req: Request, res: Response, next: NextFunction) => {
 
   UserDAL.getOne(props)
     .then((user: any) => {
-      if (user.length !== 1) {
-        return res.status(401).json({
-          message: 'Unauthorized'
+      if (bcrypt.compareSync(password, user.password)) {
+        const token = jwt.sign({ id: user._id }, process.env.JWT_PASS)
+        const { password, ...userWithoutPassword } = user.toObject()
+
+        res.status(201).json({
+          ...userWithoutPassword,
+          token
         })
-      }
-
-      bcrypt.compare(password, user.password, (err, result) => {
-        if (!result) {
-          return res.status(401).json({ message: 'password does not match' })
-        } else {
-          const token = jwt.sign({ id: user._id }, process.env.JWT_PASS)
-
-          res.json({
-            token,
-            user,
-            message: 'succesfully logged in!'
-          })
-        }
-      })
+      } else throw new CustomError('username or password incorrect')
     })
     .catch((err) => {
       next(err)
@@ -66,7 +55,7 @@ const login = (req: Request, res: Response, next: NextFunction) => {
 }
 const getAllUser = (req: Request, res: Response, next: NextFunction) => {
   const filter = { isActive: true }
-  UserDAL.getMany(filter)
+  UserDAL.getManyUserSecured(filter)
     .then((data: any) => {
       if (data.length == 0) {
         throw new CustomError('No user found', 404)
@@ -79,7 +68,7 @@ const getAllUser = (req: Request, res: Response, next: NextFunction) => {
 }
 const getUser = (req: Request, res: Response, next: NextFunction) => {
   const userId = req.params.id
-  UserDAL.getOne({ _id: userId })
+  UserDAL.getOne({ _id: userId, isActive: true })
     .then((data: any) => {
       if (!data) {
         throw new CustomError('User is not found', 404)

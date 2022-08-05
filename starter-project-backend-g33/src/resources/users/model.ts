@@ -10,7 +10,7 @@ const UserSchema: Schema = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     bio: { type: String, required: true },
-    profileImage: { type: String },  
+    profileImage: { type: String },
     isActive: { type: Boolean, default: true },
     chapter: { type: Schema.Types.ObjectId, ref: 'Chapter', required: true }
   },
@@ -18,6 +18,6 @@ const UserSchema: Schema = new Schema(
   { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
 )
 
-UserSchema.set('toJSON', { virtuals: true })
+UserSchema.set('toJSON', { virtuals: false })
 
 export default mongoose.model<IUserInterface>('User', UserSchema)
