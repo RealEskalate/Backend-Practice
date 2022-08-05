@@ -1,13 +1,15 @@
 // user.model.ts
 import { Document, Schema, model } from 'mongoose';
-
 import bcrypt from 'bcryptjs';
 
+import mongoose from 'mongoose';
+import { UserProfile } from './UserProfile';
 // Create the interface
 export interface IUser extends Document {
   [x: string]: any;
   email: string;
   password: string;
+  userProfile?:mongoose.Types.ObjectId;
 }
 
 // Create the schema
@@ -22,12 +24,18 @@ const userSchema = new Schema<IUser>({
     required: true,
     minlength: 6, 
     maxlength: 128
+  },
+  userProfile:{
+    type:mongoose.Types.ObjectId,
+    required: false,
+    ref: UserProfile
   }
 }, {
   timestamps: {
     createdAt: 'created_at', 
     updatedAt: 'updated_at'
   }
+  
 });
 
 

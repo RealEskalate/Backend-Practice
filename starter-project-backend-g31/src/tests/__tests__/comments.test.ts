@@ -8,6 +8,7 @@ import {userModel} from '../../models/user-model';
 import {Article} from '../../models/article';
 
 import bcrypt from 'bcrypt';
+import { UserProfile } from '../../models/UserProfile';
 
 
 //connect to data base before starting any test
@@ -33,19 +34,21 @@ const commentId = mongoose.Types.ObjectId();
 const userId = mongoose.Types.ObjectId();
 
 const articleId = mongoose.Types.ObjectId();
+const profileId = mongoose.Types.ObjectId();
 
 // create a variable to hole a sample/dummy document
 let comment: any;
 let user: any;
 let article: any;
-
+let name: string = "Sasi";
 // create and save sample document before any test
 beforeEach(async()=>{
   user = new userModel({
     _id:userId,
-    name: 'Sasi',
+    name: name,
     email: 'sasi@gmail.com',
-    password: "password"
+    password: "password",
+    userProfile: profileId
   })
   await user.save()
   // userId = user._id;
@@ -56,6 +59,16 @@ beforeEach(async()=>{
     rating: 4
 });
   await article.save()
+
+  const userProfile = new UserProfile ({
+    _id: profileId,
+    username: name,
+    name: "jane.doe@example.com",
+    bio: "Jane Doe",
+    phone: "+25143674477",
+    avatar: "😀"
+  });
+  await userProfile.save();
   comment = new Comment({
     _id:commentId,
     author:userId,
@@ -73,6 +86,7 @@ afterEach(async()=>{
   await Comment.collection.remove({})
   await Article.collection.remove({})
   await userModel.collection.remove({})
+  await UserProfile.collection.remove({})
   
   
 });
