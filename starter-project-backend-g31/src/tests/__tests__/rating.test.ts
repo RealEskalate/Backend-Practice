@@ -2,10 +2,11 @@ import supertest from "supertest";
 import { connect, clear, disconnect } from "../setupdb";
 import app from "../../app"
 import {Rating} from "../../models/rating"
+import {Article} from "../../models/article"
 
-
-
+jest.setTimeout(5000);
 describe("Test for Rating endpoint", () => {
+	
     beforeAll(async () => await connect());
     afterAll(async () => {
         await clear()
@@ -130,11 +131,18 @@ describe("Test for Rating endpoint", () => {
 
     describe("Tests the POST endpoint", () => {
         describe("/rating", () => {
+            
             it("returns status code 201 on succesful creation", async () => {
+                var testArticle = await Article.create({
+                    author: "tester x",
+                    content: "sdkfja;sdkfja;lskfja;lfjka;sfjka;sfklj",
+                    comment: "no comment",
+                    averageRating: 0
+                })
                 await supertest(app)
                         .post("/api/ratings")
                         .send({
-                            "articleID": "12344555",
+                            "articleID": testArticle._id,
                             "userID": "843702",
                             "rating": 3
                         })
@@ -143,10 +151,22 @@ describe("Test for Rating endpoint", () => {
                         
             });
             it("returns status code 200 if the rating is already there and changes the old rating with the new one", async () => {
+                var testArticle = await Article.create({
+                    author: "tester x",
+                    content: "sdkfja;sdkfja;lskfja;lfjka;sfjka;sfklj",
+                    comment: "no comment",
+                    averageRating: 0
+
+                })
+                const testRating = await Rating.create({
+                    "articleID": testArticle._id,
+                    "userID": "843702",
+                    "rating": 3
+                })
                 await supertest(app)
                         .post("/api/ratings")
                         .send({
-                            "articleID": "12344555",
+                            "articleID": testArticle._id,
                             "userID": "843702",
                             "rating": 5
                         })
@@ -170,8 +190,15 @@ describe("Test for Rating endpoint", () => {
     describe("Tests the PUT endpoint", () => {
         describe("/rating/{id}", () => {
             it("returns 200 if the edit is succesful", async () => {
+                const testArticle = await Article.create({
+                    author: "tester x",
+                    content: "sdkfja;sdkfja;lskfja;lfjka;sfjka;sfklj",
+                    comment: "no comment",
+                    averageRating: 0
+
+                });
                 const testRating = await Rating.create({
-                    "articleID": "12344",
+                    "articleID": testArticle._id,
                     "userID": "54321",
                     "rating": 3
                 })
