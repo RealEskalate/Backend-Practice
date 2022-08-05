@@ -24,7 +24,7 @@ export const Schemas = {
       password: Joi.string().alphanum().min(6),
       bio: Joi.string().min(10).max(300),
       profileImage: Joi.string().uri(),
-      isActive: Joi.number(),
+      isActive: Joi.boolean(),
       chapter: Joi.string().id()
     })
   }
