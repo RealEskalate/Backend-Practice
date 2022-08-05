@@ -8,7 +8,7 @@ import cloudinary, { upload, update, remove} from '../utils/cloudinary'
 export const getProfileHandler = async function(req: Request, res: Response){
     try{
 
-        const profile = await UserProfile.findById(req.params.id).select('-photo_id');
+        const profile = await UserProfile.findById(req.params.id);
         if(!profile) throw Error("Profile doesnt exist"); 
         
         res.status(200).json(profile)
@@ -20,7 +20,7 @@ export const getProfileHandler = async function(req: Request, res: Response){
 
 export const getProfilesHandler = async function(req: Request, res: Response){
     try{
-        const userProfiles = await UserProfile.find({}).select('-photo_id');
+        const userProfiles = await UserProfile.find({});
         res.status(200).json(userProfiles)
         
     } catch(err) { 

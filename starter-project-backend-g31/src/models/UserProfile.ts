@@ -10,8 +10,7 @@ export interface IProfile {
 }
 export const UserProfileSchema = new mongoose.Schema({
     name: {
-        type: String,
-        required: true
+        type: String
     },
     username: {
         type: String,
@@ -32,7 +31,8 @@ export const UserProfileSchema = new mongoose.Schema({
     },
 
     photo_id: {
-        type: String
+        type: String,
+        select: false
     }
 
 });
