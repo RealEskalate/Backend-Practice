@@ -18,6 +18,6 @@ const UserSchema: Schema = new Schema(
   { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
 )
 
-UserSchema.set('toJSON', { virtuals: false })
+UserSchema.set('toJSON', { virtuals: true })
 
 export default mongoose.model<IUserInterface>('User', UserSchema)
