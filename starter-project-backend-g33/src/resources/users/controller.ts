@@ -40,7 +40,7 @@ const login = (req: Request, res: Response, next: NextFunction) => {
   UserDAL.getOne(props)
     .then((user: any) => {
       if (bcrypt.compareSync(password, user.password)) {
-        const token = jwt.sign({ id: user._id }, process.env.JWT_PASS)
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
         const { password, ...userWithoutPassword } = user.toObject()
 
         res.status(201).json({
