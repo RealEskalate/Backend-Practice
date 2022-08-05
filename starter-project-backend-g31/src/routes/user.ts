@@ -7,6 +7,8 @@ import {
     deleteUser
 } from '../controllers/user';
 import * as express from 'express';
+import upload from "../utils/multer"
+
 const userRouter = express.Router();
 
 /*
@@ -61,7 +63,7 @@ userRouter.get('/filter/:email', filterUsers);
  * @returns {object} 200 - User object 
  * @returns {Error}  default - Unexpected error 
  */ 
-userRouter.post('/', createUser); 
+userRouter.post('/', upload.single("image"), createUser); 
 
 
 /*
@@ -72,7 +74,7 @@ userRouter.post('/', createUser);
  * @returns {object} 200 - User object 
  * @returns {Error}  default - Unexpected error 
  */ 
-userRouter.patch('/update/:id', updateUser); 
+userRouter.patch('/update/:id', upload.single("image"), updateUser); 
 
 
 /*

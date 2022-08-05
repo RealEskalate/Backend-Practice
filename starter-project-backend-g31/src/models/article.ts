@@ -7,6 +7,8 @@ export interface IArticle extends Document{
     rating: IHash,
     averageRating: Number,
     postdate:Date,
+    avatar: string,
+    cloudinary_id: string,
     addRating(val: number): void,
     updateRating(prev: number, current: number): void
 } 
@@ -56,6 +58,12 @@ const articleSchema: Schema<IArticle> = new mongoose.Schema({
     postdate: {
         type: Date,
         default: Date.now()
+    },
+    avatar: {
+        type: String
+    },
+    cloudinary_id: {
+        type: String
     }
 });
 

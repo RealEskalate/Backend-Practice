@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { Request, Response } from 'express';
 import { Article, IHash } from '../models/article';
-
+import cloudinary from '../utils/cloudinary';
 
 export const getMany = async (req: Request, res: Response) => {
     const article = await Article.find();
@@ -25,6 +25,13 @@ export const createArticle = async (req: Request, res: Response) => {
             content: req.body.content,
             comment: req.body.comment
         });
+        if (req.file){
+            const result = await cloudinary.v2.uploader.upload(req.file.path, {
+              upload_preset: "EskalatePracticeArticle"
+            });
+            article.avatar = result.secure_url;
+            article.cloudinary_id = result.public_id;
+          }
         const result = await article.save().catch((err) => res.status(400).send(err));
         res.json(result);
     } catch (err) {
@@ -39,6 +46,14 @@ export const updateOne = async (req: Request, res: Response) => {
     let article = await Article.findById(req.params.id);
     if (!article) return res.status(404).send('Article not found');
 
+    if (req.file){
+        await cloudinary.v2.uploader.destroy(article.cloudinary_id)
+        const result = await cloudinary.v2.uploader.upload(req.file.path, {
+          upload_preset: "EskalatePracticeArticle"
+        });
+        article.avatar = result.secure_url;
+        article.cloudinary_id = result.public_id;
+      }
     article.set({
         author: req.body.author,
         content: req.body.content,
@@ -60,6 +75,7 @@ export const deleteOne = async (req: Request, res: Response) => {
     const article = await Article.findByIdAndRemove(req.params.id);
     if (!article) return res.status(404).send('Article not found');
 
+    await cloudinary.v2.uploader.destroy(article.cloudinary_id)
     res.send(article);
 }
 

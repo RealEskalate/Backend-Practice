@@ -1,6 +1,8 @@
 import { userModel } from '../models/user-model';
 import { NextFunction, Request, Response } from 'express'
- 
+import cloudinary from "../utils/cloudinary"
+
+
 /* 
 @Description: Get all users 
 @Route: users/ 
@@ -95,14 +97,22 @@ export const createUser = async (
       name,
       email,
       password
-    })
+    });
+    
     try {
+      if (req.file){
+        const result = await cloudinary.v2.uploader.upload(req.file.path, {
+          upload_preset: "EskalatePractice"
+        });
+        user.avatar = result.secure_url;
+        user.cloudinary_id = result.public_id;
+      }
       const newUser = await user.save()
       return res.status(201).json({ data: { _id: newUser._id, name: newUser.name, email: newUser.email } })
     } catch (err) {
       return res
         .status(500)
-        .json({ data: 'Error: Creation of user failed' })
+        .json({ data: err })
     }
   }
   
@@ -133,6 +143,15 @@ export const updateUser = async (
           message: `Error: User with id number ${id} does not exist`
         })
       }
+      if (req.file){
+        await cloudinary.v2.uploader.destroy(user.cloudinary_id)
+        const result = await cloudinary.v2.uploader.upload(req.file.path, {
+          upload_preset: "EskalatePractice"
+        });
+        user.avatar = result.secure_url;
+        user.cloudinary_id = result.public_id;
+        await user.save()
+      }
       return res.status(201).json({ data: { _id: user._id, name: user.name, email: user.email } })
     } catch (e) {
       return res
@@ -161,6 +180,7 @@ export const deleteUser = async (
           message: `Error: User with id number ${id} does not exist`
         })
       }
+      await cloudinary.v2.uploader.destroy(user.cloudinary_id)
       return res.status(201).json({ data: 'User deleted successfully' })
     } catch (e) {
       return res

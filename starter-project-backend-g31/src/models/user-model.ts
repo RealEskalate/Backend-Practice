@@ -9,6 +9,8 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
+  avatar: string;
+  cloudinary_id: string;
 }
 
 // Create the schema
@@ -28,6 +30,12 @@ const userSchema = new Schema<IUser>({
     required: true,
     minlength: 6, 
     maxlength: 128
+  },
+  avatar: {
+    type:String
+  },
+  cloudinary_id: {
+    type: String
   }
 }, {
   timestamps: {
