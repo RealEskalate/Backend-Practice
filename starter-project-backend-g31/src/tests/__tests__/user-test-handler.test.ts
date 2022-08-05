@@ -13,7 +13,7 @@ beforeAll(async () => {
   const user = await userModel.create({
     name: 'Sasi',
     email: 'sasi@gmail.com',
-    password: await bcrypt.hash('12345678', await bcrypt.genSalt(12)),
+    password: '12345678',
   })
 
   userId = user._id

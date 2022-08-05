@@ -6,18 +6,12 @@ import bcrypt from 'bcryptjs';
 // Create the interface
 export interface IUser extends Document {
   [x: string]: any;
-  name: string;
   email: string;
   password: string;
 }
 
 // Create the schema
 const userSchema = new Schema<IUser>({
-  name: {
-    type: String,
-    required: true,
-    unique: true
-  },
   email: {
     type: String,
     required: true,
@@ -50,6 +44,17 @@ userSchema.pre('save', function preSave(next) {
 
 
 userSchema.method({ 
+    verifyPassword(passwd) { 
+      return new Promise((resolve, reject) => { 
+        bcrypt.compare(passwd, this.password, (err, isMatch) => { 
+          if (err) { 
+            return reject(err); 
+          } 
+          
+          resolve(isMatch); 
+        }) 
+      }); 
+    }, 
     hashpassword(passwd, cb) {  
       let createHash = (err: any, hash: any) => { 
         if (err) { 
