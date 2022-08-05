@@ -3,6 +3,8 @@ import bcrypt, { hash } from 'bcryptjs'
 import User from './model'
 import dataAccessLayer from '../../common/dal'
 import jwt from 'jsonwebtoken'
+import { CustomError } from '../../middlewares/errorModel'
+
 
 const UserDAL = dataAccessLayer(User)
 
@@ -22,7 +24,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
     UserDAL.createOne(newUser)
       .then((data) => {
         if (!data) {
-          throw " Couldn't  create a new user"
+          throw new CustomError('Cannot create new user', 404)
         }
         res.status(200).json(data)
       })
@@ -67,7 +69,7 @@ const getAllUser = (req: Request, res: Response, next: NextFunction) => {
   UserDAL.getMany(filter)
     .then((data: any) => {
       if (data.length == 0) {
-        throw 'No User Found'
+        throw new CustomError('No user found', 404)
       }
       res.status(200).json(data)
     })
@@ -80,7 +82,7 @@ const getUser = (req: Request, res: Response, next: NextFunction) => {
   UserDAL.getOne({ _id: userId })
     .then((data: any) => {
       if (!data) {
-        throw 'User Not Found'
+        throw new CustomError('User is not found', 404)
       }
       res.status(200).json(data)
     })
@@ -94,7 +96,7 @@ const updateUser = (req: Request, res: Response, next: NextFunction) => {
   UserDAL.updateOne(changedProps, userId)
     .then((data) => {
       if (!data) {
-        throw " Couldn't  Update the user"
+        throw new CustomError('Cannot update user', 404)
       }
       res.status(200).json(data)
     })
@@ -107,7 +109,7 @@ const deleteUser = (req: Request, res: Response, next: NextFunction) => {
   UserDAL.deleteOne(userId)
     .then((data) => {
       if (!data) {
-        throw " Couldn't  Delete the user"
+        throw new CustomError('Cannot delete user', 404)
       }
       res.status(200).json(data)
     })

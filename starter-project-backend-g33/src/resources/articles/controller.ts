@@ -22,7 +22,11 @@ const getArticle = (req: Request, res: Response, next: NextFunction) => {
     .getOne(filter)
     .then((data: any) => {
       if (!data) {
-        throw new CustomError('No article by that ID is found', 404, data)
+        throw new CustomError(
+          'Article not found',
+          404,
+          'Could not fetch article with this id'
+        )
       }
       res.status(200).json(data)
     })
@@ -36,7 +40,11 @@ const getMyArticle = (req: Request, res: Response, next: NextFunction) => {
     .getOne(filter)
     .then((data: any) => {
       if (!data) {
-        throw 'This author has no articles'
+        throw new CustomError(
+          'No articles ',
+          404,
+          'This author has no articles'
+        )
       }
       res.status(200).json(data)
     })
@@ -51,7 +59,7 @@ const updateArticle = (req: Request, res: Response, next: NextFunction) => {
     .updateOne(newArticle, newArticle.id)
     .then((data: any) => {
       if (!data) {
-        throw 'No article with this ID'
+        throw new CustomError('Could not update article', 400)
       }
       res.status(200).json(data)
     })
@@ -66,7 +74,7 @@ const createArticle = (req: Request, res: Response, next: NextFunction) => {
     .createOne(newChapter)
     .then((data: any) => {
       if (!data) {
-        throw 'No article with this ID'
+        throw new CustomError('Could not create article', 400)
       }
       res.status(200).json(data)
     })
@@ -80,7 +88,7 @@ const deleteArticle = (req: Request, res: Response, next: NextFunction) => {
     .deleteOne(req.params['id'])
     .then((data: any) => {
       if (!data) {
-        throw 'Could not delete Article'
+        throw new CustomError('Could not delete Article', 400)
       }
       res.status(200).json(data)
     })
@@ -91,7 +99,6 @@ const deleteArticle = (req: Request, res: Response, next: NextFunction) => {
 
 const clap = (req: Request, res: Response, next: NextFunction) => {
   const props = req.body
-  console.log(props, req.body)
   articleDal
     .clap(props)
     .then((data) => {

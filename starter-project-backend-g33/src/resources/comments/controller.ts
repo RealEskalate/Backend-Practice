@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import dataAccessLayer from '../../common/dal'
 import Comment from './model'
+import { CustomError } from '../../middlewares/errorModel'
 
 const commentDal = dataAccessLayer(Comment)
 
@@ -12,7 +13,7 @@ const getAllComments = (req: Request, res: Response, next: NextFunction) => {
       .getMany(filter)
       .then((data: any) => {
         if (data.length == 0) {
-          res.status(204).send()
+          throw new CustomError('No comments found', 404)
         }
         res.status(200).json(data)
       })
@@ -20,8 +21,7 @@ const getAllComments = (req: Request, res: Response, next: NextFunction) => {
         next(err)
       })
   } else {
-    res.status(400)
-    throw new Error('Missing article id')
+    throw new CustomError('Missing article ID', 400)
   }
 }
 
@@ -30,7 +30,11 @@ const getComment = (req: Request, res: Response, next: NextFunction) => {
     .getMany({ articleId: req.params['id'] })
     .then((data) => {
       if (!data) {
-        res.status(204).send()
+        throw new CustomError(
+          'No comment found',
+          404,
+          'Could not fetch comment with this id'
+        )
       }
       res.status(200).json(data)
     })
@@ -42,13 +46,17 @@ const getComment = (req: Request, res: Response, next: NextFunction) => {
 const updateComment = (req: Request, res: Response, next: NextFunction) => {
   const newComment = req.body
   if (!newComment || !newComment.commentContent) {
-    throw 'Please enter a comment'
+    throw new CustomError(
+      'Empty comment body.',
+      400,
+      'Please add some comment and comment content'
+    )
   } else {
     commentDal
       .updateOne(newComment, newComment.id)
       .then((data) => {
         if (!data) {
-          throw 'No comment with this ID'
+          throw new CustomError('Cannot update comment with this id', 400)
         }
         res.status(200).json(data)
       })
@@ -64,7 +72,7 @@ const createComment = (req: Request, res: Response, next: NextFunction) => {
     .createOne(newComment)
     .then((data) => {
       if (!data) {
-        throw 'Could not create the comment'
+        throw new CustomError('Cannot create comment', 400)
       }
       res.status(200).json(data)
     })
@@ -78,7 +86,7 @@ const deleteComment = (req: Request, res: Response, next: NextFunction) => {
     .deleteOne(req.params['id'])
     .then((data) => {
       if (!data) {
-        throw 'Could not delete comment'
+        throw new CustomError('Cannot delete comment', 400)
       }
       res.status(200).json(data)
     })
