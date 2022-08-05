@@ -18,6 +18,7 @@ const getAllArticles = (req: Request, res: Response, next: NextFunction) => {
 
 const getArticle = (req: Request, res: Response, next: NextFunction) => {
   const filter = { _id: req.params.id, isActive: true }
+  const { id, author } = req.params
   articleDal
     .getOne(filter)
     .then((data: any) => {
@@ -53,23 +54,33 @@ const getMyArticle = (req: Request, res: Response, next: NextFunction) => {
     })
 }
 
-const updateArticle = (req: Request, res: Response, next: NextFunction) => {
-  const newArticle = req.body
-  articleDal
-    .updateOne(newArticle, newArticle.id)
-    .then((data: any) => {
-      if (!data) {
-        throw new CustomError('Could not update article', 400)
-      }
-      res.status(200).json(data)
-    })
-    .catch((err) => {
-      next(err)
-    })
+const updateArticle = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user, ...newArticle } = req.body
+  const { author } = await articleDal.getOne({ _id: req.params.id })
+  if (author == req.body.user[0]._id) {
+    articleDal
+      .updateOne(newArticle, req.params.id)
+      .then((data: any) => {
+        if (!data) {
+          throw new CustomError('Could not update article', 400)
+        }
+        res.status(200).json(data)
+      })
+      .catch((err) => {
+        next(err)
+      })
+  } else
+    res
+      .status(401)
+      .json({ message: 'user not authorized to edit this article' })
 }
 
 const createArticle = (req: Request, res: Response, next: NextFunction) => {
-  const newChapter = req.body
+  const { user, ...newChapter } = req.body
   articleDal
     .createOne(newChapter)
     .then((data: any) => {
