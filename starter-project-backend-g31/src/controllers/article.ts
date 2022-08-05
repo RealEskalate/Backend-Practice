@@ -2,9 +2,11 @@ import mongoose from 'mongoose';
 import { Request, Response } from 'express';
 import { Article, IHash } from '../models/article';
 import cloudinary from '../utils/cloudinary';
+import { getCommentsWithArticleId, deleteCommentsWithArticleId } from './comment';
+
 
 export const getMany = async (req: Request, res: Response) => {
-    const article = await Article.find();
+    const article  = await Article.find()
     res.send(article);
 }
 
@@ -14,8 +16,10 @@ export const getOne = async (req: Request, res: Response) => {
 
     const article = await Article.findById(req.params.id);
     if (!article) return res.status(404).send('Article not found');
-
-    res.send(article);
+    const {limit, skip} = req.query;
+    const comments = await getCommentsWithArticleId(Number(limit), Number(skip), req.params.id);
+    const result = {article, comments: comments};
+    res.send(result);
 }
 
 export const createArticle = async (req: Request, res: Response) => {
@@ -74,6 +78,9 @@ export const deleteOne = async (req: Request, res: Response) => {
 
     const article = await Article.findByIdAndRemove(req.params.id);
     if (!article) return res.status(404).send('Article not found');
+    
+    await deleteCommentsWithArticleId(req.params.id)
+                    .catch((err) => console.log("wtf"));
 
     await cloudinary.v2.uploader.destroy(article.cloudinary_id)
     res.send(article);

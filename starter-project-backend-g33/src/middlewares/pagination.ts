@@ -6,12 +6,3 @@ export const paginationOffset = (req, res, next) => {
   req.query.limit = limit
   next()
 }
-
-// pagination based on cursor
-export const paginationCursor = (req, res, next) => {
-  const { cursor, limit } = req.query
-  const offset = cursor
-  req.query.offset = offset
-  req.query.limit = limit
-  next()
-}

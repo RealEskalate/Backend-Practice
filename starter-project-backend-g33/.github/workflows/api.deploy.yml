@@ -1,0 +1,40 @@
+name: CI build and deploy to production on heroku from staging
+
+on:
+  push:
+    branches: [ production-g33 ]
+  pull_request:
+    branches: [ master-g33 ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: ${{ secrets.NODE_ENV }}
+      APP_ID: ${{ secrets.APP_ID }}
+      PORT: ${{ secrets.PORT }}
+      LOG_LEVEL: ${{ secrets.LOG_LEVEL }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      REQUEST_LIMIT: ${{ secrets.REQUEST_LIMIT }}
+      MONGO_URI: ${{ secrets.MONGO_URI }}
+      CLOUDINARY_NAME: ${{ secrets.CLOUDINARY_NAME }}
+      CLOUDINARY_KEY: ${{ secrets.CLOUDINARY_KEY }}
+      CLOUDINARY_SECRET: ${{ secrets.CLOUDINARY_SECRET }}
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: cd starter-project-backend-g33 && npm install
+      - run: starter-project-backend-g33 && npm run build
+      - run: starter-project-backend-g33 && npm test
+      - run: starter-project-backend-g33 && npm run test:coverage
+      - run: cd starter-project-backend-g33 && npm run build
+      - run: cd starter-project-backend-g33 && npm run deploy:prod
+      - run: cd starter-project-backend-g33 && npm run deploy:prod:cleanup
