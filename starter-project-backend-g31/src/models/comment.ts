@@ -2,14 +2,14 @@ import mongoose from 'mongoose';
 import {userModel} from './user-model';
 import {Article} from './article';
 
-export interface comment_interface extends Document{
+export interface IComment extends Document{
     author:mongoose.Types.ObjectId,
     article:mongoose.Types.ObjectId,
     description:string,
     date:Date
 } 
 
-const CommentSchema :mongoose.Schema<comment_interface> = new mongoose.Schema({
+const CommentSchema :mongoose.Schema<IComment> = new mongoose.Schema({
     author : {
         type : mongoose.Types.ObjectId,
         ref: userModel,
@@ -27,9 +27,10 @@ const CommentSchema :mongoose.Schema<comment_interface> = new mongoose.Schema({
     date : {
         type : Date,
         default : Date.now()
-    }
+    },
+    
 });
 
 
-export const Comment = mongoose.model('Comment', CommentSchema);
+export const Comment = mongoose.model<IComment>('Comment', CommentSchema);
 

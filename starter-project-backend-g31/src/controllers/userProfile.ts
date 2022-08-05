@@ -1,5 +1,4 @@
 import {Request, Response} from "express"
-
 import { Model, Mongoose, Schema } from "mongoose"
 import { destructProfile } from "../helper/userprofilehelper"
 import {UserProfile} from "../models/UserProfile"
@@ -54,6 +53,6 @@ export const createProfileHandler = async function(req: Request, res: Response){
             res.status(201).json(profile)
             
         })} catch(err: any) { 
-        console.log(err.toString())
+        // console.log(err.toString())
         res.status(400).json(err);}
 }

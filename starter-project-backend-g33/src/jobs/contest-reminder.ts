@@ -1,0 +1,27 @@
+// import cron from 'node-cron'
+
+// export default cron.schedule('0 0 18 * * 6', () => {
+//   console.log('---------------------------------------');
+//   console.log('running a task every saturday at 6:00pm');
+//   console.log('---------------------------------------');
+//   // TODO: send a notification to all users with a new email notification
+
+// SEND AN EMAIL TO ALL USERS TO JOIN WEEKLY CONTEST ON CODE FORCES
+
+// const filter = { isActive: true }
+// UserDAL.getMany(filter)
+//   .then((data: any) => {
+//     if (data.length == 0) {
+//       throw new CustomError('No User Found', 404)
+//     }
+//     data.forEach((user: any) => {
+//       const url = `https://codeforces.com/contest/{contestId}`
+//       const email = user.email
+//       const subject = 'Get Back to Grind: Time for your weekly contest'
+//       const text = `Please click on the link below to start grinding your weekly contest: ${url}`
+//       const html = `<p>Please click on the link below to start grinding your code: <a href="${url}">${text}</a></p>`
+
+//       sendEmail(email, subject, text, html, token)
+//     }
+//   }
+// });

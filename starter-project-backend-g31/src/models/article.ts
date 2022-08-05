@@ -28,11 +28,6 @@ const articleSchema: Schema<IArticle> = new mongoose.Schema({
         max: 5,
         required: true
     },
-    comment: {
-        type: [ String ],
-        maxlength: 5000,
-        minlength: 1
-    },
     postdate: {
         type: Date,
         default: Date.now()

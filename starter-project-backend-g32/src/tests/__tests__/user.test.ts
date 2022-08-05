@@ -1,9 +1,9 @@
 import model from '../../models/user.models';
 import mongoose from 'mongoose';
 import request from 'supertest'
-import router from '../../routes/user.routes'
 import express from 'express'
 import {connect, disconnect, clear} from '../setupdb'
+import router from '../../routes/user';
 
 let userId = ''
 
