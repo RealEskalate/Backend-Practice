@@ -35,7 +35,7 @@ const getArticle = (req: Request, res: Response, next: NextFunction) => {
     })
 }
 const getMyArticle = (req: Request, res: Response, next: NextFunction) => {
-  const filter = { Author: req.params.id }
+  const filter = { author: req.params.id }
   articleDal
     .getOne(filter)
     .then((data: any) => {
