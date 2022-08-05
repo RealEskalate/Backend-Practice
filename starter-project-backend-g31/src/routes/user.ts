@@ -35,16 +35,6 @@ userRouter.get('/:id', getUserById);
 
 
 /*
- * Returns filetered User by name
- * @route GET /users/filter/:name 
- * @param {string} name.query - filter query of name
- * @returns {object} 200 - User object
- * @returns {Error}  default - Unexpected error 
- */ 
-userRouter.get('/filter/:name', filterUsers); 
-
-
-/*
  * Returns filetered User by email
  * @route GET /users/filter/:email
  * @param {string} email.query - filter query of email

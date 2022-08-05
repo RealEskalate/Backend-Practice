@@ -7,6 +7,7 @@ import article from './routes/article';
 import { commentRoute } from  './routes/comment';
 import { userRoute }  from './routes/user';
 import { indexRoute } from './routes/index';
+import { authRoute } from './routes/auth';
 
 
 dotenv.config();
@@ -19,6 +20,7 @@ app.use('/api/articles', article);
 app.use("/api/comment", commentRoute);
 app.use("/api/ratings", ratingRoute);
 app.use('/api/users', userRoute);
+app.use("/api/auth", authRoute);
 app.get('/', (req:Request, res:Response) => {
     res.send('Welcome to our Blog App...');
 });

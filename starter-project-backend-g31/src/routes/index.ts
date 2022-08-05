@@ -9,7 +9,7 @@ const indexRouter = express.Router();
  * @returns {Error}  default - Unexpected error
  */
 indexRouter.get('/', async function(req: express.Request, res: express.Response) {
-  return res.json({
+  return res.status(200).json({
     title: 'Blog API',
     version: '1.0.0',
     description: 'Services for managing blog applications'

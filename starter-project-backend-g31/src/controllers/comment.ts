@@ -43,7 +43,7 @@ export async function getCommentById(req: Request,res: Response){
             }
         ]);
         
-        
+
         
         res.status(200).send(comment);
     }catch(err){
