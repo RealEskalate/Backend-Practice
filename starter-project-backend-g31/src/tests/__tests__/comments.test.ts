@@ -8,7 +8,7 @@ import {userModel} from '../../models/user-model';
 import {Article} from '../../models/article';
 
 import bcrypt from 'bcrypt';
-import { getAllComments } from '../../controllers/comment';
+
 
 //connect to data base before starting any test
 beforeAll(async () => {
@@ -31,8 +31,7 @@ jest.setTimeout(30000);
 // Create an object id for dummy document to use for testing
 const commentId = mongoose.Types.ObjectId();
 const userId = mongoose.Types.ObjectId();
-// let userId: any;
-// let articleId: any;
+
 const articleId = mongoose.Types.ObjectId();
 
 // create a variable to hole a sample/dummy document
@@ -75,35 +74,9 @@ afterEach(async()=>{
   await Article.collection.remove({})
   await userModel.collection.remove({})
   
-  // await comment.remove({});
-  // await user.remove({});
-  // await article.remove({});
-});
-
-
-// test the get all api feature
-describe('GET: "/api/comment" get the comment route', () => {
-
-    // check status and check if data is returned
-    it('status code 200 and return data', async () => {
-
-      const res = await request(app).get('/api/comment');
-      
-      expect(res.status).toBe(200);
-      expect(res.body).not.toBeNull();
-    
-    
-    });
-    
-  
-    // check for failure case
-    
-    it('return status code 404', async () =>{
-      const res = await request(app).get('/wrongRoute');
-      expect(res.status).toBe(404);
-    });
   
 });
+
 
 // test the get comment by id feature
 describe('GET: "/api/comment/:id" get a comment by id', ()=>{
