@@ -30,17 +30,15 @@ export async function getCommentById(req: Request,res: Response){
         const comment = await Comment.findById(req.params.commentId)
         .populate([ 
             {
-                path: 'author ',
-                select: 'name -_id'
+                path: 'author',
+                select: ['name -_id','avatar']
             },
             {
                 path :'article',
                 select: 'content -_id'
+                
             }
         ]);
-       // console.log(comment)
-        // const ans = await comment.populate('author');
-        
         res.status(200).send(comment);
     }catch(err){
         
