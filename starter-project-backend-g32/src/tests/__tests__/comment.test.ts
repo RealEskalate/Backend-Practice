@@ -2,26 +2,39 @@ import {connect , clear, disconnect} from  '../setupdb';
 import app from '../../app';
 import Comment from '../../models/comment';
 import supertest  from 'supertest';
+import Article  from '../../models/article';
+import mongoose from 'mongoose';
 
 
 
 const request = supertest(app);
 jest.setTimeout(30000);
 let commentId : String;
-
+let articleId : mongoose.Types.ObjectId;
 
 beforeAll(async () => {
     await connect();
 });
 
 beforeEach(async () => {
+    await Article.create({
+        author: "asfdadfs",
+        content: "asdfadfasdf",
+        media: "asdfasfdfa"
+    }).then((article)=>{
+        articleId = article._id;
+    })
     await Comment.create({
+        articleId: articleId,
         content: 'test comment',
         createdAt: new Date()
     }).then((result: any) => {
         commentId = result._id;
     }
     );
+
+
+
 });
 
 afterEach(async () => {
@@ -34,19 +47,34 @@ afterAll(async () => {
 
 describe('Test for comment', () => {
     it('should create a comment', async () => {
+
+        
         const response = await request.post('/api/v1/comment').send({
+            articleId: articleId,
             content: 'This is a test comment',
         });
+
         expect(response.status).toBe(201);
         expect(response.body).toHaveProperty('message');
         expect(response.body.message).toBe('Comment added successfully');
     })
+
+
+    it('shouldn\'t create a comment without article', async () => {
+        const response = await request.post('/api/v1/comment').send({
+            content: 'This is a test comment',
+        });
+        expect(response.status).toBe(400);
+        expect(response.body).toHaveProperty('error');
+    })
+
 
     it('shouldn\'t create a comment without content', async () => {
         const response = await request.post('/api/v1/comment').send({});
         expect(response.status).toBe(400);
         expect(response.body).toHaveProperty('error');
     })
+
 
     it('should get a comment', async () => {
         const response = await request.get('/api/v1/comment/' + commentId);
@@ -64,12 +92,7 @@ describe('Test for comment', () => {
 
     it('should get all comments', async () => {
         const response = await request.get('/api/v1/comment');
-        expect(response.body).toEqual(
-            expect.arrayContaining([expect.objectContaining({
-                content: expect.any(String),
-                createdAt: expect.any(String),
-            })])
-        );
+        expect(response.body.length).toBe( 1)
         expect(response.status).toBe(200);
     })
 

@@ -93,13 +93,16 @@ describe('Integration testing for user routes', () => {
         const {body, statusCode} = await request(app).get('/api/v1/articles')
         expect(body).toEqual(
         expect.objectContaining({
-            'data': expect.arrayContaining([
-                    expect.objectContaining({
-                        author: expect.any(String),
-                        content: expect.any(String),
-                        media: expect.any(String),
-                    })
-                ])
+            'data':expect.objectContaining({
+                    number_of_articles:expect.any(Number),
+                    articles: expect.arrayContaining([
+                        expect.objectContaining({
+                            author: expect.any(String),
+                            content: expect.any(String),
+                            media: expect.any(String),
+                        })
+                    ])
+                }) 
             })
         )
         expect(statusCode).toBe(200);
