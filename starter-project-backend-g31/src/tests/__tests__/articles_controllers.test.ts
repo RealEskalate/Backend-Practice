@@ -4,7 +4,7 @@ import request from 'supertest';
 import {Article} from '../../models/article';
 // import setupdb from '../../setupdb'
 
-// jest.setTimeout(100000);
+jest.setTimeout(10000);
 
 describe('/api/articles', () => {
     beforeAll(async () => {
@@ -43,7 +43,8 @@ describe('/api/articles', () => {
 
             const res = await request(app).get('/api/articles/' + article._id);
             expect(res.status).toBe(200);
-            expect(res.body).toHaveProperty('author', article.author);
+            expect(res.body).toHaveProperty('article.author', article.author);
+            expect(res.body).toHaveProperty('comments');
 
         });
 
@@ -56,6 +57,7 @@ describe('/api/articles', () => {
     });
 
     describe('POST /', () => {
+        jest.setTimeout(30000)
         it('should return an article with the passed body', async() => {
             const res = await request(app)
                 .post('/api/articles')
@@ -78,6 +80,7 @@ describe('/api/articles', () => {
     });
 
     describe('PUT /', () => {
+        jest.setTimeout(30000);
         it('should update a document with the given ID', async() => {
             const article = new Article({
                 author: 'Brook Zewdu', content: 'Born and raised in the small town of hidaro I was..',
@@ -127,6 +130,7 @@ describe('/api/articles', () => {
             expect(res.status).toBe(200);
             const res2 = await request(app)
                 .get('/api/articles/' + article._id);
+            
             expect(res2.status).toBe(404);
         });
 
@@ -140,3 +144,4 @@ describe('/api/articles', () => {
 
     
 });
+afterAll( async () => await disconnect());

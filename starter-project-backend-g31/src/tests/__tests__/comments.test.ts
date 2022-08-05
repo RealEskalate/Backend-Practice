@@ -49,39 +49,15 @@ afterEach(async()=>{
 });
 
 
-// test the get all api feature
-describe('GET: "/comment" get the comment route', () => {
-
-    // check status and check if data is returned
-    it('status code 200 and return data', async () => {
-
-      const res = await request(app).get('/comment');
-      
-      expect(res.status).toBe(200);
-      expect(res.body).not.toBeNull();
-    
-    
-    });
-    
-  
-    // check for failure case
-    
-    it('return status code 404', async () =>{
-      const res = await request(app).get('/wrongRoute');
-      expect(res.status).toBe(404);
-    });
-  
-});
-
 // test the get comment by id feature
-describe('GET: "/comment/:id" get a comment by id', ()=>{
+describe('GET: "/api/comment/:id" get a comment by id', ()=>{
 
   // check succes situations
 
       // check sent data and check status
       it('return the comment', async ()=>{
 
-        const res = await request(app).get(`/comment/${commentId}`);
+        const res = await request(app).get(`/api/comment/${commentId}`);
         
         expect(res.body).not.toBeNull();
         expect(res.status).toBe(200);
@@ -90,7 +66,7 @@ describe('GET: "/comment/:id" get a comment by id', ()=>{
 
       // on failure
       it('returns 404 status code', async()=>{
-        const res = await request(app).get(`/comment/wrongId`);
+        const res = await request(app).get(`/api/comment/wrongId`);
         
         expect(res.status).toBe(404);
 
@@ -102,14 +78,14 @@ describe('GET: "/comment/:id" get a comment by id', ()=>{
 
 
 // check the add comment feature
-describe('POST: "/comment" Add new comment', ()=>{
+describe('POST: "/api/comment" Add new comment', ()=>{
   
   // if author and description are properly filled
   
     
     // check status code and check response data
     it('status code should be 200', async ()=>{
-      const res = await request(app).post('/comment').send(dummy);
+      const res = await request(app).post('/api/comment').send(dummy);
 
       expect(res.status).toBe(200);
       expect(
@@ -126,7 +102,7 @@ describe('POST: "/comment" Add new comment', ()=>{
     
     // check status
     it('return status code 404', async()=>{
-      const res = await request(app).post('/comment').send({});
+      const res = await request(app).post('/api/comment').send({});
       expect(res.status).toBe(404);
     });
     
@@ -136,12 +112,12 @@ describe('POST: "/comment" Add new comment', ()=>{
 
 
 //check the update comment by id feature
-describe('PATCH: "/comment/:id" update existing comment by id', ()=>{
+describe('PATCH: "/api/comment/:id" update existing comment by id', ()=>{
   
     
     // check status, content type, database
     it('return status code 200', async ()=>{
-      const res = await request(app).patch(`/comment/${commentId}`).send({
+      const res = await request(app).patch(`/api/comment/${commentId}`).send({
         author: "changed"
       });
 
@@ -159,7 +135,7 @@ describe('PATCH: "/comment/:id" update existing comment by id', ()=>{
   
     //check status
     it('returns 404 status code', async()=>{
-      const res = await request(app).patch(`/comment/wrongId`);
+      const res = await request(app).patch(`/api/comment/wrongId`);
       
       expect(res.status).toBe(404);
 
@@ -172,12 +148,12 @@ describe('PATCH: "/comment/:id" update existing comment by id', ()=>{
 
 
 //check the delete comment by id feature
-describe('DELETE: "/comment" delete existing comment by id', ()=>{
+describe('DELETE: "/api/comment" delete existing comment by id', ()=>{
   
 
     // Check status code and database
     it('return 200 status code', async ()=>{
-      const res = await request(app).delete(`/comment/${commentId}`); 
+      const res = await request(app).delete(`/api/comment/${commentId}`); 
       
       const updatedcomment = await Comment.findById(commentId);
 
@@ -193,7 +169,7 @@ describe('DELETE: "/comment" delete existing comment by id', ()=>{
 
     //check status code
     it('return 404 status code', async()=>{
-      const res = await request(app).delete(`/comment/wrongId`);
+      const res = await request(app).delete(`/api/comment/wrongId`);
       
       expect(res.status).toBe(404);
     })
@@ -201,3 +177,5 @@ describe('DELETE: "/comment" delete existing comment by id', ()=>{
   
 })
 // });
+
+afterAll( async () => await disconnect());
