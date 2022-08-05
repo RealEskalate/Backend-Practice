@@ -30,9 +30,7 @@ export const createArticle = async (req: Request, res: Response) => {
             comment: req.body.comment
         });
         if (req.file){
-            const result = await cloudinary.v2.uploader.upload(req.file.path, {
-              upload_preset: "EskalatePracticeArticle"
-            });
+            const result = await uploadImage(req.file)
             article.avatar = result.secure_url;
             article.cloudinary_id = result.public_id;
           }
@@ -51,10 +49,8 @@ export const updateOne = async (req: Request, res: Response) => {
     if (!article) return res.status(404).send('Article not found');
 
     if (req.file){
-        await cloudinary.v2.uploader.destroy(article.cloudinary_id)
-        const result = await cloudinary.v2.uploader.upload(req.file.path, {
-          upload_preset: "EskalatePracticeArticle"
-        });
+        await removeImage(article.cloudinary_id)
+        const result = await uploadImage(req.file)
         article.avatar = result.secure_url;
         article.cloudinary_id = result.public_id;
       }
@@ -78,11 +74,12 @@ export const deleteOne = async (req: Request, res: Response) => {
 
     const article = await Article.findByIdAndRemove(req.params.id);
     if (!article) return res.status(404).send('Article not found');
+
+    await removeImage(article.cloudinary_id)
     
     await deleteCommentsWithArticleId(req.params.id)
                     .catch((err) => console.log("wtf"));
 
-    await cloudinary.v2.uploader.destroy(article.cloudinary_id)
     res.send(article);
 }
 
@@ -98,4 +95,13 @@ export const updateRatingForArticle = async (id: string, prev: number, current: 
     if (article != null) {
         article.updateRating(prev, current)
     }
+}
+
+const uploadImage = async(file: any) => {
+    return await cloudinary.v2.uploader.upload(file.path, {
+        folder: process.env.DOC_FOLDER_NAME
+    })
+}
+const removeImage = async (cloudinary_id: string) => {
+    await cloudinary.v2.uploader.destroy(cloudinary_id)
 }
