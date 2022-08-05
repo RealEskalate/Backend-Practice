@@ -27,8 +27,8 @@ app.use(
 )
 app.use(express.json())
 
-app.get('/', (req: Request, res: Response) =>
-  res.json({ success: 'top level api working' })
+app.get('/', (_req: Request, res: Response) =>
+  res.json({ 'health-check': 'OK: top level api working' })
 )
 
 startDB()

@@ -112,6 +112,7 @@ DEL → Delete comment by Id
 - Add xss protection for all routes
 - Add newsletter options
 - Cron Scheduled emails going out to all users on saturday with contest link
+- Push notification for update, offers and news
 - Add a search feature for articles for any user and search users for admins
 - Emailing service for sending emails to users
 - Add sentry for error logging and performance metrics
