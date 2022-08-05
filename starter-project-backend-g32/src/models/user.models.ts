@@ -33,5 +33,5 @@ const userSchema = new Schema<IUser>({
   profilePic: String,
 });
 
-const User = model<IUser>('User', userSchema);
-export default User;
+const UserModel = model<IUser>('User', userSchema);
+export default UserModel;
