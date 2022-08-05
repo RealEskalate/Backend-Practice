@@ -11,7 +11,7 @@ export interface IProfile{
 export const UserProfileSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        
     },
     username: {
         type: String,
@@ -28,7 +28,7 @@ export const UserProfileSchema = new mongoose.Schema({
     },
 
     avatar: {
-        
+        type: String,
         required: false
     }
 
