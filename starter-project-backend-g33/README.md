@@ -109,12 +109,11 @@ DEL → Delete comment by Id
 
 ### Future Works
 
-- Add xss middleware
+- Add xss and helmet middleware for security on headers
 - Add newsletter options
-- Cron Scheduled emails going out to all users
-- Adding SEO via helmet as it is
-- Add a search feature for articles
+- Cron Scheduled emails going out to all users on saturday with contest link
+- Add a search feature for articles for any user and search users for admins
 - Emailing service for sending emails to users
 - Add sentry for error logging and performance metrics
 - Use a message broker and queue (rabbit-mq) for sending emails to users for decoupling
-- Automated birthday reminders and other notifications
+- Automated birthday reminders and other holidays, celebration notifications
