@@ -90,7 +90,7 @@ export const createUser = async (
     res: Response,
     _next: NextFunction
   ) => {
-    const { name, email, password } = req.body
+    const { email, password } = req.body
     const user = new userModel({
       email,
       password
