@@ -21,7 +21,7 @@ const updateOne =
     logger.info(`Updating ${model.modelName} with id: ${id}`)
 
     const payload = props
-    return await model.findOneAndUpdate(id, payload, { new: true })
+    return await model.findOneAndUpdate({ _id: id }, payload, { new: true })
   }
 
 const clap = (model: Model<any, {}, {}>) => async (props: any) => {
@@ -44,13 +44,21 @@ const deleteOne = (model: Model<any, {}, {}>) => async (id: any) => {
   )
 }
 
+// custom dal for unique needs
+import User from '../resources/users/model'
+const getManyUserSecured = async (prop) => {
+  logger.info(`Fetching all active users securely`)
+  return await User.find(prop, '-password').exec()
+}
+
 const dataAccessLayer = (model: Model<any, {}, {}>) => ({
   updateOne: updateOne(model),
   getMany: getAll(model),
   getOne: getOne(model),
   createOne: createOne(model),
   clap: clap(model),
-  deleteOne: deleteOne(model)
+  deleteOne: deleteOne(model),
+  getManyUserSecured
 })
 
 export default dataAccessLayer

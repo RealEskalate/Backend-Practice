@@ -13,7 +13,8 @@ const ArticleSchema: Schema = new Schema(
     featuredImage: { type: String },
     tags: [{ type: String }],
     clappers: [{ type: Schema.Types.ObjectId }],
-    commentCount: { type: Number }
+    commentCount: { type: Number },
+    isActive: { type: Boolean, default: true }
   },
   { timestamps: { createdAt: 'created_at', updatedAt: 'modified_at' } }
 )

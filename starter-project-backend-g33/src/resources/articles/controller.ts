@@ -7,7 +7,7 @@ const articleDal = dataAccessLayer(Article)
 
 const getAllArticles = (req: Request, res: Response, next: NextFunction) => {
   articleDal
-    .getMany({})
+    .getMany({ isActive: true })
     .then((data: any) => {
       res.status(200).json(data)
     })
@@ -17,7 +17,7 @@ const getAllArticles = (req: Request, res: Response, next: NextFunction) => {
 }
 
 const getArticle = (req: Request, res: Response, next: NextFunction) => {
-  const filter = { _id: req.params.id }
+  const filter = { _id: req.params.id, isActive: true }
   articleDal
     .getOne(filter)
     .then((data: any) => {
