@@ -20,10 +20,10 @@ export const getUsers = async (
           .json({ data: `Users do not exist` })
       }
       return res.status(200).json({ data: results })
-    } catch (err) {
+    } catch (err: any) {
       return res
         .status(500)
-        .json({ data: 'Error: Retrieving users failed' })
+        .json({ message: err.message })
     }
   }
 
@@ -47,10 +47,10 @@ export const getUserById = async (
           .json({ data: `Error: User with id ${id} does not exist` })
       }
       return res.status(200).json({ data:  { _id: user._id,  email: user.email }  })
-    } catch (err) {
+    } catch (err: any) {
       return res
         .status(500)
-        .json({ data: 'Error: Retrieving user failed' })
+        .json({ message: err.message })
     }
   }
 
@@ -73,10 +73,10 @@ export const filterUsers = async (
           .json({ data: `Error: User with specified parameters does not exist` })
       }
       return res.status(200).json({ data:  { _id: user._id,  email: user.email }  })
-    } catch (err) {
+    } catch (err: any) {
       return res
         .status(500)
-        .json({ data: 'Error: Retrieving user failed' })
+        .json({ message: err.message })
     }
   }
 
@@ -98,10 +98,10 @@ export const createUser = async (
     try {
       const newUser = await user.save()
       return res.status(201).json({ data: { _id: newUser._id, email: newUser.email } })
-    } catch (err) {
+    } catch (err: any) {
       return res
         .status(500)
-        .json({ data: 'Error: Creation of user failed' })
+        .json({ message: err.message })
     }
   }
   
@@ -133,10 +133,10 @@ export const updateUser = async (
         })
       }
       return res.status(201).json({ data: { _id: user._id,  email: user.email } })
-    } catch (e) {
+    } catch (err: any) {
       return res
         .status(500)
-        .json({ data: 'Error: User update operation failed' })
+        .json({ message: err.message })
     }
   }
 
@@ -161,9 +161,9 @@ export const deleteUser = async (
         })
       }
       return res.status(201).json({ data: 'User deleted successfully' })
-    } catch (e) {
+    } catch (err: any) {
       return res
         .status(500)
-        .json({ data: 'Error: User delete operation failed' })
+        .json({ message: err.message })
     }
   }

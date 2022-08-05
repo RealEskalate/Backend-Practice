@@ -19,10 +19,11 @@ export const login = async (
         })
         
         if(user && await user.verifyPassword(req.body.password)){
-            return res.status(201).json({ 
+            const key: any = process.env.JWT_KEY
+            return res.status(200).json({ 
                 ...user._doc, 
-                token: jwt.sign({data: user._doc}, process.env.JWT_KEY || "mongodb://localhost:27017/test", { algorithm: 'HS256', expiresIn: "9999d"  }) 
-            }); 
+                token: jwt.sign({data: user._doc}, key, { algorithm: 'HS256', expiresIn: "9999d"  }) 
+            });
         }
         else{
             if(!user){
@@ -34,10 +35,10 @@ export const login = async (
         }
     
         
-    } catch (err) {
+    } catch (err: any) {
       return res
         .status(500)
-        .json({ data: 'Error: Logging in operation failed' })
+        .json({ message: err.message })
     }
   }
 
@@ -56,33 +57,9 @@ export const signup = async (
     try {
       const user: any = await signupUser(req); 
       return res.status(201).json({ data: { _id: user._id, email: user.email } })
-    } catch (err) {
+    } catch (err: any) {
       return res
         .status(500)
-        .json({ data: 'Error: Signing up operation failed' })
+        .json({ message: err.message })
     }
   }
-
-
-/*
-@Description: Logout a user
-@Route: auth/logout/
-@Access: Public
-*/
-export const logout = async (
-    req: Request,
-    res: Response,
-    _next: NextFunction
-  ) => {
-    try {
-        return res.status(201).json({ 
-            status: true, 
-            data: 'logging out'          
-        }) 
-    } catch (err) {
-      return res
-        .status(500)
-        .json({ data: 'Error: Logging out user failed' })
-    }
-  }
-  

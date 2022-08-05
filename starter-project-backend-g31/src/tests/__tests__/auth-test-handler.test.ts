@@ -28,7 +28,7 @@ describe('POST /api/auth/login', () => {
     const res = await agent
       .post(`/api/auth/login`)
       .send({ email: 'aria@gmail.com', password: '12345678' })
-    expect(res.statusCode).toEqual(201)
+    expect(res.statusCode).toEqual(200)
   })
   it('Fail to authenticate user due to unprovided parameters', async () => {
     const res = await agent
