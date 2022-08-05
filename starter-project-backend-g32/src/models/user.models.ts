@@ -31,6 +31,7 @@ const userSchema = new Schema<IUser>({
     max: [20, "password can not be more than 20 characters"],
   },
   profilePic: String,
+  
 });
 
 const User = model<IUser>('User', userSchema);

@@ -10,7 +10,7 @@ import {
 
 const router = Router()
 
-router.route('userProfile/:id').put(upload.single('image'),updateUserProfile).delete(deleteUserProfile)
-router.route('articleMedia/:id').put(upload.single('image'),updateArticleMedia).delete(deleteArticleMedia)
+router.route('/userProfile/:id').put(upload.single('image'),updateUserProfile).delete(deleteUserProfile)
+router.route('/articleMedia/:id').put(upload.single('image'),updateArticleMedia).delete(deleteArticleMedia)
 
 export default router
