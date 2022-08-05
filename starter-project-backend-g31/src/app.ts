@@ -12,8 +12,8 @@ import { indexRoute } from './routes/index';
 dotenv.config();
 
 const app: Application = express();
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.urlencoded({limit: '50mb', extended: true }));
+app.use(express.json({limit: '50mb'}));
 app.use("/api/user-profiles", router)
 app.use('/api/articles', article);
 app.use("/api/comment", commentRoute);

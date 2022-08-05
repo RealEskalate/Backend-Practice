@@ -4,9 +4,23 @@ export interface IArticle extends Document{
     author:string,
     content:string,
     comment:string,
-    rating:string,
-    postdate:Date
+    rating: IHash,
+    averageRating: Number,
+    postdate:Date,
+    avatar: string,
+    cloudinary_id: string,
+    addRating(val: number): void,
+    updateRating(prev: number, current: number): void
 } 
+export interface IHash  {
+    [details: number]: number;
+    1: number;
+    2: number;
+    3: number;
+    4: number;
+    5: number;
+  };
+
 
 
 const articleSchema: Schema<IArticle> = new mongoose.Schema({
@@ -23,17 +37,49 @@ const articleSchema: Schema<IArticle> = new mongoose.Schema({
         required: true,
     },
     rating: {
+        type: Object,
+        default:  {
+            1: 0,
+            2: 0,
+            3: 0,
+            4: 0,
+            5: 0
+        }
+    },
+	averageRating: {
         type: Number,
-        min: 0,
-        max: 5,
-        required: true
+        default: 0
     },
     postdate: {
         type: Date,
         default: Date.now()
+    },
+    avatar: {
+        type: String
+    },
+    cloudinary_id: {
+        type: String
     }
 });
 
+articleSchema.methods.addRating = function(val: number) {
+    this.rating[val]++;
+    this.averageRating = calculateAverage(this)
+    this.markModified("rating")
+    this.save()
+}  
+articleSchema.methods.updateRating = function(prev: number, current: number) {
+    this.rating[prev]--;
+    this.rating[current]++;
+    this.averageRating = calculateAverage(this)
+    this.markModified("rating")
+    this.save()
+}
 
+const calculateAverage = (article: IArticle) => {
+	const totalRating = (article.rating[1] * 1) + (article.rating[2] * 2) + (article.rating[3] * 3) + (article.rating[4] * 4) + (article.rating[5] * 5)
+    const frequency = article.rating[1] + article.rating[2] + article.rating[3] + article.rating[4] + article.rating[5];
+    return totalRating / frequency
+}
 
 export const Article = mongoose.model<IArticle>('Article', articleSchema);

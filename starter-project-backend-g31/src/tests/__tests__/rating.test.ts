@@ -3,9 +3,9 @@ import { connect, clear, disconnect } from "../setupdb";
 import app from "../../app"
 import {Rating} from "../../models/rating"
 
-
-
+jest.setTimeout(3000);
 describe("Test for Rating endpoint", () => {
+	
     beforeAll(async () => await connect());
     afterAll(async () => {
         await clear()
