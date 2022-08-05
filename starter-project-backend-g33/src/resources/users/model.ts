@@ -10,7 +10,7 @@ const UserSchema: Schema = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     bio: { type: String, required: true },
-    profileImage: { type: String },  
+    profileImage: { type: String },
     isActive: { type: Boolean, default: true },
     chapter: { type: Schema.Types.ObjectId, ref: 'Chapter', required: true }
   },

@@ -40,7 +40,6 @@ export const createUser = async (req: Request, res: Response) => {
         password: req.body.password,
         profilePic: req.body.profilePic,
       });
-      delete doc.password;
       return res.status(200).json({data: doc});
     } catch (e) {
       res.status(404).end();
