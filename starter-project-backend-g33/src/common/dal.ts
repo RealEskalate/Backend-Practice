@@ -1,9 +1,9 @@
 import { Model } from 'mongoose'
 import logger from './logger'
 
-const getOne = (model: Model<any, {}, {}>) => async (id: any) => {
-  logger.info(`Fetching ${model.modelName} with id: ${id}`)
-  return await model.findOne({ _id: id })
+const getOne = (model: Model<any, {}, {}>) => async (props: any) => {
+  logger.info(`Fetching ${model.modelName} with id: ${props}`)
+  return await model.findOne(props)
 }
 
 const getAll = (model: Model<any, {}, {}>) => async (props: any) => {
@@ -21,20 +21,14 @@ const updateOne =
     logger.info(`Updating ${model.modelName} with id: ${id}`)
 
     const payload = props
-    return await model.findOneAndUpdate({id: id}, payload , {new: true})
-
+    return await model.findOneAndUpdate({ _id: id }, payload, { new: true })
   }
 
 const clap = (model: Model<any, {}, {}>) => async (props: any) => {
-  const articleId = props.articleId
-  const userId = props.userId
-
+  const { articleId, userId } = props
   logger.info(`Clapping ${model.modelName} with id: ${articleId}`)
-  const article = await model.findOne({ _id: articleId })
   return await model.updateOne(
-    {
-      _id: articleId
-    },
+    { _id: articleId },
     { $push: { clappers: userId } }
   )
 }
@@ -50,13 +44,21 @@ const deleteOne = (model: Model<any, {}, {}>) => async (id: any) => {
   )
 }
 
+// custom dal for unique needs
+import User from '../resources/users/model'
+const getManyUserSecured = async (prop) => {
+  logger.info(`Fetching all active users securely`)
+  return await User.find(prop, '-password').exec()
+}
+
 const dataAccessLayer = (model: Model<any, {}, {}>) => ({
   updateOne: updateOne(model),
   getMany: getAll(model),
   getOne: getOne(model),
   createOne: createOne(model),
   clap: clap(model),
-  deleteOne: deleteOne(model)
+  deleteOne: deleteOne(model),
+  getManyUserSecured
 })
 
 export default dataAccessLayer

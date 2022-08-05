@@ -48,11 +48,6 @@ const articleSchema: Schema<IArticle> = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    comment: {
-        type: [ String ],
-        maxlength: 5000,
-        minlength: 1
-    },
     postdate: {
         type: Date,
         default: Date.now()

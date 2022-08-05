@@ -1,32 +1,31 @@
-import { MongoMemoryServer } from "mongodb-memory-server";
-const mongoose = require("mongoose");
+import { MongoMemoryServer } from 'mongodb-memory-server'
+const mongoose = require('mongoose')
 
-let mongoServer: { getUri: () => any; stop: () => any };
+let mongoServer: { getUri: () => any; stop: () => any }
 
 export const connect = async () => {
-  await mongoose.disconnect();
+  await mongoose.disconnect()
 
-  mongoServer = await MongoMemoryServer.create();
-  const URI = await mongoServer.getUri();
-  
+  mongoServer = await MongoMemoryServer.create()
+  const URI = await mongoServer.getUri()
 
   mongoose.connect(URI, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
-    useFindAndModify: false,
-  });
-};
+    useFindAndModify: false
+  })
+}
 
 export const clear = async () => {
-  const collections = await mongoose.connection.db.collections();
+  const collections = await mongoose.connection.db.collections()
 
   for (let collection of collections) {
-    await collection.deleteMany();
+    await collection.deleteMany()
   }
-};
+}
 
 export const disconnect = async () => {
-  mongoose.disconnect();
-  await mongoServer.stop();
-};
+  mongoose.disconnect()
+  await mongoServer.stop()
+}
