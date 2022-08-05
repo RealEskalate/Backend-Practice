@@ -30,7 +30,12 @@ export async function getCommentById(req: Request,res: Response){
         .populate([ 
             {
                 path: 'author ',
-                select: 'name -_id'
+                select: 'userProfile -_id',
+                populate: {
+                    path: 'userProfile',
+                    select: 'username avatar -_id'
+                }
+                
             },
             {
                 path :'article',

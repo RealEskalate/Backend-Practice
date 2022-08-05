@@ -1,23 +1,19 @@
 // user.model.ts
 import { Document, Schema, model } from 'mongoose';
-
 import bcrypt from 'bcryptjs';
 
+import mongoose from 'mongoose';
+import { UserProfile } from './UserProfile';
 // Create the interface
 export interface IUser extends Document {
   [x: string]: any;
-  name: string;
   email: string;
   password: string;
+  userProfile?:mongoose.Types.ObjectId;
 }
 
 // Create the schema
 const userSchema = new Schema<IUser>({
-  name: {
-    type: String,
-    required: true,
-    unique: true
-  },
   email: {
     type: String,
     required: true,
@@ -28,12 +24,18 @@ const userSchema = new Schema<IUser>({
     required: true,
     minlength: 6, 
     maxlength: 128
+  },
+  userProfile:{
+    type:mongoose.Types.ObjectId,
+    required: false,
+    ref: UserProfile
   }
 }, {
   timestamps: {
     createdAt: 'created_at', 
     updatedAt: 'updated_at'
   }
+  
 });
 
 
@@ -50,6 +52,17 @@ userSchema.pre('save', function preSave(next) {
 
 
 userSchema.method({ 
+    verifyPassword(passwd) { 
+      return new Promise((resolve, reject) => { 
+        bcrypt.compare(passwd, this.password, (err, isMatch) => { 
+          if (err) { 
+            return reject(err); 
+          } 
+          
+          resolve(isMatch); 
+        }) 
+      }); 
+    }, 
     hashpassword(passwd, cb) {  
       let createHash = (err: any, hash: any) => { 
         if (err) { 
