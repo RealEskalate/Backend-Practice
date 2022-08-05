@@ -8,7 +8,6 @@ commentRouter.get("/:id",getComment) // get comment by id
 commentRouter.get('/:articleid', getCommentsByArticleId) // get comments by article id
 commentRouter.post('/' , createComment); // create comment
 commentRouter.put('/:id' , updateComment); // update comment
-commentRouter.patch('/:id' , patchComment); // patch comment
 commentRouter.delete('/:id' , deleteComment); // delete comment
 
 export default commentRouter; 
